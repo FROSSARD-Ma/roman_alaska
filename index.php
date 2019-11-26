@@ -1,4 +1,8 @@
 <?php 
+// ====== upload AUTOMATIQUE CLASS ============
+require 'model/Autoloader.php';
+Autoloader::register();
+
 
 session_start();
 
