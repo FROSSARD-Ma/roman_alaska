@@ -1,8 +1,11 @@
-<?php 
+<?php
+
 // ====== upload AUTOMATIQUE CLASS ============
 require 'model/Autoloader.php';
-Autoloader::register();
+SWFram\Autoloader::register(); // Préfixe namespace
 
+// Connexion Base de donnée
+$db = new SWFram\Connexion('sql24.phpnet.org','rbb05303', 'Wdy2YBH4ucC', 'rbb05303');
 
 session_start();
 
