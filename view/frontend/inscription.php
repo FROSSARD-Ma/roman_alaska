@@ -12,4 +12,4 @@
 
 <?php $content = ob_get_clean(); ?>
 
-<?php include('view/template.php'); ?>
+<?php include('view/frontend/template.php'); ?>

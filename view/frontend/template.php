@@ -43,9 +43,6 @@
                     <a class="nav-link" href="index.php?action=home">Accueil</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="index.php?action=chapter">Chapitres</a>
-                  </li>
-                  <li class="nav-item">
                     <a class="nav-link" href="index.php?action=contact">Contact</a>
                   </li>
                   <li class="nav-item">
@@ -116,7 +113,7 @@
                       </a>
                     </li>
                   </ul>
-                  <p class="copyright text-muted">Copyright &copy; Your Website 2019</p>
+                  <p class="copyright text-muted">Copyright © 2019 Jean Forteroche | Roman - Billet pour l'Alaska</p>
                 </div>
               </div>
             </div>
