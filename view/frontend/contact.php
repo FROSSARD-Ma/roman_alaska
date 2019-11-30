@@ -11,28 +11,27 @@
     <p>Remplissez le formulaire ci-dessous et je vous recontacterai dans les meilleurs délais !</p>
   </section>
 
-  <section class="container-fluid">
+  <section class="row justify-content-center">
 
-    <form name="sentMessage" id="contactForm" novalidate>
+    <form name="sentMessage" id="form-contact" novalidate>
       <div class="control-group">
-        <div class="form-group floating-label-form-group controls">
-          <label>Nom</label>
-          <input type="text" class="form-control" placeholder="Name" id="name" required>
-          <p class="help-block text-danger"></p>
+        <div class="form-group">
+          <label for="user_name">Nom</label>
+          <input type="text" class="form-control" placeholder="Nom" id="user_name" required>
+      
         </div>
       </div>
       <div class="control-group">
-        <div class="form-group floating-label-form-group controls">
-          <label>Adresse Email</label>
-          <input type="email" class="form-control" placeholder="Adresse Email" id="email" required>
-          <p class="help-block text-danger"></p>
+        <div class="form-group">
+          <label for="user_email">Adresse Email</label>
+          <input type="email" class="form-control" placeholder="Adresse Email" id="user_email" required>
         </div>
       </div>
       <div class="control-group">
-        <div class="form-group floating-label-form-group controls">
-          <label>Message</label>
+        <div class="form-group ">
+          <label for="message" >Message</label>
           <textarea rows="5" class="form-control" placeholder="Message" id="message" required></textarea>
-          <p class="help-block text-danger"></p>
+  
         </div>
       </div>
       <br>

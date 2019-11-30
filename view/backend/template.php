@@ -24,6 +24,7 @@
         <!--[if IE]><link rel="shortcut icon" type="image/x-icon" href="favicon.ico" /><![endif]-->
 
         <!-- Feuille de style CSS -->
+        <link href="public/css/clean-blog.css" rel="stylesheet" />
         <link href="public/css/style.css" rel="stylesheet" />
 
     </head>
@@ -89,14 +90,6 @@
                         <span class="fa-stack fa-lg">
                           <i class="fas fa-circle fa-stack-2x"></i>
                           <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
-                        </span>
-                      </a>
-                    </li>
-                    <li class="list-inline-item">
-                      <a href="#">
-                        <span class="fa-stack fa-lg">
-                          <i class="fas fa-circle fa-stack-2x"></i>
-                          <i class="fab fa-github fa-stack-1x fa-inverse"></i>
                         </span>
                       </a>
                     </li>
