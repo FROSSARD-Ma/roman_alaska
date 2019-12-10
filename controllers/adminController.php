@@ -1,15 +1,5 @@
 <?php
 
-function home()
-{
-    require('view/frontend/home.php');
-}
-
-function chapter()
-{
-    require('view/frontend/chapter.php');
-}
-
 function about()
 {
     require('view/frontend/about.php');
