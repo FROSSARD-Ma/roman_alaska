@@ -1,16 +1,7 @@
-<<<<<<< Updated upstream
-<?php 
-=======
 <?php
->>>>>>> Stashed changes
 // ====== upload AUTOMATIQUE CLASS ============
-require 'model/Autoloader.php';
-Autoloader::register();
+require_once 'vendor/autoload.php';
 
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
 session_start();
 
 require('controllers/frontendController.php');
@@ -39,6 +30,7 @@ try
         break;
 
         // CHAPTERS ---------------------------------------------
+        case 'chapters':chapters();break;
         case 'chapter':
             if (isset($_GET['chapter_id']) && $_GET['chapter_id'] > 0) {
                 chapter();
@@ -133,3 +125,5 @@ try
 catch(Exception $e) { // S'il y a eu une erreur, alors...
     echo 'Erreur : ' . $e->getMessage();
 }
+
+?>
