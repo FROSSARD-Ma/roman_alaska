@@ -9,34 +9,45 @@ class Manager {
     const BD_user='rbb05303';
     const BD_pass='Wdy2YBH4ucC';
 
+    private static $pdo;
+
+    /* --------- CONNEXION BDD Manager ------------------------------------------- */
     public function getPDO() { // Retourne connexion BDD
-        if ($this->pdo === null) {
-            try {
-            $pdo = new PDO('mysql:host='.Manager::BD_host.';dbname='.Manager::BD_name, Manager::BD_user, Manager::BD_pass);
-            $pdo-> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $this->pdo = $pdo;
+        try {
+            if ($this->pdo === null) {  // Permet 1 seule connexion à la BDD
+                $pdo = new PDO('mysql:host='.Manager::BD_host.';dbname='.Manager::BD_name, Manager::BD_user, Manager::BD_pass);
+                $pdo-> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                $this->pdo = $pdo; 
+            }
             return $this->pdo;
-            }
-            catch(PDOException $e) {
-              echo "Echec de connexion à la base de donnée !";
-            }
         }
-        return $this->pdo;
+        catch(PDOException $e) {
+          echo "Echec de connexion à la base de donnée !";
+        }
     }
 
-    protected function reqSQL($sql, $parametres = null) {
-        // Requete QUERY
-        if ($parametres == null) { 
-            $req = $this->getPDO()->query($sql);
-            $req->execute();
+
+    /* --------- REQUETES Manager ------------------------------------------------ */
+    public function reqSQL($sql, $attributes = null, $one = false ) {
+        
+        // TYPE Requete
+        if ($attributes == null) { 
+            $req = $this->getPDO()->query($sql); // Requete QUERY
+        } else {  
+            $req = $this->getPDO()->prepare($sql); // Requete PREPARE
+            $req->execute($attributes);
+            
         }
-        // Requete PREPARE
-        else 
-        {
-            $req = $this->getPDO()->prepare($sql);
-            $req->execute($parametres);
+
+        // FETCH Result
+        $req->setFetchMode(PDO::FETCH_OBJ); // result 
+
+        if ($one) { 
+            $results = $req->fetch(); // one result
+        } else {
+            $results = $req->fetchall(); // all result
         }
-        $donnees = $req->fetchall(PDO::FETCH_ASSOC);
-        return $donnees;
+        return $results;
     }
+
 }
