@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
     <head>
-        <title><?= $title ?></title>
+        <title><?=$title;?></title>
 
         <meta http-equiv="Content-type" content="text/html; charset=UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -27,6 +27,10 @@
         <link href="public/css/clean-blog.css" rel="stylesheet" />
         <link href="public/css/style.css" rel="stylesheet" />
 
+        <!-- Editeur TinyMCE -->
+        <script src="https://cdn.tiny.cloud/1/ere28k0sn0p2nlttwsln3rj9uaxn87hl2bck7oqstrycwl4y /tinymce/5/tinymce.min.js"referrerpolicy="origin"> </script>
+        <script>tinymce.init({selector:'textarea'});</script>
+
     </head>
         
     <body>
@@ -43,6 +47,23 @@
                   <li class="nav-item">
                     <a class="nav-link" href="index.php?action=home">Accueil</a>
                   </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="index.php?action=chapters">Chapitres</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="index.php?action=contact">Contact</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="btn btn-primary" href="index.php?action=inscription">Inscription</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="btn btn-primary" href="index.php?action=login">connexion</a>
+                  </li>
+                  <?php if(!empty($_SESSION['adminUser'])) {  ?>
+                    <li class="nav-item">
+                      <a class="btn btn-primary" href="index.php?action=logout">déconnexion</a>
+                    </li>
+                  <?php } ?>
                 </ul>
               </div>
             </div>
@@ -99,6 +120,11 @@
               </div>
             </div>
         </footer>
+
+      <script src="public/js/inscription.js"></script>
+      <script src="public/js/contact.js"></script>
+      <script src="public/js/login.js"></script>
+      <script src="public/js/main.js"></script>
 
       <!-- Javascript de Bootstrap -->
       <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>

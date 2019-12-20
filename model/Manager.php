@@ -11,11 +11,11 @@ class Manager {
 
     private static $pdo;
 
-    /* --------- CONNEXION BDD Manager ------------------------------------------- */
+    /* --------- CONNEXION BDD Manager ------------------------------------------ */
     public function getPDO() { // Retourne connexion BDD
         try {
             if ($this->pdo === null) {  // Permet 1 seule connexion à la BDD
-                $pdo = new PDO('mysql:host='.Manager::BD_host.';dbname='.Manager::BD_name, Manager::BD_user, Manager::BD_pass);
+                $pdo = new PDO('mysql:host='.Manager::BD_host.';dbname='.Manager::BD_name.';charset=UTF8', Manager::BD_user, Manager::BD_pass);
                 $pdo-> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 $this->pdo = $pdo; 
             }
@@ -26,8 +26,7 @@ class Manager {
         }
     }
 
-
-    /* --------- REQUETES Manager ------------------------------------------------ */
+    /* --------- REQUETES Manager ----------------------------------------------- */
     public function reqSQL($sql, $attributes = null, $one = false ) {
         
         // TYPE Requete
@@ -36,7 +35,6 @@ class Manager {
         } else {  
             $req = $this->getPDO()->prepare($sql); // Requete PREPARE
             $req->execute($attributes);
-            
         }
 
         // FETCH Result
@@ -49,5 +47,26 @@ class Manager {
         }
         return $results;
     }
+
+    /* --------- VIEW Page  Manager ----------------------------------------------- */
+    public function view($view) {
+       
+       ob_start();
+       require VIEW . '/' . $view. '.php';
+       $content = ob_get_clean();
+       require VIEW . '/' . 'template.php';
+
+        /*-- REDIRECTION -- */ 
+        // $_SERVER['REQUEST_URI']
+        // $uri = $_SERVER['REQUEST_URI'];
+        // if (!empty($uri) && $uri[-1]==="/") 
+        // {
+        //  header('location: '.substr($uri, 0,-1)); // Suppression du / final
+        //  header('HTTP/1.1 301 Moved Permanently');
+        //  exit();
+        // }
+
+    }
+
 
 }
