@@ -1,130 +1,108 @@
 <?php
 namespace Alaska;
+/**
+ * Class Router
+ *
+ * Créer les routes 
+ * Trouver les controlleurs
+ */
 
 class Router {
 
-	public function getRouter()
-	{
-		try
-		{
-		    switch ($_GET['action']) {
+	private $request_url;
+	// private $routes = [ 
 
-		        case '404':notFound();break;
+		// 	// WEB SITE ---------------------------------------------------------
+		// 	"home.php" => ['controller'=> 'webSiteController', 'method'=>'home' ],
+		// 	"about.php" => ['controller'=> 'webSiteController', 'method'=>'about' ],
+		// 	"contact.php" => ['controller'=> 'webSiteController', 'method'=>'contact' ],
 
-		        // NAV ------------------------------------------------
-		        case 'home':home();break;
-		        case 'about':about();break;
-		        case 'contact':contact();break;
+		// 	// BOOK ------------------------------------------------------------------
+		// 	"chapters.php" => ['controller'=> 'bookController', 'method'=>'chapters' ],
+		// 	"chapter.php" => ['controller'=> 'bookController', 'method'=>'chapter' ],
 
-		        // ADMIN ----------------------------------------------
-		        case 'inscription':inscription();break;
-		        case 'login':login();break;
-		        case 'logout':logout();break;
-		        case 'adminUser':
-		            if (isset($_GET['user_id']) && $_GET['user_id']> 0) {
-		                adminUser();
-		            }
-		            else {
-		                 throw new Exception('Vous n\'êtes pas identifié !');
-		            }
-		        break;
+		// 	// ADMIN => userController ----------------------------------------------------
+		// 	"inscription.php" => ['controller'=> 'userController', 'method'=>'inscription'],
+		// 	"login.php" => ['controller'=> 'userController', 'method'=>'login'],
+		// 	"logout.php" => ['controller'=> 'userController', 'method'=>'logout']
+	// ];
 
-		        // CHAPTERS ---------------------------------------------
-		        case 'chapters':chapters();break;
-		        case 'chapter':
-		            if (isset($_GET['chapter_id']) && $_GET['chapter_id'] > 0) {
-		                chapter();
-		            } else {
-		                throw new Exception('Aucun identifiant de chapitre envoyé');
-		            }
-		        break;
-
-		        case 'addChapter':
-		            if (isset($_GET['user_id']) && $_GET['user_id'] > 0) {
-		                if (!empty($_POST['chapter_num']) && !empty($_POST['chapter_title']) && !empty($_POST['chapter_content']) && !empty($_POST['chapter_statut']))
-		                {
-		                    addChapter($_GET['chapter_num'], $_POST['chapter_title'], $_POST['chapter_content'], $_POST['chapter_statut']);
-		                }
-		                else {
-		                    throw new Exception('Tous les champs ne sont pas remplis !');
-		                }
-		            }
-		            else {
-		                throw new Exception('Vous n\'êtes pas identifié !');
-		            }
-		        break;
-
-		        case 'updateChapter':
-		            if (isset($_GET['chapter_id']) && $_GET['chapter_id'] > 0) {
-		                if (!empty($_POST['chapter_num']) && !empty($_POST['chapter_title']) && !empty($_POST['chapter_content']) && !empty($_POST['chapter_statut']))
-		                {
-		                    updateChapter($_GET['chapter_id'], $_POST['chapter_num'], $_POST['chapter_title'], $_POST['chapter_content'], $_POST['chapter_statut']);
-		                }
-		                else {
-		                    throw new Exception('Tous les champs ne sont pas remplis !');
-		                }
-		            } else {
-		                throw new Exception('Aucun identifiant de chapitre envoyé');
-		            }
-		        break;
-
-		        case 'deleteChapter':
-		            if (isset($_GET['chapter_id']) && $_GET['chapter_id'] > 0) {
-		                deleteChapter($_GET['chapter_id']);
-		            } else {
-		                throw new Exception('Aucun identifiant de chapitre envoyé');
-		            }
-		        break;
-
-
-		        // COMMENTS ---------------------------------------------------------------
-		        case 'addComment':
-		            if (isset($_GET['chapter_id']) && $_GET['chapter_id'] > 0) {
-		                if (!empty($_POST['comment_content']))
-		                {
-		                    addComment($_GET['chapter_id'], $_POST['user_id'], $_POST['comment_content']);
-		                }
-		                else {
-		                    throw new Exception('Tous les champs ne sont pas remplis !');
-		                }
-		            }
-		            else {
-		                throw new Exception('Aucun identifiant de chapitre envoyé');
-		            }
-		        break;
-
-		        case 'updateComment':
-		            if (isset($_GET['comment_id']) && $_GET['comment_id'] > 0) {
-		                if (!empty($_POST['comment_content'])) 
-		                {
-		                    updateComment($_GET['comment_id'], $_POST['comment_content']);
-		                }
-		                else {
-		                    throw new Exception('Tous les champs ne sont pas remplis !');
-		                }
-		            }
-		            else {
-		                throw new Exception('Aucun identifiant de commentaire envoyé');
-		            }
-
-		        break;
-
-		        case 'deleteComment':
-		            if (isset($_GET['comment_id']) && $_GET['comment_id'] > 0) {
-		                    deleteComment($_GET['comment_id']);
-		            } else {
-		                throw new Exception('Aucun identifiant de commentaire envoyé');
-		            }
-
-		        break;
-
-		        // DEFAUT ---------------------------------------------------------------  
-		        default : home();break;
-		    }
-		}
-		catch(Exception $e) { // Si erreur
-		    echo 'Erreur : ' . $e->getMessage();
-		}
+	public function __constructor($request_url)
+	{  
+		$this->request_url = $request_url;
 	}
 
+	public function getRouter()
+	{
+
+		$request_url = 
+echo $this->request_url;
+
+echo '<pre>';
+var_dump($this->request_url);
+echo '</pre>';
+exit();
+
+		// if($this->request_url=='home')
+		// {
+		// 	echo 'Home';
+		// }
+		// else
+		// {
+		// 	echo '404';
+		// }
+	}
+
+/* =================== */
+		// $request_url = $this->request_url;
+
+		// if (key_exists($request_url, $this->routes))
+		// {
+		// 	$controller = $this->routes[$request_url]['controller'];
+		// 	$method		= $this->routes[$request_url] ['method'];
+
+		// 	$currentController = new $controller();
+		// 	$currentController->$method();
+		// }
+		// else
+		// {
+		// 	echo '404';
+		// }
+
+
+/* =================== */
+		// try
+		// {
+		//     switch ($_GET['action'])
+		//     {
+		//     	// WEB SITE ---------------------------------------------
+		//     	case 'home':$webSiteController->home();break;
+		//         case 'about':$webSiteController->about();break;
+		//         case 'contact':$webSiteController->contact();break;
+		//         case 'contact':$webSiteController->contact();break;
+
+		//         // ADMIN ------------------------------------------------
+
+
+
+ 	// 			// BOOK -------------------------------------------------
+		//         case 'chapters':$bookController->chapters();break;
+		//         case 'chapter':
+		//             if (isset($_GET['chapter_id']) && $_GET['chapter_id'] > 0) {
+		//                 $bookController->chapter();
+		//             } else {
+		//                 throw new Exception('Aucun identifiant de chapitre envoyé');
+		//             }
+		//         break;
+
+
+		//         // DEFAUT -----------------------------------------------
+		//         case 'page404':$webSiteController->page404();break;
+		//         default :$webSiteController->home();break;
+		//     }
+		// }
+		// catch(Exception $e)
+		// {
+		//     echo 'Erreur : ' . $e->getMessage();
+		// }
 }
