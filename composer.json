@@ -1,7 +1,8 @@
 {
 	"autoload": {
 		"psr-4": {
-			"Alaska\\" : "model"
+			"Alaska_Model\\" : "model/",
+			"Alaska_Controller\\": "controller/"
 		}
 	}
 }

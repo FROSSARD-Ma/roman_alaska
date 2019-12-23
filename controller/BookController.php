@@ -1,20 +1,23 @@
 <?php
-namespace Alaska;
+namespace Alaska_Controller;
 
-class ControllerBook extends Manager
+class BookController
 {
 
    	// CHAPTERS ---------------------------------
 	public function chapters()
 	{
-		$chapterManager = new ManagerChapter; // Création Objet
+		$chapterManager = new \Alaska_Model\ManagerChapter; // Création Objet
 		$Chapters = $chapterManager->listChapters(); // Liste des chapitres publiés
-	    require VIEW.'book/chapters.php';
+	    
+	    //require VIEW.'book/chapters.php';
+	    $nxView = new \Alaska_Model\View ('book/chapters');
+        $nxView->getView($Chapters);
 	}
 
 	public function chapter()
 	{	
-		$chapterManager = new ManagerChapter; // Création Objet
+		$chapterManager = new \Alaska_Model\ManagerChapter; // Création Objet
 		// Timeline Chapters
 		$Chapters = $chapterManager->listChapters(); // Liste chapitres publiés
 		// Détails chapitre
@@ -23,7 +26,12 @@ class ControllerBook extends Manager
 	    $commentManager = new ManagerComment; // Création Objet
 	    $comments = $commentManager->listComments($_GET['chapter_id']); // chapitre sélectionné
 
-	    require VIEW.'book/chapter.php';
+	    // require VIEW.'book/chapter.php';
+	    $nxView = new \Alaska_Model\View ('book/chapter');
+        $nxView->getView($Chapters);
+	    
+	   	// $nxView = new View ('book/chapter');
+     //    $nxView->getView($Chapter);
 	}
 
 
