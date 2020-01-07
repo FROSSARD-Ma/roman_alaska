@@ -19,21 +19,24 @@ class Chapter extends Manager
     }
 
     // Un tableau de données (associatif) doit être passé à la fonction
-    public function hydrate (array $dataSQL)
+    public function hydrate(array $dataSQL = null)
     { 
+	if($dataSQL) {
 		foreach($dataSQL as $key => $value)
-        {
-            // Forcer Majuscule, supp '_chapter' = 8 caractères
-            // On récupère le nom du setter correspondant à l'attribut
-            $method = 'set'.ucfirst(substr($key,0,-8));
+		{
+		    // Forcer Majuscule, supp '_chapter' = 8 caractères
+		    // On récupère le nom du setter correspondant à l'attribut
+		    $method = 'set'.ucfirst(substr($key,0,-8));
 
-            // Vérification setter correspondant existe.
-            if (method_exists($this, $method))
-            {
-                // On appelle le setter.
-                $this->$method($value);
-            }
-        }
+		    // Vérification setter correspondant existe.
+		    if (method_exists($this, $method))
+		    {
+			// On appelle le setter.
+			$this->$method($value);
+		    }
+		}
+	}
+	
     }
 
     // Liste des GETTERS --------------------------------------
