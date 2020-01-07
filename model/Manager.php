@@ -1,5 +1,5 @@
 <?php 
-namespace Alaska;
+namespace Alaska_Model;
 use \PDO;
 
 class Manager {
@@ -11,7 +11,7 @@ class Manager {
 
     private static $pdo;
 
-    /* --------- CONNEXION BDD Manager ------------------------------------------ */
+    /* --------- CONNEXION BDD Manager ---------------------------- */
     public function getPDO() { // Retourne connexion BDD
         try {
             if ($this->pdo === null) {  // Permet 1 seule connexion à la BDD
@@ -26,47 +26,25 @@ class Manager {
         }
     }
 
-    /* --------- REQUETES Manager ----------------------------------------------- */
-    public function reqSQL($sql, $attributes = null, $one = false ) {
+    /* --------- REQUETES Manager ---------------------------------- */
+    // public function reqSQL($sql, $attributes = null, $one = false ) {
         
-        // TYPE Requete
-        if ($attributes == null) { 
-            $req = $this->getPDO()->query($sql); // Requete QUERY
-        } else {  
-            $req = $this->getPDO()->prepare($sql); // Requete PREPARE
-            $req->execute($attributes);
-        }
+    //     // TYPE Requete
+    //     if ($attributes == null) { 
+    //         $req = $this->getPDO()->query($sql); // Requete QUERY
+    //     } else {  
+    //         $req = $this->getPDO()->prepare($sql); // Requete PREPARE
+    //         $req->execute($attributes);
+    //     }
 
-        // FETCH Result
-        $req->setFetchMode(PDO::FETCH_OBJ); // result 
+    //     // FETCH Result
+    //     $req->setFetchMode(PDO::FETCH_ASSOC);
 
-        if ($one) { 
-            $results = $req->fetch(); // one result
-        } else {
-            $results = $req->fetchall(); // all result
-        }
-        return $results;
-    }
-
-    /* --------- VIEW Page  Manager ----------------------------------------------- */
-    public function view($view) {
-       
-       ob_start();
-       require VIEW . '/' . $view. '.php';
-       $content = ob_get_clean();
-       require VIEW . '/' . 'template.php';
-
-        /*-- REDIRECTION -- */ 
-        // $_SERVER['REQUEST_URI']
-        // $uri = $_SERVER['REQUEST_URI'];
-        // if (!empty($uri) && $uri[-1]==="/") 
-        // {
-        //  header('location: '.substr($uri, 0,-1)); // Suppression du / final
-        //  header('HTTP/1.1 301 Moved Permanently');
-        //  exit();
-        // }
-
-    }
-
-
+    //     if ($one) { 
+    //         $results = $req->fetch(); // one result
+    //     } else {
+    //         $results = $req->fetchall(); // all result
+    //     }
+    //     return $results;
+    // }
 }
