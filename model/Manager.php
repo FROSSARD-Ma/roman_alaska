@@ -27,24 +27,24 @@ class Manager {
     }
 
     /* --------- REQUETES Manager ---------------------------------- */
-    // public function reqSQL($sql, $attributes = null, $one = false ) {
-        
-    //     // TYPE Requete
-    //     if ($attributes == null) { 
-    //         $req = $this->getPDO()->query($sql); // Requete QUERY
-    //     } else {  
-    //         $req = $this->getPDO()->prepare($sql); // Requete PREPARE
-    //         $req->execute($attributes);
-    //     }
+    public function reqSQL($sql, $attributes = null, $one = false )
+    {
+        // TYPE Requete
+        if ($attributes == null) { 
+            $req = $this->getPDO()->query($sql); // Requete QUERY
+        } else {  
+            $req = $this->getPDO()->prepare($sql); // Requete PREPARE
+            $req->execute($attributes);
+        }
 
-    //     // FETCH Result
-    //     $req->setFetchMode(PDO::FETCH_ASSOC);
+        // FETCH Result
+        $req->setFetchMode(PDO::FETCH_ASSOC);
 
-    //     if ($one) { 
-    //         $results = $req->fetch(); // one result
-    //     } else {
-    //         $results = $req->fetchall(); // all result
-    //     }
-    //     return $results;
-    // }
+        if ($one) { 
+            $results = $req->fetch(); // one result
+        } else {
+            $results = $req->fetchall(); // all result
+        }
+        return $results;
+    }
 }
