@@ -1,35 +1,32 @@
+<?php $title = 'Chapitres | Billet pour l\'Alalska'; ?>
+
+<?php //$nb_Comments = count($comments);?>
+
 <?php 
-
-$title = 'Chapitres | Billet pour l\'Alalska';
-$nb_Comments = count($comments);
-
+$id = $chapter->getId();
+$img = $chapter->getImg();
+$imgAlt = $chapter->getImgAlt();
 ?>
-
-<?php // include 'chapters-timeline.php'; ?>
 
 <!-- Affichage du chapitre -->
 <section class="container-fluid ">
 	
-	<h2><?=htmlspecialchars($Chapter->chapter_title);?></h2>
+	<h2><?=$chapter->getTitle();?></h2>
 	<header class="media">
-	    <a href="index.php?action=chapter&amp;chapter_id=<?=$Chapter->chapter_id?>"><img src="public/img/chapter/<?=$Chapter->chapter_img?>" class="mr-3" alt="<?=$Chapter->chapter_img_alt?>"></a>
+	    <a href="index.php?page=chapter&amp;id=<?=$id?>"><img src="public/img/chapter/<?=$img?>" class="mr-3" alt="<?=$imgAlt?>"></a>
 	    <div class="media-body">
-			<p><?php if (htmlspecialchars($Chapter->chapter_num)!=0) 
-				{ echo 'Chapitre ' . htmlspecialchars($Chapter->chapter_num); } ?>
-			<br>
-			Edité le <?= $Chapter->chapter_date_creat ?><br>
-			Dernière mise à jour le <?= $Chapter->chapter_date_edit ?>
-			</p>
-	      	<p><?= $nb_Comments,' ',$nb_Comments > 1 ? 'commentaires' : 'commentaire';?></p>
+			<p><?php if ($chapter->getNum()!=0) echo 'Chapitre ' . $chapter->getNum(); ?>
+			<p>Edité le <?=$chapter->getCreated()?></p>
+			<p>Dernière mise à jour le <?= $chapter->getModified()?></p>
+	      	<p><? /*= $nb_Comments,' ',$nb_Comments > 1 ? 'commentaires' : 'commentaire'; */?></p>
 	    </div>
 	</header>
 
 	<article>
-	
-	<p><?= nl2br(htmlspecialchars($Chapter->chapter_content)) ?></p>
+		<p><?= nl2br($chapter->getContent());?></p>
 	</article>
 
-	<a href="index.php?action=chapter&amp;chapter_id=<?=$after?>" class="btn btn-primary btn-sm float-right" role="button">J'ai lu ce chapitre, je passe au suivant</a>
+	<a href="index.php?page=chapter&amp;id=<?=$after?>" class="btn btn-primary btn-sm float-right" role="button">J'ai lu ce chapitre, je passe au suivant</a>
 
 </section>
 
@@ -38,21 +35,21 @@ $nb_Comments = count($comments);
 	<hr>
 	<h2><?= $nb_Comments,' ',$nb_Comments > 1 ? 'Commentaires' : 'Commentaire';?></h2>
 
-	<?php foreach ($comments as $comment)
+	<?php /*foreach ($comments as $comment)
 	{ ?>		
 		<section>
-	      	<p><strong><?=htmlspecialchars($comment->user_pseudo);?></strong> le <?=$comment->comment_date_fr?></p>
+	      	<p><strong><? =$comment->user_pseudo;?></strong> le <?=$comment->comment_date_fr?></p>
 	      	<p><?=htmlspecialchars($comment->comment_content);?></p>
 		</section>
 		<hr>
-	<?php  } ?>
+	<?php  } */ ?>
 </section>
 
 <!-- AJOUT commentaire -->
 <section class="container-fluid">
 	<?php if(!empty($_SESSION['adminUser'])) {  ?>
 
-		<form action="index.php?action=postComment&amp;idChapter=<?=$Chapter->chapter_id?>" method="post">
+		<form action="index.php?page=postComment&amp;idChapter=<?=$Chapter->chapter_id?>" method="post">
 		    <div>
 		        <label for="comment_content">Commentaire</label><br />
 		        <textarea id="comment_content" name="comment_content"></textarea>

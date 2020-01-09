@@ -1,5 +1,6 @@
 <?php
 namespace Alaska_Model;
+use \DateTime;
 
 class Chapter extends Manager
 {
@@ -13,36 +14,68 @@ class Chapter extends Manager
     private $_imgAlt_chapter;
     private $_statut_chapter;
 
-    // public function __construct(array $dataSQL)
-    // {
-    //     $this->hydrate($dataSQL);
-    // }
+    public function __construct(array $dataSQL)
+    {
+        $this->hydrate($dataSQL);
+    }
 
-    // // Un tableau de données (associatif) doit être passé à la fonction
-    // public function hydrate(array $dataSQL)
-    // {
-    //     foreach ($dataSQL as $key => $value)
-    //     {
-    //         // Forcer Majuscule, supp '_chapter' = 8 caractères
-    //         // On récupère le nom du setter correspondant à l'attribut
-    //         $method = 'set' . ucfirst(substr($key,0,-8));
-    //         if (method_exists($this, $method))
-    //         {
-    //             $this->$method($value);
-    //         }
-    //     }
-    // }
+    // Un tableau de données (associatif) doit être passé à la fonction
+    public function hydrate(array $dataSQL)
+    {
+        foreach ($dataSQL as $key => $value)
+        {
+            // Forcer Majuscule, supp '_chapter' = 8 caractères
+            // On récupère le nom du setter correspondant à l'attribut
+            $method = 'set' . ucfirst(substr($key,0,-8));
+            if (method_exists($this, $method))
+            {
+                $this->$method(htmlspecialchars($value));
+            }
+        }
+    }
 
     // Liste des GETTERS --------------------------------------
-    public function getId()        { return $this->_id_chapter; }
-    public function getCreated()   { return $this->_created_chapter; }
-    public function getModified()  { return $this->_modified_chapter; }
-    public function getNum()       { return $this->_num_chapter; }
-    public function getTitle()     { return $this->_title_chapter; }
-    public function getContent()   { return $this->_content_chapter; }
-    public function getImg()       { return $this->_img_chapter; }
-    public function getImgAlt()    { return $this->_imgAlt_chapter; }
-    public function getStatut()    { return $this->_statut_chapter; }
+    public function getId()
+    { 
+        return $this->_id_chapter; 
+    }
+    public function getCreated()
+    { 
+        return $this->_created_chapter; 
+    }
+    public function getModified()
+    { 
+        return $this->_modified_chapter; 
+    }
+    public function getNum()
+    { 
+        return $this->_num_chapter;
+    }
+    public function getTitle()
+    { 
+        return $this->_title_chapter; 
+    }
+    public function getContent()
+    {
+        return $this->_content_chapter;
+    }
+    public function getImg()
+    {
+        return $this->_img_chapter;
+    }
+    public function getImgAlt()
+    {
+        return $this->_imgAlt_chapter;
+    }
+    public function getStatut()
+    {
+        return $this->_statut_chapter;
+    }
+
+    public function getExtract()   { 
+        $content2 = substr($this->getContent(),0,200); 
+        return nl2br($content2).'...';
+    }
 
 
     // Liste des SETTERS ---------------------------------------
@@ -52,30 +85,22 @@ class Chapter extends Manager
         // convertit l'argument en nombre entier.
         $id = (int) $id;
         
-        // Positif ?
         if ($id > 0)
         {
-            // Si OK on assigne la valeur à l'attribut correspondant.
             $this->_id_chapter = $id;
         }
     }
       
-    public function setCreated($dateCreat)
+    public function setCreated($dateCreated)
     {
-        // Date ?
-        if (is_string($dateCreat))
-        {
-            $this->_created_chapter = $dateCreat;
-        }
+        $date = new DateTime($dateCreated);
+        $this->_created_chapter = $date->format('d-m-Y');
     }
 
-    public function setModified($dateEdit)
+    public function setModified($dateModified)
     {
-        // Date ?
-        if (is_string($dateEdit))
-        {
-          $this->_modified_chapter = $dateEdit;
-        }
+        $date = new DateTime($dateModified);
+        $this->_modified_chapter = $date->format('d-m-Y');
     }
 
     public function setNum($num)

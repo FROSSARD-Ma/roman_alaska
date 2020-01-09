@@ -43,7 +43,7 @@ class Manager {
         if ($one) { 
             $results = $req->fetch(); // one result
         } else {
-            $results = $req->fetchall(); // all result
+            $results = $req->fetchAll(); // all result
         }
         return $results;
     }
