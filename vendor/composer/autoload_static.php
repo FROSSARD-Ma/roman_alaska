@@ -9,14 +9,19 @@ class ComposerStaticInitaabd824f4a5ad7defa85a297063d738c
     public static $prefixLengthsPsr4 = array (
         'A' => 
         array (
-            'Alaska\\' => 7,
+            'Alaska_Model\\' => 13,
+            'Alaska_Controller\\' => 18,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'Alaska\\' => 
+        'Alaska_Model\\' => 
         array (
             0 => __DIR__ . '/../..' . '/model',
+        ),
+        'Alaska_Controller\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/controller',
         ),
     );
 

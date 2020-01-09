@@ -1,130 +1,50 @@
 <?php
-namespace Alaska;
+namespace Alaska_Model;
 
 class Router {
 
-	public function getRouter()
+	private $_page;
+	private $routes = [ 
+
+		// WEB SITE ---------------------------------------------------------
+		"home" => ['controller'=> '\Alaska_Controller\WebsiteController', 'method'=>'home' ],
+		"about" => ['controller'=> '\Alaska_Controller\WebsiteController', 'method'=>'about' ],
+		"contact" => ['controller'=> '\Alaska_Controller\WebsiteController', 'method'=>'contact' ],
+
+		// BOOK ------------------------------------------------------------------
+		"chapters" => ['controller'=> '\Alaska_Controller\BookController', 'method'=>'chapters' ],
+		"chapter" => ['controller'=> '\Alaska_Controller\BookController', 'method'=>'chapter' ],
+
+		// ADMIN => UserController ----------------------------------------------------
+		"inscription" => ['controller'=> '\Alaska_Controller\UserController', 'method'=>'inscription'],
+		"login" => ['controller'=> '\Alaska_Controller\UserController', 'method'=>'login'],
+		"logout" => ['controller'=> '\Alaska_Controller\UserController', 'method'=>'logout']
+	];
+
+
+	public function __construct($page)
 	{
-		try
+		$this->_page = $page;
+	}
+
+	public function getController()
+	{
+		$_page = $this->_page;
+
+		if (key_exists($_page, $this->routes))
 		{
-		    switch ($_GET['action']) {
+			$controller = $this->routes[$_page]['controller'];
+			$method		= $this->routes[$_page] ['method'];
 
-		        case '404':notFound();break;
-
-		        // NAV ------------------------------------------------
-		        case 'home':home();break;
-		        case 'about':about();break;
-		        case 'contact':contact();break;
-
-		        // ADMIN ----------------------------------------------
-		        case 'inscription':inscription();break;
-		        case 'login':login();break;
-		        case 'logout':logout();break;
-		        case 'adminUser':
-		            if (isset($_GET['user_id']) && $_GET['user_id']> 0) {
-		                adminUser();
-		            }
-		            else {
-		                 throw new Exception('Vous n\'êtes pas identifié !');
-		            }
-		        break;
-
-		        // CHAPTERS ---------------------------------------------
-		        case 'chapters':chapters();break;
-		        case 'chapter':
-		            if (isset($_GET['chapter_id']) && $_GET['chapter_id'] > 0) {
-		                chapter();
-		            } else {
-		                throw new Exception('Aucun identifiant de chapitre envoyé');
-		            }
-		        break;
-
-		        case 'addChapter':
-		            if (isset($_GET['user_id']) && $_GET['user_id'] > 0) {
-		                if (!empty($_POST['chapter_num']) && !empty($_POST['chapter_title']) && !empty($_POST['chapter_content']) && !empty($_POST['chapter_statut']))
-		                {
-		                    addChapter($_GET['chapter_num'], $_POST['chapter_title'], $_POST['chapter_content'], $_POST['chapter_statut']);
-		                }
-		                else {
-		                    throw new Exception('Tous les champs ne sont pas remplis !');
-		                }
-		            }
-		            else {
-		                throw new Exception('Vous n\'êtes pas identifié !');
-		            }
-		        break;
-
-		        case 'updateChapter':
-		            if (isset($_GET['chapter_id']) && $_GET['chapter_id'] > 0) {
-		                if (!empty($_POST['chapter_num']) && !empty($_POST['chapter_title']) && !empty($_POST['chapter_content']) && !empty($_POST['chapter_statut']))
-		                {
-		                    updateChapter($_GET['chapter_id'], $_POST['chapter_num'], $_POST['chapter_title'], $_POST['chapter_content'], $_POST['chapter_statut']);
-		                }
-		                else {
-		                    throw new Exception('Tous les champs ne sont pas remplis !');
-		                }
-		            } else {
-		                throw new Exception('Aucun identifiant de chapitre envoyé');
-		            }
-		        break;
-
-		        case 'deleteChapter':
-		            if (isset($_GET['chapter_id']) && $_GET['chapter_id'] > 0) {
-		                deleteChapter($_GET['chapter_id']);
-		            } else {
-		                throw new Exception('Aucun identifiant de chapitre envoyé');
-		            }
-		        break;
-
-
-		        // COMMENTS ---------------------------------------------------------------
-		        case 'addComment':
-		            if (isset($_GET['chapter_id']) && $_GET['chapter_id'] > 0) {
-		                if (!empty($_POST['comment_content']))
-		                {
-		                    addComment($_GET['chapter_id'], $_POST['user_id'], $_POST['comment_content']);
-		                }
-		                else {
-		                    throw new Exception('Tous les champs ne sont pas remplis !');
-		                }
-		            }
-		            else {
-		                throw new Exception('Aucun identifiant de chapitre envoyé');
-		            }
-		        break;
-
-		        case 'updateComment':
-		            if (isset($_GET['comment_id']) && $_GET['comment_id'] > 0) {
-		                if (!empty($_POST['comment_content'])) 
-		                {
-		                    updateComment($_GET['comment_id'], $_POST['comment_content']);
-		                }
-		                else {
-		                    throw new Exception('Tous les champs ne sont pas remplis !');
-		                }
-		            }
-		            else {
-		                throw new Exception('Aucun identifiant de commentaire envoyé');
-		            }
-
-		        break;
-
-		        case 'deleteComment':
-		            if (isset($_GET['comment_id']) && $_GET['comment_id'] > 0) {
-		                    deleteComment($_GET['comment_id']);
-		            } else {
-		                throw new Exception('Aucun identifiant de commentaire envoyé');
-		            }
-
-		        break;
-
-		        // DEFAUT ---------------------------------------------------------------  
-		        default : home();break;
-		    }
+			$currentController = new $controller();
+			$currentController->$method();
 		}
-		catch(Exception $e) { // Si erreur
-		    echo 'Erreur : ' . $e->getMessage();
+		else
+		{
+			echo '404';
 		}
+
+
 	}
 
 }
