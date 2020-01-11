@@ -21,11 +21,14 @@ class BookController
 			$chapterManager = new \Alaska_Model\ChapterManager; 
 		    $chapter = $chapterManager->getChapter($_GET['id']);
 
-		    $commentManager = new CommentManager; // Création Objet
-		    $comments = $commentManager->getComments($_GET['chapter_id']); // chapitre sélectionné
+		    $commentManager = new \Alaska_Model\CommentManager;
+		    $comments = $commentManager->getComments($_GET['id']);
 
 		    $nxView = new \Alaska_Model\View ('book/chapter');
-	        $nxView->getView(array ('chapter' => $chapter, 'comments'=> $comments)); // creat datas to View
+	        $nxView->getView(array (
+	        	'chapter' => $chapter, 
+	        	'comments'=> $comments)
+	        ); // creat datas to View
 	    }
 	    else
 	    {
@@ -33,12 +36,11 @@ class BookController
         }     
 	}
 
-
 	// COMMENTS ---------------------------------
 
 	public function addComment($chapterId, $userId, $comment)
 	{
-	    $commentManager = new CommentManager; // Création Objet
+	    $commentManager = new \Alaska_Model\CommentManager; // Création Objet
 	    $postComment = $commentManager->postComment(); // Liste des chapitres
 	}
 
