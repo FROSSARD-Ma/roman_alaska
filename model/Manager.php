@@ -41,9 +41,9 @@ class Manager {
         $req->setFetchMode(PDO::FETCH_ASSOC);
 
         if ($one) { 
-            $results = $req->fetch(); // one result
+            $results = $req->fetch(); // true result
         } else {
-            $results = $req->fetchAll(); // all result
+            $results = $req->fetchAll(); // false result
         }
         return $results;
     }

@@ -27,9 +27,18 @@ h2, h3 {
 }
 
 
-
-
 /* CHAPITRES */
 .media img {
 	max-width: 400px;
+}
+
+
+/* BUTTON */
+.btn {
+    font-size: 15px;
+    padding: 2px 5px;
+}
+
+.card {
+    width: 90%;
 }

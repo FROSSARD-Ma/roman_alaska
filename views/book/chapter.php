@@ -1,11 +1,10 @@
 <?php $title = 'Chapitres | Billet pour l\'Alalska'; ?>
 
-<?php //$nb_Comments = count($comments);?>
-
 <?php 
 $id = $chapter->getId();
 $img = $chapter->getImg();
 $imgAlt = $chapter->getImgAlt();
+
 ?>
 
 <!-- Affichage du chapitre -->
@@ -16,9 +15,13 @@ $imgAlt = $chapter->getImgAlt();
 	    <a href="index.php?page=chapter&amp;id=<?=$id?>"><img src="public/img/chapter/<?=$img?>" class="mr-3" alt="<?=$imgAlt?>"></a>
 	    <div class="media-body">
 			<p><?php if ($chapter->getNum()!=0) echo 'Chapitre ' . $chapter->getNum(); ?>
-			<p>Edité le <?=$chapter->getCreated()?></p>
-			<p>Dernière mise à jour le <?= $chapter->getModified()?></p>
-	      	<p><? /*= $nb_Comments,' ',$nb_Comments > 1 ? 'commentaires' : 'commentaire'; */?></p>
+			<p>Edité le <?=$chapter->getCreated();?>
+				<br>Dernière mise à jour le <?= $chapter->getModified();?>
+			</p>
+	      	<p>
+	      		<?php echo $_SESSION['nbComments']; 
+				if (isset($_SESSION['nbComments'])) { echo $_SESSION['nbComments'] > 1 ? ' commentaires' : ' commentaire'; } ?>
+			</p>
 	    </div>
 	</header>
 
@@ -33,16 +36,18 @@ $imgAlt = $chapter->getImgAlt();
 <!-- Affichage des commentaires -->
 <section class="container-fluid">
 	<hr>
-	<h2><?= $nb_Comments,' ',$nb_Comments > 1 ? 'Commentaires' : 'Commentaire';?></h2>
+	<h2>
+		<?php echo $_SESSION['nbComments']; 
+		if (isset($_SESSION['nbComments'])) { echo $_SESSION['nbComments'] > 1 ? ' commentaires' : ' commentaire'; } ?>	
+	</h2>
 
-	<?php /*foreach ($comments as $comment)
-	{ ?>		
+	<?php foreach ($datas['comments'] as $comment) : ?>	
 		<section>
-	      	<p><strong><? =$comment->user_pseudo;?></strong> le <?=$comment->comment_date_fr?></p>
-	      	<p><?=htmlspecialchars($comment->comment_content);?></p>
+	      	<p><strong><?=$comment->getUserPseudo();?></strong> le <?=$comment->getCreated();?></p>
+	      	<p><?=$comment->getContent();?></p>
 		</section>
 		<hr>
-	<?php  } */ ?>
+	<?php endforeach ?>
 </section>
 
 <!-- AJOUT commentaire -->

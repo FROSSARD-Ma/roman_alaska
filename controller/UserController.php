@@ -3,6 +3,39 @@ namespace Alaska_Controller;
 
 class UserController
 {
+
+	public function admin()
+	{
+		$chapterManager = new \Alaska_Model\ChapterManager; 
+		$chapters = $chapterManager->adminChapters(); 
+
+		$countComments = new \Alaska_Model\CommentManager;
+		$count = $countComments->countComments();
+		
+        $nxView = new \Alaska_Model\View ('admin/admin');
+        $nxView->getView(
+        	array (
+	        	'chapters' => $chapters, 
+	        	'count'=> $count)
+	    	); 
+		}
+
+	public function addChapter()
+	{
+        $nxView = new \Alaska_Model\View ('admin/addChapter');
+        $nxView->getView();
+	}
+
+	
+	public function users()
+	{
+		$userManager = new \Alaska_Model\UserManager; 
+		$chapters = $userManager->getUsers();
+
+        $nxView = new \Alaska_Model\View ('admin/users');
+        $nxView->getView(array ('users' => $users));
+	}
+
 	public function addUser()
 	{
 		$name 		= $_POST['name'];
@@ -36,6 +69,9 @@ class UserController
 
 		$loginManager = new \Alaska_Model\UserManager; 
 	    $user = $loginManager->login($email, $pass);
+
+	    // $nxView = new \Alaska_Model\View ();
+     // 	$nxView->redirect('home');
 	}
 
 

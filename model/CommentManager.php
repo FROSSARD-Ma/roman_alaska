@@ -28,6 +28,22 @@ class CommentManager extends Manager
         return $results;
     }
 
+    public function countComments($id)
+    {
+        $idChapter = (int)$id;
+
+        $sql ='SELECT COUNT(*)
+            FROM alaska_comments 
+                JOIN alaska_users
+                ON alaska_comments.userId_comment=alaska_users.id_user
+            WHERE chapterId_comment = ?';
+            
+        $count = $this->reqSQL($sql, array ($idChapter), $one = true);
+        return $count;
+    }
+
+
+
     /*---  DETAILS Commentaire     ---- */
 
    

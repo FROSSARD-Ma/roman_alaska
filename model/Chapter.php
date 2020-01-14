@@ -154,7 +154,7 @@ class Chapter extends Manager
     public function setStatut($statut)
     {
         // chaîne de caractères ?
-        if ((is_string($statut)) && ($statut = 'draft' OR $statut = 'published'))
+        if (is_string($statut)) // && ($statut = 'draft' OR $statut = 'published'))
         {
           $this->_statut_chapter = $statut;
         }

@@ -36,14 +36,4 @@ class BookController
         }     
 	}
 
-	// COMMENTS ---------------------------------
-
-	public function addComment($chapterId, $userId, $comment)
-	{
-	    $commentManager = new \Alaska_Model\CommentManager; // Création Objet
-	    $postComment = $commentManager->postComment(); // Liste des chapitres
-	}
-
-
-
 }

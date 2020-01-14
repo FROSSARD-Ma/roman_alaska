@@ -38,7 +38,7 @@ class Comment extends Manager
     { 
         return $this->_id_comment; 
     }
-    public function getchapterId()
+    public function getChapterId()
     { 
         return $this->_chapterId_comment; 
     }

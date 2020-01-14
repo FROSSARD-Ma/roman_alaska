@@ -6,7 +6,11 @@ require_once 'vendor/autoload.php';
 
 //== CONFIG chemin relatif / absolute =========
 $root = $_SERVER['DOCUMENT_ROOT'];
+$host = $_SERVER['HTTP_HOST'];
+
+define('HOST', 'https://'.$host.'/roman_alaska/');
 define('ROOT', $root . '/roman_alaska/');
+
 define('CONTOLLER', ROOT.'controller/');
 define('VIEW', ROOT.'views/');
 define('MODEL', ROOT.'model/');
