@@ -7,18 +7,25 @@ class Router {
 	private $routes = [ 
 
 		// WEB SITE ---------------------------------------------------------
-		"home" => ['controller'=> '\Alaska_Controller\WebsiteController', 'method'=>'home' ],
-		"about" => ['controller'=> '\Alaska_Controller\WebsiteController', 'method'=>'about' ],
-		"contact" => ['controller'=> '\Alaska_Controller\WebsiteController', 'method'=>'contact' ],
+		"home" 			=> ['controller'=> '\Alaska_Controller\WebsiteController', 'method'=>'home' ],
+		"about" 		=> ['controller'=> '\Alaska_Controller\WebsiteController', 'method'=>'about' ],
+		"contact" 		=> ['controller'=> '\Alaska_Controller\WebsiteController', 'method'=>'contact' ],
 
 		// BOOK ------------------------------------------------------------------
-		"chapters" => ['controller'=> '\Alaska_Controller\BookController', 'method'=>'chapters' ],
-		"chapter" => ['controller'=> '\Alaska_Controller\BookController', 'method'=>'chapter' ],
+		"chapters" 		=> ['controller'=> '\Alaska_Controller\BookController', 'method'=>'chapters' ],
+		"chapter" 		=> ['controller'=> '\Alaska_Controller\BookController', 'method'=>'chapter' ],
 
 		// ADMIN => UserController ----------------------------------------------------
-		"inscription" => ['controller'=> '\Alaska_Controller\UserController', 'method'=>'inscription'],
-		"login" => ['controller'=> '\Alaska_Controller\UserController', 'method'=>'login'],
-		"logout" => ['controller'=> '\Alaska_Controller\UserController', 'method'=>'logout']
+		"admin" 		=> ['controller'=> '\Alaska_Controller\UserController', 'method'=>'admin'],
+		"addChapter" 	=> ['controller'=> '\Alaska_Controller\UserController', 'method'=>'addChapter'],
+		"updateChapter" => ['controller'=> '\Alaska_Controller\UserController', 'method'=>'updateChapter'],
+		"users" 		=> ['controller'=> '\Alaska_Controller\UserController', 'method'=>'users'],
+
+		"inscription" 	=> ['controller'=> '\Alaska_Controller\UserController', 'method'=>'inscription'],
+		"addUser" 		=> ['controller'=> '\Alaska_Controller\UserController', 'method'=>'addUser'],
+		"login" 		=> ['controller'=> '\Alaska_Controller\UserController', 'method'=>'login'],
+		"logout" 		=> ['controller'=> '\Alaska_Controller\UserController', 'method'=>'logout']
+
 	];
 
 
