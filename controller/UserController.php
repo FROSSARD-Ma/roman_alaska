@@ -61,13 +61,20 @@ class UserController
 		$loginManager = new \Alaska_Model\UserManager; 
 	    $user = $loginManager->login($email, $pass);
 
-	    $chapterManager = new \Alaska_Model\ChapterManager; 
-	    $chapters = $chapterManager->twoChapters();
+	    if ($_SESSION['message'])
+	    {
+	    	$nxView = new \Alaska_Model\View ('user/login');
+        	$nxView->getView();
+	    }
+	    else 
+	    {
+			$chapterManager = new \Alaska_Model\ChapterManager; 
+		    $chapters = $chapterManager->twoChapters();
 
-        $nxView = new \Alaska_Model\View ('home');
-        $nxView->getView(array ('chapters' => $chapters));
+	        $nxView = new \Alaska_Model\View ('home');
+	        $nxView->getView(array ('chapters' => $chapters));
+	    }
 	}
-
 
 	public function logout()
 	{
@@ -83,5 +90,24 @@ class UserController
         $nxView->getView(array ('chapters' => $chapters));
 	}
 
+	public function nxPass()
+	{
+		$nxView = new \Alaska_Model\View ('user/pass');
+        $nxView->getView();
+	}
 
+	public function creatPass()
+	{
+		$email	= $_POST['email'];
+
+		$loginManager = new \Alaska_Model\UserManager; 
+	    $user = $loginManager->nxPass($email);
+
+	    $nxView = new \Alaska_Model\View ('user/login');
+        $nxView->getView();
+
+
+
+
+	}
 }

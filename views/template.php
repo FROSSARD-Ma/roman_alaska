@@ -148,4 +148,7 @@
     
 </html>
 
-<?php // unset($_SESSION["nbComments"]); ?>
+<?php 
+  unset($_SESSION["nbComments"]);
+  unset($_SESSION["message"]);
+?>

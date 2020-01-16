@@ -20,14 +20,15 @@ class Router {
 		"addChapter" 	=> ['controller'=> '\Alaska_Controller\UserController', 'method'=>'addChapter'],
 		"updateChapter" => ['controller'=> '\Alaska_Controller\UserController', 'method'=>'updateChapter'],
 		"users" 		=> ['controller'=> '\Alaska_Controller\UserController', 'method'=>'users'],
-
+		/* inscription */
 		"inscription" 	=> ['controller'=> '\Alaska_Controller\UserController', 'method'=>'inscription'],
 		"addUser" 		=> ['controller'=> '\Alaska_Controller\UserController', 'method'=>'addUser'],
-
+		/* DAO */
 		"login" 		=> ['controller'=> '\Alaska_Controller\UserController', 'method'=>'login'],
 		"loginUser" 	=> ['controller'=> '\Alaska_Controller\UserController', 'method'=>'loginUser'],
-
-		"logout" 		=> ['controller'=> '\Alaska_Controller\UserController', 'method'=>'logout']
+		"logout" 		=> ['controller'=> '\Alaska_Controller\UserController', 'method'=>'logout'],
+		"nxPass" 		=> ['controller'=> '\Alaska_Controller\UserController', 'method'=>'nxPass'],
+		"creatPass" 	=> ['controller'=> '\Alaska_Controller\UserController', 'method'=>'creatPass']
 
 	];
 

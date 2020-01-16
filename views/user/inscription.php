@@ -40,10 +40,9 @@
 			    <input type="email" class="form-control" placeholder="Email" id="email" name="email"required>
 			</div>
 
-			<div class="alert alert-danger">
-				<p id="error">
-				</p>
-			</div>
+			<div>
+				<p class="alert alert-danger" role="alert" id="error"></p>
+		    </div>
 
 			<button type="submit" id="btnForm" class="btn btn-primary float-right">Je m'inscris</button>
 		</form>

@@ -24,10 +24,18 @@
 			</div>
 
 			<div>
-		        <p id="error">
-		        </p>
+				<p class="alert alert-danger" role="alert" id="error"></p>
 		    </div>
 
+	        <?php if(isset($_SESSION['message'])) { ?>
+	         	<div class="alert alert-success" role="alert">
+						<?php echo $_SESSION['message']; ?>
+				</div>
+			<?php } ?>
+		    
+			<div>
+				<a href="index.php?page=nxPass">Mot de passe oublié ?</a>
+			</div>
 			<button type="submit" id="connexion" class="btn btn-primary float-right">Se connecter</button>
 		</form>
 
