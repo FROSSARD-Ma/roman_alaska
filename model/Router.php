@@ -23,7 +23,10 @@ class Router {
 
 		"inscription" 	=> ['controller'=> '\Alaska_Controller\UserController', 'method'=>'inscription'],
 		"addUser" 		=> ['controller'=> '\Alaska_Controller\UserController', 'method'=>'addUser'],
+
 		"login" 		=> ['controller'=> '\Alaska_Controller\UserController', 'method'=>'login'],
+		"loginUser" 	=> ['controller'=> '\Alaska_Controller\UserController', 'method'=>'loginUser'],
+
 		"logout" 		=> ['controller'=> '\Alaska_Controller\UserController', 'method'=>'logout']
 
 	];

@@ -3,21 +3,13 @@ namespace Alaska_Controller;
 
 class UserController
 {
-
 	public function admin()
 	{
 		$chapterManager = new \Alaska_Model\ChapterManager; 
 		$chapters = $chapterManager->adminChapters(); 
 
-		$countComments = new \Alaska_Model\CommentManager;
-		$count = $countComments->countComments();
-		
         $nxView = new \Alaska_Model\View ('admin/admin');
-        $nxView->getView(
-        	array (
-	        	'chapters' => $chapters, 
-	        	'count'=> $count)
-	    	); 
+        $nxView->getView(array ('chapters' => $chapters)); 
 		}
 
 	public function addChapter()
@@ -26,7 +18,6 @@ class UserController
         $nxView->getView();
 	}
 
-	
 	public function users()
 	{
 		$userManager = new \Alaska_Model\UserManager; 
@@ -70,15 +61,26 @@ class UserController
 		$loginManager = new \Alaska_Model\UserManager; 
 	    $user = $loginManager->login($email, $pass);
 
-	    // $nxView = new \Alaska_Model\View ();
-     // 	$nxView->redirect('home');
+	    $chapterManager = new \Alaska_Model\ChapterManager; 
+	    $chapters = $chapterManager->twoChapters();
+
+        $nxView = new \Alaska_Model\View ('home');
+        $nxView->getView(array ('chapters' => $chapters));
 	}
 
 
 	public function logout()
 	{
-        $nxView = new \Alaska_Model\View ('user/logout');
-        $nxView->getView();
+		// Déconnexion Espace membre
+		unset($_SESSION['user']); 
+		unset($_SESSION['role']);
+
+		// Affichage page HOME
+        $chapterManager = new \Alaska_Model\ChapterManager; 
+	    $chapters = $chapterManager->twoChapters();
+
+        $nxView = new \Alaska_Model\View ('home');
+        $nxView->getView(array ('chapters' => $chapters));
 	}
 
 

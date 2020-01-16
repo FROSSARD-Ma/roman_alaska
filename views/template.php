@@ -1,9 +1,3 @@
-<?  
-// On démarre la session et Cookie AVANT HTML & <!DOCTYPE html>
-session_start(); 
-
-?>
-
 <!DOCTYPE html>
 <html lang="fr">
     <head>
@@ -59,14 +53,18 @@ session_start();
                   <li class="nav-item">
                     <a class="nav-link" href="index.php?page=contact">Contact</a>
                   </li>
-
-                  <?php if(!empty($_SESSION['adminUser'])) {  ?>
+                  
+                  <?php if (isset($_SESSION['role']) == 'admin') {  ?>
                     <li class="nav-item">
                       <a class="nav-link" href="index.php?page=admin">Admin</a>
                     </li>
+                  <?php } ?>
+
+                  <?php if(isset($_SESSION['user'])) {  ?>
                     <li class="nav-item">
                       <a class="btn btn-primary" href="index.php?page=logout">déconnexion</a>
                     </li>
+
                   <?php } else { ?>
                     <li class="nav-item">
                       <a class="btn btn-primary" href="index.php?page=inscription">Inscription</a>
@@ -75,7 +73,6 @@ session_start();
                       <a class="btn btn-primary" href="index.php?page=login">connexion</a>
                     </li>
                   <?php } ?>
-
                 </ul>
               </div>
             </div>
@@ -151,6 +148,4 @@ session_start();
     
 </html>
 
-<?php 
-  unset($_SESSION["nbComments"]);
-?>
+<?php // unset($_SESSION["nbComments"]); ?>

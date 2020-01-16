@@ -1,4 +1,5 @@
 <?php
+session_start(); 
 
 // ====== upload AUTOMATIQUE CLASS ============
 require_once 'vendor/autoload.php';

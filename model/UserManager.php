@@ -20,39 +20,40 @@ class UserManager extends Manager
         $req->execute();
 	}
 
-	public function update()
+	public function login($email, $pass)
 	{
-
-	}
-
-	public function delete()
-	{
-
-	}
-
-
-	public function login($email, $pass, $remember)
-	{
-		$email = 
-		$pass = 
-
-        $sql ='SELECT alaska_users.email_user, alaska_users.pass_user
+ 		//  Récupération de l'utilisateur 
+		$sql ='SELECT *
             FROM alaska_users 
-            WHERE email_user = ? AND pass_user = ?';
-        $datas = $this->reqSQL($sql, array ($email, $pass));
+            WHERE email_user = ?';
+        $datas = $this->reqSQL($sql, array ($email), $one = true);
 
+		if (!$datas)
+		{
+		    echo 'Mauvais identifiant Email !';
+		}
+		else
+		{
+			$nxUser = new \Alaska_Model\User($datas);
+			// Comparaison du pass envoyé via le formulaire avec la base
+			//$PassCorrect = password_verify($pass, $nxUser->getPass());
+			$PassCorrect = $nxUser->getPass();
 
- // si ok génère objet
+			if ($PassCorrect) {
+				$_SESSION['user'] = $nxUser->getPseudo();
+		        $_SESSION['role'] = $nxUser->getRole();
+		    }
+		    else {
+		        echo 'Mauvais identifiant ou mot de passe !';
+		    }
 
+		}
 	}
 
-	public function logged()
+	public function getUser($id)
 	{
-		return isset($_SESSION['authentification']);
 	}
-
-	public function getUsers()
+	public function delete($id)
 	{
-
 	}
 }

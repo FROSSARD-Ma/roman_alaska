@@ -12,28 +12,23 @@
 
 	<section class="row justify-content-center">
 		
-		<form class="needs-validation" novalidate id="login_form">
+		<form action="index.php?page=loginUser" method="post" class="needs-validation" novalidate id="login_form">
 			<div class="form-group">
-			    <label for="login_email">Adresse Email</label>
-			    <input type="email" class="form-control" id="login_email" name="login_email" aria-describedby="emailHelp">
+			    <label for="email">Adresse Email</label>
+			    <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp">
 			</div>
 
 			<div class="form-group">
-			    <label for="login_pass">Mot de passe</label>
-			    <input type="password" class="form-control" id="login_pass" name="login_pass">
-			</div>
-
-			<div class="form-group form-check">
-			    <input type="checkbox" class="form-check-input" id="login_remember" name="login_remember">
-			    <label class="form-check-label" for="login_remember">Se rappeler de moi</label>
+			    <label for="pass">Mot de passe</label>
+			    <input type="password" class="form-control" id="pass" name="pass">
 			</div>
 
 			<div>
-		        <p id="login_error">
+		        <p id="error">
 		        </p>
 		    </div>
 
-			<button type="submit" id="login_connexion" name="login_connexion" class="btn btn-primary float-right">Se connecter</button>
+			<button type="submit" id="connexion" class="btn btn-primary float-right">Se connecter</button>
 		</form>
 
 	</section>
