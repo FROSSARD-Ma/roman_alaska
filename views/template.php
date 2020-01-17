@@ -28,9 +28,9 @@
         <link href="public/css/style.css" rel="stylesheet" />
 
         <!-- Editeur TinyMCE -->
-        <script src="https://cdn.tiny.cloud/1/ere28k0sn0p2nlttwsln3rj9uaxn87hl2bck7oqstrycwl4y /tinymce/5/tinymce.min.js"referrerpolicy="origin"> </script>
-        <script>tinymce.init({selector:'textarea'});</script>
-
+        <script src="https://cdn.tiny.cloud/1/u4xff8r9ciwt2ajzu2k01zqtcwzgfjbfwiq9klhgl7cohse4 /tinymce/5/tinymce.min.js"referrerpolicy="origin"> </script>
+        <script src="public/js/tinymce.js"></script>
+        
     </head>
         
     <body>
@@ -135,8 +135,6 @@
             </div>
         </footer>
 
-      <script src="public/js/inscription.js"></script>
-      <script src="public/js/contact.js"></script>
       <script src="public/js/login.js"></script>
       <script src="public/js/main.js"></script>
 
