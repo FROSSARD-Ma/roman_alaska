@@ -12,7 +12,13 @@
 
 	<section class="row justify-content-center">
 		
-		<form method="post" action="index.php?page=addUser" id="form_inscription" novalidate>
+		<form method="post" action="index.php?page=addUser" novalidate>
+
+			<?php if(isset($_SESSION['erreur'])) { ?>
+	         	<div class="alert alert-warning" role="alert">
+					<?php echo $_SESSION['erreur']; ?>
+				</div>
+			<?php } ?>
 
 			<div class="control-group">
 		        <div class="form-group">

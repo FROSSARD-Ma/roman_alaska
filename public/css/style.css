@@ -4,15 +4,12 @@ header.masthead {
   background-image: url('../img/alaska3.jpg');
 }
 
-
-
 /* Formulaire */
-#contact_form,#inscription_form,#login_form {
+form {
   border: 1px solid #17a2b8;
   padding: 50px;
-  width: 50%;
+  width: 75%;
 }
-
 
 .alert {
 	display: block;

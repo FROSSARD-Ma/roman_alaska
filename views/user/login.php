@@ -12,7 +12,7 @@
 
 	<section class="row justify-content-center">
 		
-		<form action="index.php?page=loginUser" method="post" class="needs-validation" novalidate id="login_form">
+		<form action="index.php?page=loginUser" method="post" class="needs-validation" novalidate>
 			<div class="form-group">
 			    <label for="email">Adresse Email</label>
 			    <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp">
@@ -27,9 +27,9 @@
 				<p class="alert alert-danger" role="alert" id="error"></p>
 		    </div>
 
-	        <?php if(isset($_SESSION['message'])) { ?>
+	        <?php if(isset($_SESSION['erreur'])) { ?>
 	         	<div class="alert alert-success" role="alert">
-						<?php echo $_SESSION['message']; ?>
+					<?php echo $_SESSION['erreur']; ?>
 				</div>
 			<?php } ?>
 		    

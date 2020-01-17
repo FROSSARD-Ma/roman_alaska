@@ -5,7 +5,7 @@ class View
 {
 	private $page;
 	
-	public function __construct($page)
+	public function __construct($page = null)
 	{
 		$this->page = $page;
 	}
@@ -21,5 +21,12 @@ class View
  		$content = ob_get_clean();
  		require VIEW.'template.php';
 	}
+
+	public function redirect($route)
+	{
+		header('Location:'.HOST.'index.php?page='.$route);
+		exit;
+	}
+
 }
 ?>

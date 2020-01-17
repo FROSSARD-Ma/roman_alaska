@@ -22,6 +22,12 @@
 				<p class="alert alert-danger" role="alert" id="error"></p>
 		    </div>
 
+	        <?php if(isset($_SESSION['erreur'])) { ?>
+	         	<div class="alert alert-success" role="alert">
+					<?php echo $_SESSION['erreur']; ?>
+				</div>
+			<?php } ?>
+
 			<button type="submit" id="connexion" class="btn btn-primary float-right">Recevoir mot de passe</button>
 		</form>
 

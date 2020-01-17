@@ -96,7 +96,12 @@
         <!-- Main Content -->
         <main class="container">
             <div class="row">
-                <?= $content ?>
+              <?php if(isset($_SESSION['message'])) { ?>
+                    <div class="alert alert-success" role="alert">
+                  <?php echo $_SESSION['message']; ?>
+                </div>
+              <?php } ?>
+              <?= $content ?>
             </div>
         </main>
 
@@ -129,12 +134,12 @@
               </div>
             </div>
         </footer>
-<!--
+
       <script src="public/js/inscription.js"></script>
       <script src="public/js/contact.js"></script>
       <script src="public/js/login.js"></script>
       <script src="public/js/main.js"></script>
--->
+
       <!-- Javascript de Bootstrap -->
       <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 
@@ -150,5 +155,6 @@
 
 <?php 
   unset($_SESSION["nbComments"]);
+  unset($_SESSION["erreur"]);
   unset($_SESSION["message"]);
 ?>

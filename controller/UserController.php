@@ -37,8 +37,15 @@ class UserController
 		$userManager = new \Alaska_Model\UserManager; 
 	    $user = $userManager->creatUser($name, $firstname, $pseudo, $email);
 
-	    $nxView = new \Alaska_Model\View ('user/login');
-     	$nxView->getView();
+		$nxView = new \Alaska_Model\View();
+ 		if ($_SESSION['erreur'])
+	    {
+        	$nxView->redirect('inscription');
+	    }
+	    else 
+	    {
+			$nxView->redirect('login');
+	    }
 	}
 
 	public function inscription()
@@ -61,18 +68,14 @@ class UserController
 		$loginManager = new \Alaska_Model\UserManager; 
 	    $user = $loginManager->login($email, $pass);
 
-	    if ($_SESSION['message'])
+	    $nxView = new \Alaska_Model\View();
+	    if ($_SESSION['erreur'])
 	    {
-	    	$nxView = new \Alaska_Model\View ('user/login');
-        	$nxView->getView();
+        	$nxView->redirect('login');
 	    }
 	    else 
 	    {
-			$chapterManager = new \Alaska_Model\ChapterManager; 
-		    $chapters = $chapterManager->twoChapters();
-
-	        $nxView = new \Alaska_Model\View ('home');
-	        $nxView->getView(array ('chapters' => $chapters));
+			$nxView->redirect('home');
 	    }
 	}
 
@@ -82,12 +85,8 @@ class UserController
 		unset($_SESSION['user']); 
 		unset($_SESSION['role']);
 
-		// Affichage page HOME
-        $chapterManager = new \Alaska_Model\ChapterManager; 
-	    $chapters = $chapterManager->twoChapters();
-
-        $nxView = new \Alaska_Model\View ('home');
-        $nxView->getView(array ('chapters' => $chapters));
+		$nxView = new \Alaska_Model\View();
+		$nxView->redirect('home');
 	}
 
 	public function nxPass()
@@ -103,11 +102,14 @@ class UserController
 		$loginManager = new \Alaska_Model\UserManager; 
 	    $user = $loginManager->nxPass($email);
 
-	    $nxView = new \Alaska_Model\View ('user/login');
-        $nxView->getView();
-
-
-
-
+	    $nxView = new \Alaska_Model\View();
+	    if ($_SESSION['erreur'])
+	    {
+        	$nxView->redirect('nxPass');
+	    }
+	    else 
+	    {
+			$nxView->redirect('login');
+	    }
 	}
 }

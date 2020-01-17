@@ -7,17 +7,37 @@ class UserManager extends Manager
 
 	public function creatUser($name, $firstname, $pseudo, $email)
 	{
-		$sql ='INSERT INTO alaska_users(name_user, firstname_user, pseudo_user, email_user) 
-            VALUES(:name,:firstname,:pseudo,:email)';
+		// Vérifier si USER existe déjà 
+		$sql ='SELECT *
+            FROM alaska_users 
+            WHERE email_user = ?';
+        $datas = $this->reqSQL($sql, array ($email), $one = true);
+		if ($datas)
+		{
+			$_SESSION['erreur'] = "Vous êtes déjà inscrit sur le Roman en ligne - Un Billet pour l'Alaska avec cet Email !";
+		}
+		else 
+		{
+			// Ajout du nouveau USER
+			$sql ='INSERT INTO alaska_users(name_user, firstname_user, pseudo_user, email_user) 
+	            VALUES(:name,:firstname,:pseudo,:email)';
 
-        $req = $this->getPDO()->prepare($sql); // Requete PREPARE
+	        $req = $this->getPDO()->prepare($sql); // Requete PREPARE
 
-        // On lie les variables aux paramètres de la requête préparée
-	    $req->bindValue(':name',   		$name, PDO::PARAM_STR);
-	    $req->bindValue(':firstname', 	$firstname, PDO::PARAM_STR);
-	    $req->bindValue(':pseudo',    	$pseudo, PDO::PARAM_STR);  
-	    $req->bindValue(':email',     	$email, PDO::PARAM_STR); 
-        $req->execute();
+	        // On lie les variables aux paramètres de la requête préparée
+		    $req->bindValue(':name',   		$name, PDO::PARAM_STR);
+		    $req->bindValue(':firstname', 	$firstname, PDO::PARAM_STR);
+		    $req->bindValue(':pseudo',    	$pseudo, PDO::PARAM_STR);  
+		    $req->bindValue(':email',     	$email, PDO::PARAM_STR); 
+	        $req->execute();
+
+	        // Envoi Email avec PASS
+
+
+
+	        // Message d'info
+	        $_SESSION['message'] = 'Vous êtes inscrit, vous allez recevoir votre mot de passe par email !';
+	    }
 	}
 
 	public function login($email, $pass)
@@ -38,12 +58,12 @@ class UserManager extends Manager
 		        $_SESSION['role'] = $nxUser->getRole();
 		    }
 		    else {
-		        $_SESSION['message'] = 'Mauvais mot de passe !';
+		        $_SESSION['erreur'] = 'Mauvais mot de passe !';
 		    }
 		}
 		else
 		{
-		    $_SESSION['message'] = 'Mauvais email';
+		    $_SESSION['erreur'] = 'Mauvais email';
 		}
 	}
 
@@ -104,8 +124,12 @@ class UserManager extends Manager
 	        	$headers.= "MIME-Version: 1.0\n";
 	        	$headers.= "Content-type: text/html; charset=utf-8\n";
 	    
-	            mail($verif_mail, $subject, $message, $headers) or $_SESSION['message']= "Problème d'envoi d'email";    
+	            mail($verif_mail, $subject, $message, $headers) or $_SESSION['erreur']= "Problème d'envoi d'email";    
 			}
+		}
+		else
+		{
+		    $_SESSION['erreur'] = 'Mauvais email';
 		}
 	}
 
