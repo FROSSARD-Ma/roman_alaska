@@ -12,7 +12,7 @@
 
 	<section class="row justify-content-center">
 		
-		<form method="post" action="index.php?page=addUser" novalidate>
+		<form method="post" action="index.php?page=creatUser" id="inscription_form" novalidate>
 
 			<?php if(isset($_SESSION['erreur'])) { ?>
 	         	<div class="alert alert-warning" role="alert">
@@ -22,35 +22,35 @@
 
 			<div class="control-group">
 		        <div class="form-group">
-		          	<label for="name">Nom</label>
-		          	<input type="text" class="form-control" placeholder="Nom" id="name" name="name"required>
+		          	<label for="inscription_name">Nom</label>
+		          	<input type="text" class="form-control" placeholder="Nom" id="inscription_name" name="name"required>
 		        </div>
 		    </div>
 
 		    <div class="control-group">
 		        <div class="form-group">
-		          <label for="firstname">Prénom</label>
-		          <input type="text" class="form-control" placeholder="Prénom" id="firstname" name="firstname"required>
+		          <label for="inscription_firstname">Prénom</label>
+		          <input type="text" class="form-control" placeholder="Prénom" id="inscription_firstname" name="firstname"required>
 		        </div>
 		    </div>
 
 		    <div class="control-group">
 		        <div class="form-group">
-		          <label for="pseudo">Pseudo</label>
-		          <input type="text" class="form-control" placeholder="Pseudo" id="pseudo" name="pseudo"required>
+		          <label for="inscription_pseudo">Pseudo</label>
+		          <input type="text" class="form-control" placeholder="Pseudo" id="inscription_pseudo" name="pseudo"required>
 		        </div>
 		    </div>
 
 			<div class="form-group">
-			    <label for="email">Adresse Email</label>
-			    <input type="email" class="form-control" placeholder="Email" id="email" name="email"required>
+			    <label for="inscription_email">Adresse Email</label>
+			    <input type="email" class="form-control" placeholder="Email" id="inscription_email" name="email"required>
 			</div>
 
 			<div>
-				<p class="alert alert-danger" role="alert" id="error"></p>
+				<p class="alert alert-danger" role="alert" id="inscription_error"></p>
 		    </div>
 
-			<button type="submit" id="btnForm" class="btn btn-primary float-right">Je m'inscris</button>
+			<button type="submit" id="inscription_btnForm" class="btn btn-primary btn-sm float-right">Je m'inscris</button>
 		</form>
 
 	</section>

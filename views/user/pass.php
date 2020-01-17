@@ -12,14 +12,14 @@
 
 	<section class="row justify-content-center">
 		
-		<form action="index.php?page=creatPass" method="post" class="needs-validation" novalidate id="nxPassForm">
+		<form action="index.php?page=creatPass" method="post" class="needs-validation" novalidate id="nxPass_form">
 			<div class="form-group">
-			    <label for="email">Adresse Email</label>
-			    <input type="email" class="form-control" id="email" name="email" placeholder="Entrer votre adresse Email" aria-describedby="emailHelp">
+			    <label for="nxPass_email">Adresse Email</label>
+			    <input type="email" class="form-control" id="nxPass_email" name="email" placeholder="Entrer votre adresse Email" aria-describedby="emailHelp">
 			</div>
 
 			<div>
-				<p class="alert alert-danger" role="alert" id="error"></p>
+				<p class="alert alert-danger" role="alert" id="nxPass_error"></p>
 		    </div>
 
 	        <?php if(isset($_SESSION['erreur'])) { ?>
@@ -28,7 +28,7 @@
 				</div>
 			<?php } ?>
 
-			<button type="submit" id="connexion" class="btn btn-primary float-right">Recevoir mot de passe</button>
+			<button type="submit" id="nxPass_btnForm" class="btn btn-primary float-right">Recevoir mot de passe</button>
 		</form>
 
 	</section>
