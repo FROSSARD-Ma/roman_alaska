@@ -4,6 +4,7 @@ use \PDO;
 
 class UserManager extends Manager
 {
+
 	public function addUser($name, $firstname, $pseudo, $email)
 	{
 		$sql ='INSERT INTO alaska_users(name_user, firstname_user, pseudo_user, email_user) 
@@ -21,6 +22,16 @@ class UserManager extends Manager
 		return $datas;
 	}
 
+	public function existUser($email)
+	{
+ 		// Récupération de l'utilisation l'EMAIl utilisateur 
+		$sql ='SELECT *
+            FROM alaska_users 
+            WHERE email_user = ?';
+        $data = $this->reqSQL($sql, array ($email), $one = true);
+       	return $data;
+	}
+
 	public function addPass($email)
 	{
 		// Génération d'un mot de passe aléatoire  de 8 caractères  
@@ -33,7 +44,12 @@ class UserManager extends Manager
             $car = $chaine[$pos]; 
             $nwPass .= $car;
         }
+        $_SESSION['nxPass'] = $nwPass;
         // cryptage Nouveau mot de passe
+        /**
+		* Hacher MDP en utiliant l'algorithme par défaut = BCRYPT, chaîne 60 caractères
+		* caractères d'une longueur de 60 caractères.
+		*/
        	$nxPassCrypt = password_hash($nwPass, PASSWORD_DEFAULT);
 
  		// Update dans la BDD
@@ -43,10 +59,6 @@ class UserManager extends Manager
 	    $data->bindValue(':email',$email, PDO::PARAM_STR);
 	    $data->execute();
 	    return $data;
-	}
-
-	public function getUser($id)
-	{
 	}
 
 	public function delete($id)

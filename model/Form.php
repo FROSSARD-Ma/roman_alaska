@@ -42,30 +42,8 @@ class Form extends Manager
 
     public function verifyPass($passForm, $passBDD)
     {
-    	/**
-		* Hacher MDP en utiliant l'algorithme par défaut = BCRYPT, chaîne 60 caractères
-		* caractères d'une longueur de 60 caractères.
-		*/
     	return $this->_verifyPass = password_verify($passForm, $passBDD);
     }
-
-	// public function creatPass($chaine = 'azertyuiopqsdfghjklmwxcvbn123456789')
- //    {
- //    	// Génération d'une chaine aléatoire ------------------ 
- //        $nb_lettres = strlen($chaine) - 1; // Calcule la taille d'une chaîne
- //        $nwPass = '';
- //        for($i=0; $i < 8 ; $i++) // 8 caractères
- //        {
- //        	// Génère valeur aléatoire de 8 caractères
- //            $pos = mt_rand(0, $nb_lettres); 
- //            $car = $chaine[$pos]; 
- //            $nwPass .= $car;
- //        }
-
- //        // cryptage Nouveau mot de passe
- //        return $this->_creatPass = password_hash($nwPass, PASSWORD_DEFAULT);
- //    }
-
 
 
 }
