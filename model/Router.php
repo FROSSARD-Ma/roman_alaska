@@ -6,30 +6,28 @@ class Router {
 	private $_page;
 	private $routes = [ 
 
-		// WEB SITE ---------------------------------------------------------
-		"home" 			=> ['controller'=> '\Alaska_Controller\WebsiteController', 'method'=>'home' ],
-		"about" 		=> ['controller'=> '\Alaska_Controller\WebsiteController', 'method'=>'about' ],
-		"contact" 		=> ['controller'=> '\Alaska_Controller\WebsiteController', 'method'=>'contact' ],
+		// ---- MENU Controller -----------------------------------------------------
+		"about" 		=> ['controller'=> '\Alaska_Controller\MenuController', 'method'=>'about'],
+		"home" 			=> ['controller'=> '\Alaska_Controller\MenuController', 'method'=>'home'],
+		"chapters" 		=> ['controller'=> '\Alaska_Controller\MenuController', 'method'=>'chapters' ],
+		"contact" 		=> ['controller'=> '\Alaska_Controller\MenuController', 'method'=>'contact'],
+		"inscription" 	=> ['controller'=> '\Alaska_Controller\MenuController', 'method'=>'inscription'],
+		"admin" 		=> ['controller'=> '\Alaska_Controller\MenuController', 'method'=>'admin'],
+		"login" 		=> ['controller'=> '\Alaska_Controller\MenuController', 'method'=>'login'],
+		"logout" 		=> ['controller'=> '\Alaska_Controller\MenuController', 'method'=>'logout'],
+		"page404" 		=> ['controller'=> '\Alaska_Controller\MenuController', 'method'=>'page404'],
 
-		// BOOK ------------------------------------------------------------------
-		"chapters" 		=> ['controller'=> '\Alaska_Controller\BookController', 'method'=>'chapters' ],
-		"chapter" 		=> ['controller'=> '\Alaska_Controller\BookController', 'method'=>'chapter' ],
-
-		// ADMIN => UserController ----------------------------------------------------
-		"admin" 		=> ['controller'=> '\Alaska_Controller\UserController', 'method'=>'admin'],
-		"addChapter" 	=> ['controller'=> '\Alaska_Controller\UserController', 'method'=>'addChapter'],
-		"updateChapter" => ['controller'=> '\Alaska_Controller\UserController', 'method'=>'updateChapter'],
+		// ---- USER Controller -----------------------------------------------------
+		"creatUser" 	=> ['controller'=> '\Alaska_Controller\UserController', 'method'=>'creatUser'],
 		"users" 		=> ['controller'=> '\Alaska_Controller\UserController', 'method'=>'users'],
-		/* inscription */
-		"inscription" 	=> ['controller'=> '\Alaska_Controller\UserController', 'method'=>'inscription'],
-		"addUser" 		=> ['controller'=> '\Alaska_Controller\UserController', 'method'=>'addUser'],
-		/* DAO */
-		"login" 		=> ['controller'=> '\Alaska_Controller\UserController', 'method'=>'login'],
 		"loginUser" 	=> ['controller'=> '\Alaska_Controller\UserController', 'method'=>'loginUser'],
-		"logout" 		=> ['controller'=> '\Alaska_Controller\UserController', 'method'=>'logout'],
 		"nxPass" 		=> ['controller'=> '\Alaska_Controller\UserController', 'method'=>'nxPass'],
-		"creatPass" 	=> ['controller'=> '\Alaska_Controller\UserController', 'method'=>'creatPass']
+		"creatPass" 	=> ['controller'=> '\Alaska_Controller\UserController', 'method'=>'creatPass'],
 
+		// ---- BOOK Controller -----------------------------------------------------
+		"chapter" 		=> ['controller'=> '\Alaska_Controller\BookController', 'method'=>'chapter' ],
+		"addChapter" 	=> ['controller'=> '\Alaska_Controller\UserController', 'method'=>'addChapter'],
+		"updateChapter" => ['controller'=> '\Alaska_Controller\UserController', 'method'=>'updateChapter']
 	];
 
 
@@ -52,7 +50,8 @@ class Router {
 		}
 		else
 		{
-			echo '404';
+			$nxView = new \Alaska_Model\View ('page404');
+        	$nxView->getView();
 		}
 
 

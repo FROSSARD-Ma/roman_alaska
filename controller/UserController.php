@@ -3,19 +3,82 @@ namespace Alaska_Controller;
 
 class UserController
 {
-	public function admin()
+	// ---- USER Manager -----------------------------------------------------
+	public function creatUser()
 	{
-		$chapterManager = new \Alaska_Model\ChapterManager; 
-		$chapters = $chapterManager->adminChapters(); 
+		$nxView = new \Alaska_Model\View();
 
-        $nxView = new \Alaska_Model\View ('admin/admin');
-        $nxView->getView(array ('chapters' => $chapters)); 
+		// Vérifier si USER existe déjà 
+		$mailManager = new \Alaska_Model\UserManager; 
+	    $mailExist = $mailManager->existUser($_POST['email']);
+	    if ($mailExist) 
+	    {
+			$_SESSION['message'] = "EMAIL déjà enregistré sur le Roman - Un Billet pour l'Alaska, connectez-vous ou demandez un nouveau mot de passe!";
+			$nxView->redirect('login');
 		}
+		// Form verification
+		else 
+		{
+			$name 		= $_POST['name'];
+			$firstname  = $_POST['firstname'];
+			$pseudo     = $_POST['pseudo'];
+			$email		= $_POST['email'];
 
-	public function addChapter()
-	{
-        $nxView = new \Alaska_Model\View ('admin/addChapter');
-        $nxView->getView();
+			$userManager = new \Alaska_Model\UserManager; 
+		    $creatUser = $userManager->addUser($name, $firstname, $pseudo, $email);
+
+		    // Add new user
+			if ($creatUser) 
+			{
+				// Initialisation Mot de pass
+				$passManager = new \Alaska_Model\UserManager; 
+			    $creatPass = $passManager->addPass($_POST['email']);
+			    if ($creatPass)
+			    {
+					// Récupère le mot de pass décrypté
+			    	$nwPass = $_SESSION['nxPass'];
+
+				    // Envoyer un MAIL confirmation inscription + identifiant -------------
+		            $verif_mail = $_POST['email'];
+		            $subject 	= "Identifiants - Roman, Un billet pour l'Alaska";
+		            $message	= "
+		            <html>
+			            <h1>Bienvenue sur un Billet pour l'Alaska !</h1>
+			            <p>Vous pouvez dès à présent vous connecter à votre compte avec les identifiants suivant :</p>
+			           	<p>- Votre identifiant : $verif_mail
+			           	<br>- Votre Mot de Passe : $nwPass</p>
+			           	<br>
+			           	<p>Accédez directement à votre espace de lecture à cette adresse : <a href='https://rbb0530.phpnet.org/roman_alaska/index.php?page=login'>Mon compte</a>
+			           	<br>
+			           	<p>A bientôt !</p>
+			           	<p>Jean Forteroche</p>
+		            </html>";
+		            $headers = "From: Jean Forteroche - Auteur\n";
+		        	$headers.= "MIME-Version: 1.0\n";
+		        	$headers.= "Content-type: text/html; charset=utf-8\n";
+		    
+		            mail($verif_mail, $subject, $message, $headers) or $_SESSION['erreur']= "Problème d'envoi d'email";    
+
+					$_SESSION['message'] = "Félicitations !<br>Vous êtes inscrit, vous allez recevoir vos identifiants sur l'email : ".$verif_mail."<br>Mot de passe : ".$nwPass ;
+		            unset($_SESSION["nxPass"]);
+					$nxView->redirect('login');
+			    }
+			    else
+			    {
+			    	$_SESSION['message'] = "Félicitation vous êtes bien inscrit !<br>Veuillez demander un mot de passe pour vous connecter !";
+			        $nxView->redirect('nxPass');
+			    }
+
+		    	// Message d'info
+	        	$_SESSION['message'] = 'Vous êtes inscrit, vous allez recevoir votre mot de passe par email !';
+	        	$nxView->redirect('home');
+	        }
+	        else
+	        {
+				$_SESSION['erreur'] = 'Votre inscription a échouée, veuillez recommencer !';
+	        	$nxView->redirect('inscription');
+	        }
+	    }
 	}
 
 	public function users()
@@ -27,68 +90,39 @@ class UserController
         $nxView->getView(array ('users' => $users));
 	}
 
-	public function addUser()
-	{
-		$name 		= $_POST['name'];
-		$firstname  = $_POST['firstname'];
-		$pseudo     = $_POST['pseudo'];
-		$email		= $_POST['email'];
-
-		$userManager = new \Alaska_Model\UserManager; 
-	    $user = $userManager->creatUser($name, $firstname, $pseudo, $email);
-
-		$nxView = new \Alaska_Model\View();
- 		if ($_SESSION['erreur'])
-	    {
-        	$nxView->redirect('inscription');
-	    }
-	    else 
-	    {
-			$nxView->redirect('login');
-	    }
-	}
-
-	public function inscription()
-	{
-        $nxView = new \Alaska_Model\View ('user/inscription');
-        $nxView->getView();
-	}
-
-	public function login()
-	{	
-        $nxView = new \Alaska_Model\View ('user/login');
-        $nxView->getView();
-	}
-
+	// ---- LOGIN Manager ----------------------------------------------------
 	public function loginUser()
 	{
-		$email	= $_POST['email'];
-		$pass   = $_POST['pass'];
-
-		$loginManager = new \Alaska_Model\UserManager; 
-	    $user = $loginManager->login($email, $pass);
-
-	    $nxView = new \Alaska_Model\View();
-	    if ($_SESSION['erreur'])
-	    {
-        	$nxView->redirect('login');
-	    }
-	    else 
-	    {
-			$nxView->redirect('home');
-	    }
-	}
-
-	public function logout()
-	{
-		// Déconnexion Espace membre
-		unset($_SESSION['user']); 
-		unset($_SESSION['role']);
-
 		$nxView = new \Alaska_Model\View();
-		$nxView->redirect('home');
+
+		$mailManager = new \Alaska_Model\UserManager; 
+	    $mailExist = $mailManager->existUser($_POST['email']);
+	    if ($mailExist) 
+	    {
+	    	$nxUser = new \Alaska_Model\User($mailExist);
+			// Comparaison du pass envoyé via le formulaire avec la base
+			$PassCorrect = password_verify($_POST['pass'], $nxUser->getPass());
+			
+			if ($PassCorrect)
+			{
+				$_SESSION['user'] = $nxUser->getPseudo();
+		        $_SESSION['role'] = $nxUser->getRole();
+		        $nxView->redirect('home');
+		    }
+		    else
+		    {
+		        $_SESSION['erreur'] = 'ERREUR : Le mot de passe ne correspond pas.';
+		        $nxView->redirect('login');
+		    }
+	    }
+	    else
+	    {
+	    	$_SESSION['erreur'] = "ERREUR : Cet Email n'est pas enregistré sur Roman - Un billet pour l'Alaska.";
+	    	$nxView->redirect('login');
+	    }
 	}
 
+	// ---- PASS Manager -----------------------------------------------------
 	public function nxPass()
 	{
 		$nxView = new \Alaska_Model\View ('user/pass');
@@ -97,19 +131,54 @@ class UserController
 
 	public function creatPass()
 	{
-		$email	= $_POST['email'];
+		$nxView = new \Alaska_Model\View();
 
-		$loginManager = new \Alaska_Model\UserManager; 
-	    $user = $loginManager->nxPass($email);
+		$mailManager = new \Alaska_Model\UserManager; 
+	    $mailExist = $mailManager->existUser($_POST['email']);
+	    if ($mailExist) 
+	    {
+			$passManager = new \Alaska_Model\UserManager; 
+		    $creatPass = $passManager->addPass($_POST['email']);
+		    if ($creatPass)
+		    {
+		    	// Récupère le mot de pass décrypté
+		    	$nwPass = $_SESSION['nxPass'];
 
-	    $nxView = new \Alaska_Model\View();
-	    if ($_SESSION['erreur'])
-	    {
-        	$nxView->redirect('nxPass');
-	    }
-	    else 
-	    {
-			$nxView->redirect('login');
-	    }
+		    	// Envoyer un MAIL avec nx pass --------------------------------------
+	            $verif_mail = $_POST['email'];
+	            $subject 	= "Mot de passe - Roman, Un billet pour l'Alaska";
+	            $message	= "
+	            <html>
+			            <h1>Bienvenue sur un Billet pour l'Alaska !</h1>
+			            <p>Vous pouvez dès à présent vous connecter à votre compte avec les identifiants suivant :</p>
+			           	<p>- Votre identifiant : $verif_mail
+			           	<br>- Votre Mot de Passe : $nwPass</p>
+			           	<br>
+			           	<p>Accédez directement à votre espace de lecture à cette adresse : <a href='https://rbb0530.phpnet.org/roman_alaska/index.php?page=login'>Mon compte</a>
+			           	<br>
+			           	<p>A bientôt !</p>
+			           	<p>Jean Forteroche</p>
+		            </html>";
+	            $headers = "From: Jean Forteroche - Auteur\n";
+	        	$headers.= "MIME-Version: 1.0\n";
+	        	$headers.= "Content-type: text/html; charset=utf-8\n";
+	    
+	            mail($verif_mail, $subject, $message, $headers) or $_SESSION['erreur']= "Problème d'envoi d'email";    
+
+				$_SESSION['message'] = "Vous allez recevoir votre nouveau mot de passe sur votre email : ".$verif_mail."<br>Mot de passe : ".$nwPass ;
+	            unset($_SESSION["nxPass"]);
+				$nxView->redirect('login');
+		    }
+		    else
+		    {
+		    	$_SESSION['erreur'] = "ECHEC sur l'enregistrement du nouveau mot de passe n'a pas, veuillez en demander un nouveau ";
+		        $nxView->redirect('nxPass');
+		    }
+	   	}
+	   	else
+	   	{
+	   		$_SESSION['erreur'] = "ERREUR : Cet Email n'est pas enregistré sur Roman - Un billet pour l'Alaska.";
+	    	$nxView->redirect('nxPass');
+	   	}  
 	}
 }

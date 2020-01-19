@@ -3,17 +3,7 @@ namespace Alaska_Controller;
 
 class BookController
 {
-
-   	// CHAPTERS ---------------------------------
-	public function chapters()
-	{
-		$chapterManager = new \Alaska_Model\ChapterManager; 
-		$chapters = $chapterManager->getChapters(); 
-
-	    $nxView = new \Alaska_Model\View ('book/chapters');
-        $nxView->getView(array ('chapters' => $chapters)); // creat datas to View
-	}
-
+   	// ---- CHAPTERS Manager -----------------------------------------------------
 	public function chapter()
 	{	
 		if (isset($_GET['id']))
@@ -27,13 +17,24 @@ class BookController
 		    $nxView = new \Alaska_Model\View ('book/chapter');
 	        $nxView->getView(array (
 	        	'chapter' => $chapter, 
-	        	'comments'=> $comments)
-	        ); // creat datas to View
+	        	'comments'=> $comments));
 	    }
 	    else
 	    {
             $chapter = new \Alaska_Model\Chapter();
         }     
 	}
+
+	public function addChapter()
+	{
+        $nxView = new \Alaska_Model\View ('admin/addChapter');
+        $nxView->getView();
+	}
+
+	public function updateChapter()
+	{
+	}
+	
+	// ---- COMMENTS Manager -----------------------------------------------------
 
 }
