@@ -159,8 +159,6 @@ class BookController
 	    {
 	    	$_SESSION['erreur'] = "ECHEC : le commentaire n'est pas identifié !";
         }
-
-
 	}
 
 	/* ---- SIGNALS Manager ------------------------------------------------- */
@@ -171,18 +169,6 @@ class BookController
 		
 		$signalManager = new \Alaska_Model\SignalManager;
 	    $signalComment = $signalManager->addSignal($id);
-    	if ($signalComment)
-		{
-			echo  'OK';
-			// Enregistrement du signalement
-			$_SESSION['message'] = "Votre signalement a été pris en compte, l'auteur va en être informé !<br>
-				Merci.";
-		}
-		else
-		{
-			echo  'NO';
-			$_SESSION['erreur'] = "Votre signalement n'a pas été pris en compte, veuillez recommancer !";
-		}
 
 		$nxView = new \Alaska_Model\View();
 		$nxView->redirect('chapters');
@@ -191,12 +177,13 @@ class BookController
 
 	public function delSignal($params)
 	{
-		if (isset($_SESSION['userId']))
-		{
-		}
-		else {
+		extract($params); // recup $id dans url
 
-		}
+		$signalManager = new \Alaska_Model\SignalManager;
+	    $delSignal = $signalManager->deleteSignal($id);
+	   
+		$nxView = new \Alaska_Model\View();
+		$nxView->redirect('admin/admin');
 	}		
 	
 

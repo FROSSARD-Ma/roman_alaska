@@ -23,40 +23,50 @@ class SignalManager extends Manager
     /*---  READ -------------------------------------------------------- */
     public function getSignals()
     {
-        $sql ='SELECT alaska_comments.*, alaska_users.pseudo_user
-            FROM alaska_comments
-                JOIN alaska_signals
-                ON alaska_signals.id_comment = alaska_comments.id_comment
-                JOIN alaska_users
-                ON alaska_users.id_user=alaska_signals.id_user';
-        $datas = $this->reqSQL($sql);
-        foreach ($datas as $data ) {
-            $comment = new \Alaska_Model\Comment($data);
-            $comments[] = $comment; // Tableau d'objet
+        $sql ='SELECT alaska_signals.*, alaska_comments.content_comment,alaska_comments.chapterId_comment
+            FROM alaska_signals
+                JOIN alaska_comments
+                ON alaska_comments.id_comment = alaska_signals.id_comment
+            GROUP BY alaska_comments.id_comment';
+        $datas = $this->getPDO()->query($sql);
+        $datas->execute();
+        while ($data = $datas->fetch(PDO::FETCH_ASSOC))
+        {
+            $countSignal = implode($this->countSignals($data['id_comment']));
+            $signal = new \Alaska_Model\Signal();
+
+            $signal->setSignalId($data['id_signal']);
+            $signal->setCommentId($data['id_comment']);
+            $signal->setUserId($data['id_user']);
+            $signal->setChapterId($data['chapterId_comment']);
+            $signal->setComment($data['content_comment']);
+            $signal->setCountSignal($countSignal);
+            $signals[] = $signal; // tableau d'objet
         }
-        return $comments;
+        return $signals;
     }
+
     public function countSignals($id)
     {
         $idComment = (int)$id;
         $sql ='SELECT COUNT(*)
             FROM alaska_signals 
             WHERE id_comment = ?';
-        $count = $this->reqSQL($sql, array ($idComment), $one = true);
-        return $count;
+        $countSignals = $this->reqSQL($sql, array ($idComment), $one = true);
+        
+        return $countSignals;
     }
-
-    /*---  UPDATE -------------------------------------------------------- */
-
 
     /*---  DELETE -------------------------------------------------------- */
     public function deleteSignal($id)
     {
-        $idSignal = (int)$id;
-        $sql ='DELETE FROM alaska_signals 
-            WHERE id_signal = ?';
-        $data = $this->reqSQL($sql, array ($idSignal), $one = true);
-        return $data;
+        $idComment = (int)$id;
+        $sql ='DELETE FROM alaska_signals
+            WHERE id_comment = :idComment';
+        $datas = $this->getPDO()->prepare($sql);
+        $datas->bindValue(':idComment', $idComment, PDO::PARAM_STR);
+        $datas->execute();
+        return $datas;
     }
 
 }

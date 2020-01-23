@@ -8,9 +8,12 @@ class Signal extends Manager
     private $_id_comment;
     private $_id_user;
 
-    // JOIN Table SQL Users & Comments
-    private $_pseudo_user;
+    // JOIN Table SQL Users & Chapter & Comments
+    private $_id_chapter;
     private $_comment;
+
+    // COUNT Signal
+    private $_countSignal;
 
     // Liste des GETTERS --------------------------------------
     public function getSignalId()
@@ -25,13 +28,17 @@ class Signal extends Manager
     { 
         return $this->_id_user; 
     }
-    public function getUserPseudo()
+    public function getChapterId()
     {
-        return $this->_pseudo_user;
+        return $this->_id_chapter;
     }
     public function getComment()
     {
         return $this->_comment;
+    }
+    public function getCountSignal()
+    {
+        return $this->_countSignal;
     }
     
     // Liste des SETTERS ---------------------------------------
@@ -66,12 +73,14 @@ class Signal extends Manager
             $this->_id_user = $id;
         }
     }
-    public function setUserPseudo($pseudo)
+    public function setChapterId($id)
     {
-        // chaîne de caractères ?
-        if (is_string($pseudo))
+        // convertit l'argument en nombre entier.
+        $id = (int) $id;
+        
+        if ($id > 0)
         {
-          $this->_pseudo_user = $pseudo;
+            $this->_id_chapter = $id;
         }
     }
     public function setComment($content)
@@ -80,6 +89,16 @@ class Signal extends Manager
         if (is_string($content))
         {
           $this->_comment = $content;
+        }
+    }
+    public function setCountSignal($count)
+    {
+        // convertit l'argument en nombre entier.
+        $count = (int) $count;
+        
+        if ($count > 0)
+        {
+            $this->_countSignal = $count;
         }
     }
 }
