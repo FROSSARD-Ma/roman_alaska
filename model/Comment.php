@@ -4,13 +4,14 @@ use \DateTime;
 
 class Comment extends Manager
 {
+    // Table SQL Comments
     private $_id_comment;
     private $_chapterId_comment;
     private $_userID_comment;
     private $_created_comment;
     private $_content_comment;
-    private $_signal_comment;
-    private $_read_comment;
+    
+    // JOIN Pseudo de la Table SQL Users
     private $_pseudo_user;
 
     public function __construct(array $dataSQL)
