@@ -25,9 +25,20 @@ class Router {
 		"creatPass" 	=> ['controller'=> '\Alaska_Controller\UserController', 'method'=>'creatPass'],
 
 		// ---- BOOK Controller -----------------------------------------------------
-		"chapter" 		=> ['controller'=> '\Alaska_Controller\BookController', 'method'=>'chapter' ],
-		"addChapter" 	=> ['controller'=> '\Alaska_Controller\UserController', 'method'=>'addChapter'],
-		"updateChapter" => ['controller'=> '\Alaska_Controller\UserController', 'method'=>'updateChapter']
+		/* Contact */
+		"creatContact" 	=> ['controller'=> '\Alaska_Controller\BookController', 'method'=>'creatContact'],
+		/* Chapters */
+		"chapter" 		=> ['controller'=> '\Alaska_Controller\BookController', 'method'=>'chapter'],
+		"addChapter" 	=> ['controller'=> '\Alaska_Controller\BookController', 'method'=>'addChapter'],
+		"creatChapter" 	=> ['controller'=> '\Alaska_Controller\BookController', 'method'=>'creatChapter'],
+		"updateChapter" => ['controller'=> '\Alaska_Controller\BookController', 'method'=>'updateChapter'],
+		/* Comments */
+		"creatComment" 	=> ['controller'=> '\Alaska_Controller\BookController', 'method'=>'creatComment'],
+		"updateComment" => ['controller'=> '\Alaska_Controller\BookController', 'method'=>'updateComment'],
+		"delComment" 	=> ['controller'=> '\Alaska_Controller\BookController', 'method'=>'delComment'],
+		/* Signalements */
+		"creatSignal" => ['controller'=> '\Alaska_Controller\BookController', 'method'=>'creatSignal'],
+		"delSignal" => ['controller'=> '\Alaska_Controller\BookController', 'method'=>'delSignal']
 	];
 
 
@@ -36,25 +47,47 @@ class Router {
 		$this->_page = $page;
 	}
 
+	public function getRoute()
+	{
+		$elements = explode('/', $this->_page); // crée un chemin sous format tableau
+		return $elements[0] ; // page = premier élément de la route
+	}
+
+	public function getParams()
+	{	
+		$elements = explode('/', $this->_page); // tableau
+		// suppression du premier element (page) dans le tableau
+		unset($elements[0]); 
+		// récupère les PARAMS
+		for ($i=1; $i<count($elements); $i++)
+		{
+			$params[$elements[$i]] = $elements[$i+1];
+			$i++;
+		}
+		// si pas de PARAMS, instancier PARAMS à null
+		if (!isset($params)) $params = null;
+
+		return $params;
+	}	
+
 	public function getController()
 	{
-		$_page = $this->_page;
+		$route = $this->getRoute();
+		$params = $this->getParams();
 
-		if (key_exists($_page, $this->routes))
+		if (key_exists($route, $this->routes))
 		{
-			$controller = $this->routes[$_page]['controller'];
-			$method		= $this->routes[$_page] ['method'];
+			$controller = $this->routes[$route]['controller'];
+			$method		= $this->routes[$route]['method'];
 
 			$currentController = new $controller();
-			$currentController->$method();
+			$currentController->$method($params);
 		}
 		else
 		{
 			$nxView = new \Alaska_Model\View ('page404');
         	$nxView->getView();
 		}
-
-
 	}
 
 }

@@ -4,13 +4,13 @@ namespace Alaska_Controller;
 class MenuController
 {
     // ---- MENU Manager -----------------------------------------------------
-    public function about()
+    public function about($params)
     {
         $nxView = new \Alaska_Model\View ('about');
         $nxView->getView();
     }
 
-    public function home()
+    public function home($params)
     {
 		$chapterManager = new \Alaska_Model\ChapterManager; 
 	    $chapters = $chapterManager->twoChapters();
@@ -19,7 +19,7 @@ class MenuController
         $nxView->getView(array ('chapters' => $chapters));
     }
 
-    public function chapters()
+    public function chapters($params)
     {
         $chapterManager = new \Alaska_Model\ChapterManager; 
         $chapters = $chapterManager->getChapters(); 
@@ -28,34 +28,39 @@ class MenuController
         $nxView->getView(array ('chapters' => $chapters)); // creat datas to View
     }
 
-    public function contact()
+    public function contact($params)
     {
         $nxView = new \Alaska_Model\View ('contact');
         $nxView->getView();
     }
 
-    public function inscription()
+    public function inscription($params)
     {
         $nxView = new \Alaska_Model\View ('user/inscription');
         $nxView->getView();
     }
 
-    public function admin()
+    public function admin($params)
     {
         $chapterManager = new \Alaska_Model\ChapterManager; 
-        $chapters = $chapterManager->adminChapters(); 
+        $chapters = $chapterManager->adminChapters();
 
+        $signalManager = new \Alaska_Model\SignalManager; 
+        $comments = $signalManager->getSignals();    
+        
         $nxView = new \Alaska_Model\View ('admin/admin');
-        $nxView->getView(array ('chapters' => $chapters)); 
+        $nxView->getView(array (
+            'chapters' => $chapters,
+            'comments'=> $comments));
     }
 
-    public function login()
+    public function login($params)
     {   
         $nxView = new \Alaska_Model\View ('user/login');
         $nxView->getView();
     }
 
-    public function logout()
+    public function logout($params)
     {
         // Déconnexion Espace membre
         unset($_SESSION['user']); 
@@ -65,7 +70,7 @@ class MenuController
         $nxView->redirect('home');
     }
 
-    public function page404()
+    public function page404($params)
     {
         $nxView = new \Alaska_Model\View ('page404');
         $nxView->getView();
