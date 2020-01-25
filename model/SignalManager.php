@@ -6,7 +6,7 @@ class SignalManager extends Manager
 {
     //========= CRUD Signalement ======== */
 
-    /*---  CREAT -------------------------------------------------------- */
+    /*---  CREAT ------------------------------------------------------ */
     public function addSignal($idComment)
     {
         $sql ='INSERT INTO alaska_signals(id_comment, id_user) 
@@ -20,7 +20,7 @@ class SignalManager extends Manager
         return $datas;
     }
 
-    /*---  READ -------------------------------------------------------- */
+    /*---  READ ------------------------------------------------------- */
     public function getSignals()
     {
         $sql ='SELECT alaska_signals.*, alaska_comments.content_comment,alaska_comments.chapterId_comment
@@ -57,16 +57,15 @@ class SignalManager extends Manager
         return $countSignals;
     }
 
-    /*---  DELETE -------------------------------------------------------- */
+    /*---  DELETE ------------------------------------------------------ */
     public function deleteSignal($id)
     {
         $idComment = (int)$id;
-        $sql ='DELETE FROM alaska_signals
-            WHERE id_comment = :idComment';
-        $datas = $this->getPDO()->prepare($sql);
-        $datas->bindValue(':idComment', $idComment, PDO::PARAM_STR);
-        $datas->execute();
-        return $datas;
+        $sql ='DELETE FROM alaska_signals WHERE id_comment = :idComment';
+        $data = $this->getPDO()->prepare($sql);
+        $data->bindValue(':idComment', $idComment, PDO::PARAM_STR);
+        $data->execute();
+        return $data;
     }
 
 }

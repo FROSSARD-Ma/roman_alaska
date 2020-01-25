@@ -169,7 +169,7 @@ class BookController
 	    $delSignal = $signalManager->deleteSignal($id);
 	   
 		$nxView = new \Alaska_Model\View();
-		$nxView->redirect('admin/admin');
+		$nxView->redirect('admin');
 	}		
 	
 
