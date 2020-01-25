@@ -1,10 +1,11 @@
 <?php $title = 'Chapitres | Billet pour l\'Alalska'; ?>
 
 <?php 
-$id = $chapter->getId();
+$idChapter = $chapter->getId();
 $img = $chapter->getImg();
 $imgAlt = $chapter->getImgAlt();
 
+$after =  $idChapter+1;
 ?>
 
 <!-- Affichage du chapitre -->
@@ -12,7 +13,7 @@ $imgAlt = $chapter->getImgAlt();
 	
 	<h2><?=$chapter->getTitle();?></h2>
 	<header class="media">
-	    <a href="index.php?page=chapter&amp;id=<?=$id?>"><img src="public/img/chapter/<?=$img?>" alt="<?=$imgAlt?>"></a>
+	    <a href="index.php?page=chapter/id/<?=$idChapter?>"><img src="public/img/chapter/<?=$img?>" alt="<?=$imgAlt?>"></a>
 	    <div class="media-body">
 			<p><?php if ($chapter->getNum()!=0) echo 'Chapitre ' . $chapter->getNum(); ?>
 			<p>Edité le <?=$chapter->getCreated();?>
@@ -28,8 +29,8 @@ $imgAlt = $chapter->getImgAlt();
 	<article>
 		<p><?= nl2br($chapter->getContent());?></p>
 	</article>
-	<?php $after =  $id+1; ?>
-	<a href="index.php?page=chapter&amp;id=<?=$after?>" class="button">Chapitre suivant</a>
+	
+	<a href="index.php?page=chapter/id/<?=$after?>" class="button">Chapitre suivant</a>
 
 </section>
 
@@ -51,7 +52,7 @@ $imgAlt = $chapter->getImgAlt();
 	      	
 	      	<p>	      	<?php if (isset($_SESSION['user']))
 			{ ?>
-	      		<a href="index.php?page=creatSignal/id/<?=$idComment?>" class="button" onclick="javascript: return confirm('Confirmer le signalement  d\'un commentaire inapproprié ?');" title="Signaler un contenu inapproprié">Signaler</a>
+	      		<a href="index.php?page=creatSignal/id/<?=$idComment?>&amp;idChapter=<?=$idChapter?>" class="button" onclick="javascript: return confirm('Confirmer le signalement  d\'un commentaire inapproprié ?');" title="Signaler un contenu inapproprié">Signaler</a>
 	      	<?php } ?><?=$comment->getContent();?></p>
 		</section>
 		<hr>
@@ -61,7 +62,7 @@ $imgAlt = $chapter->getImgAlt();
 <!-- AJOUT commentaire -->
 <section class="container-fluid">
 
-	<?php if(isset($_SESSION['erreur'])) { ?>
+	<?php /*if(isset($_SESSION['erreur'])) { ?>
      	<div class="message erreur">
 			<?php echo $_SESSION['erreur']; ?>
 		</div>
@@ -71,7 +72,7 @@ $imgAlt = $chapter->getImgAlt();
      	<div class="message success">
 			<?php echo $_SESSION['message']; ?>
 		</div>
-	<?php } ?>
+	<?php }  */?>
 
 	<?php if(isset($_SESSION['user'])) { ?>
 

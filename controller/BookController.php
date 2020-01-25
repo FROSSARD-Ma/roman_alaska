@@ -3,7 +3,7 @@ namespace Alaska_Controller;
 
 class BookController
 {
-	// ---- CONTACT Manager -----------------------------------------------------
+	// ---- CONTACT Manager ------------------------------------ */
 	public function creatContact($params)
 	{	
 		$name 		= $_POST['name'];
@@ -37,7 +37,7 @@ class BookController
 		$nxView->redirect('contact');
 	}
 
-   	// ---- CHAPTERS Manager -----------------------------------------------------
+   	// ---- CHAPTERS Manager ------------------------------------ */
 	public function chapter($params)
 	{	
 		extract($params); // recup $id dans url
@@ -67,25 +67,21 @@ class BookController
 	        	'chapter' => $chapter, 
 	        	'comments'=> $comments));
 	    }
-		
 	}
-
 	public function addChapter($params)
 	{
         $nxView = new \Alaska_Model\View ('admin/addChapter');
         $nxView->getView();
 	}
-
 	public function creatChapter($params)
 	{
         var_dump($_POST);
 	}
-
 	public function updateChapter($params)
 	{
 	}
 	
-	// ---- COMMENTS Manager -----------------------------------------------------
+	/* ---- COMMENTS Manager ------------------------------------- */
 	public function creatComment($params)
 	{
 		if (isset($_SESSION['userId']))
@@ -107,7 +103,6 @@ class BookController
 			$nxView->redirect('login');
 		}
 	}
-
 	public function updateComment($params)
 	{
 		if (isset($_SESSION['userId']))
@@ -150,18 +145,20 @@ class BookController
         $nxView->redirect('admin');
 	}
 
-	/* ---- SIGNALS Manager ------------------------------------------------- */
+	/* ---- SIGNALS Manager ------------------------------------- */
 
 	public function creatSignal($params)
 	{
-		extract($params); // recup $id des commentaires dans url
-		
+		// recup $id des commentaires dans url
+		extract($params); 
+		// Ajout signalement
 		$signalManager = new \Alaska_Model\SignalManager;
 	    $signalComment = $signalManager->addSignal($id);
 
+		// recup GET idchapter pour retour page
+		$idChapter = $_GET['idChapter'];
 		$nxView = new \Alaska_Model\View();
-		$nxView->redirect('chapters');
-
+		$nxView->redirect('chapter/id/'.$idChapter);
 	}
 
 	public function delSignal($params)
