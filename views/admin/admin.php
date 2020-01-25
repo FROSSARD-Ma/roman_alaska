@@ -129,8 +129,8 @@
 						?>
 	                  	<tr>
 							<td class="center">
-                      			<a class="icon icon-del" href="index.php?page=delSignal/id/<?=$idComment?>" title="supprimer le signalement" onclick="javascript: return confirm('Confirmez-vous la suppression du signalement ?');">
-	                              	<i class="fas fa-trash"></i>
+                      			<a class="icon icon-del" href="index.php?page=delSignal/id/<?=$idComment?>" title="supprimer le(s) signalement(s)" onclick="javascript: return confirm('Confirmez-vous la suppression du ou des signalement(s) ?');">
+	                              	<i class="fas fa-trash"></i> <?=$signal->getCountSignal();?>
 	                          	</a>
                       		</td>
 	                  		<td class="center">
@@ -143,7 +143,7 @@
 								<?=$signal->getComment();?>	
                       		</td>
                       		<td class="center">
-	                          	<a class="icon icon-edit" href="index.php?page=updateComment/id/<?=$idComment?>" title="modifier le commentaire">
+	                          	<a class="icon icon-edit" href="index.php?page=upComment/id/<?=$idComment?>" title="modifier le commentaire">
 	                              	<i class="fas fa-pencil-alt"></i>
 	                          	</a>
 	                          	<a class="icon icon-del" href="index.php?page=delComment/id/<?=$idComment?>" title="supprimer le commentaire" onclick="javascript: return confirm('Confirmez-vous la suppression du COMMENTAIRE ?');">

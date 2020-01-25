@@ -64,7 +64,6 @@ class CommentManager extends Manager
     /*---  UPDATE -------------------------------------------------------- */
     public function updateComment($id)
     {
-        
         $idComment = (int)$id;
         $sql ='UPDATE alaska_comments SET content_comment = :contentComment WHERE  id_comment = :idComment';
         $data = $this->getPDO()->prepare($sql);
@@ -78,8 +77,7 @@ class CommentManager extends Manager
     public function deleteComment($id)
     {
         $idComment = (int)$id;
-        $sql ='DELETE FROM alaska_signals 
-            WHERE id_signal = :idComment';
+        $sql ='DELETE FROM alaska_comments WHERE id_comment = :idComment';
         $data = $this->getPDO()->prepare($sql);
         $data->bindValue(':idComment', $idComment, PDO::PARAM_STR);  
         $data->execute();

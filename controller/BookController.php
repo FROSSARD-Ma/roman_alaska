@@ -136,18 +136,18 @@ class BookController
 			$nxView = new \Alaska_Model\View();
 			$nxView->redirect('login');
 		}
-
 	}
 
 	public function delComment($params)
 	{
-		extract($params); // recup $id dans url
-
+		// recup $id du commentaire dans url
+		extract($params);
+		// Suppression du commentaire
 		$commentManager = new \Alaska_Model\CommentManager;
 	    $delComment = $commentManager->deleteComment($id);
 
 		$nxView = new \Alaska_Model\View();
-        $nxView->redirect('admin/admin');
+        $nxView->redirect('admin');
 	}
 
 	/* ---- SIGNALS Manager ------------------------------------------------- */
