@@ -25,8 +25,20 @@ class MenuController
         $chapters = $chapterManager->getChapters(); 
 
         $nxView = new \Alaska_Model\View ('book/chapters');
-        $nxView->getView(array ('chapters' => $chapters)); // creat datas to View
+        $nxView->getView(array ('chapters' => $chapters));
     }
+
+    public function upComment($params)
+    {
+        extract($params); // recup $id dans url
+
+        $commentManager = new \Alaska_Model\CommentManager();
+        $comment = $commentManager->getComment($id);
+
+        $nxView = new \Alaska_Model\View('admin/upComment');
+        $nxView->getView(array ('comment' => $comment));
+    } 
+
 
     public function contact($params)
     {
@@ -46,12 +58,12 @@ class MenuController
         $chapters = $chapterManager->adminChapters();
 
         $signalManager = new \Alaska_Model\SignalManager; 
-        $comments = $signalManager->getSignals();    
+        $signals = $signalManager->getSignals(); 
         
         $nxView = new \Alaska_Model\View ('admin/admin');
         $nxView->getView(array (
             'chapters' => $chapters,
-            'comments'=> $comments));
+            'signals'=> $signals));
     }
 
     public function login($params)
@@ -75,4 +87,6 @@ class MenuController
         $nxView = new \Alaska_Model\View ('page404');
         $nxView->getView();
     }
+
+
 }

@@ -21,6 +21,22 @@ class CommentManager extends Manager
         return $datas;
     }
     /*---  READ ---------------------------------------------------------- */
+     public function getComment($id)
+    {
+       $idComment = (int)$id;
+        $sql ='SELECT alaska_comments.*, alaska_users.pseudo_user, alaska_chapters.num_chapter,alaska_chapters.title_chapter
+            FROM alaska_comments 
+                JOIN alaska_users
+                ON alaska_comments.userID_comment=alaska_users.id_user
+                JOIN alaska_chapters
+                ON alaska_comments.chapterId_comment=alaska_chapters.id_chapter
+            WHERE id_comment = ?';
+        $datas = $this->reqSQL($sql, array ($idComment), $one = true);
+        $comment = new \Alaska_Model\Comment($datas);
+        return $comment;
+    }
+
+
     public function getComments($id)
     {
        $idChapter = (int)$id;
@@ -46,7 +62,17 @@ class CommentManager extends Manager
     }
 
     /*---  UPDATE -------------------------------------------------------- */
-
+    public function updateComment($id)
+    {
+        
+        $idComment = (int)$id;
+        $sql ='UPDATE alaska_comments SET content_comment = :contentComment WHERE  id_comment = :idComment';
+        $data = $this->getPDO()->prepare($sql);
+        $data->bindValue(':idComment', $idComment, PDO::PARAM_STR); 
+        $data->bindValue(':contentComment', $_POST['content'], PDO::PARAM_STR);
+        $data->execute();  
+        return $data;
+    }
 
     /*---  DELETE -------------------------------------------------------- */
     public function deleteComment($id)

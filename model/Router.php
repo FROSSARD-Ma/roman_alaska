@@ -16,6 +16,7 @@ class Router {
 		"login" 		=> ['controller'=> '\Alaska_Controller\MenuController', 'method'=>'login'],
 		"logout" 		=> ['controller'=> '\Alaska_Controller\MenuController', 'method'=>'logout'],
 		"page404" 		=> ['controller'=> '\Alaska_Controller\MenuController', 'method'=>'page404'],
+		"upComment" 	=> ['controller'=> '\Alaska_Controller\MenuController', 'method'=>'upComment'],
 
 		// ---- USER Controller -----------------------------------------------------
 		"creatUser" 	=> ['controller'=> '\Alaska_Controller\UserController', 'method'=>'creatUser'],

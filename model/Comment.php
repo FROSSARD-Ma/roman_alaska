@@ -11,8 +11,10 @@ class Comment extends Manager
     private $_created_comment;
     private $_content_comment;
     
-    // JOIN Pseudo de la Table SQL Users
+    // JOIN Table SQL Users - Chapters
     private $_pseudo_user;
+    private $_num_chapter;
+    private $_title_chapter;
 
     public function __construct(array $dataSQL)
     {
@@ -63,10 +65,17 @@ class Comment extends Manager
     {
         return $this->_read_comment;
     }
-
     public function getUserPseudo()
     {
         return $this->_pseudo_user;
+    }
+    public function getNumChapter()
+    {
+        return $this->_num_chapter;
+    }
+    public function getTitleChapter()
+    {
+        return $this->_title_chapter;
     }
     
     // Liste des SETTERS ---------------------------------------
@@ -137,6 +146,18 @@ class Comment extends Manager
         if (is_string($pseudo))
         {
           $this->_pseudo_user = $pseudo;
+        }
+    }
+    public function setNum($num)
+    {
+        $this->_num_chapter = $num;
+    }
+    public function setTitle($title)
+    {
+        // chaîne de caractères ?
+        if (is_string($title))
+        {
+          $this->_title_chapter = $title;
         }
     }
 }

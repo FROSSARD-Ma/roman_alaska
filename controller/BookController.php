@@ -33,45 +33,41 @@ class BookController
         mail($verif_mail, $subject, $message, $headers) or $_SESSION['erreur']= "Problème d'envoi d'email";    
 
 		$_SESSION['message'] = "Votre message a bien été envoyé à l'auteur";
-		$nxView->redirect('home');
+		
+		$nxView->redirect('contact');
 	}
 
    	// ---- CHAPTERS Manager -----------------------------------------------------
 	public function chapter($params)
 	{	
-		if (isset($_GET['id']))
+		extract($params); // recup $id dans url
+
+		$chapterManager = new \Alaska_Model\ChapterManager; 
+	    $chapter = $chapterManager->getChapter($id);
+
+	    $commentManager = new \Alaska_Model\CommentManager;
+	    $dataComments = $commentManager->getComments($id);
+    	if (!$dataComments)
 		{
-			$chapterManager = new \Alaska_Model\ChapterManager; 
-		    $chapter = $chapterManager->getChapter($_GET['id']);
-
-		    $commentManager = new \Alaska_Model\CommentManager;
-		    $dataComments = $commentManager->getComments($_GET['id']);
-	    	if (!$dataComments)
-			{
-			    $nxView = new \Alaska_Model\View ('book/chapter');
-		        $nxView->getView(array (
-		        	'chapter' => $chapter));
-		    }
-		    else
-		    {
-		    	// Création des objets commentaire
-		        foreach ($dataComments as $data ) {
-		            $comment = new \Alaska_Model\Comment($data);
-		            $comments[] = $comment; // Tableau d'objet
-		        }
-		        $_SESSION['nbComments'] = count($comments);
-
-			    $nxView = new \Alaska_Model\View ('book/chapter');
-		        $nxView->getView(array (
-		        	'chapter' => $chapter, 
-		        	'comments'=> $comments));
-		    }
-		}
+		    $nxView = new \Alaska_Model\View ('book/chapter');
+	        $nxView->getView(array (
+	        	'chapter' => $chapter));
+	    }
 	    else
 	    {
-	    	$nxView = new \Alaska_Model\View();
-            $nxView->redirect('chapters');
-        }
+	    	// Création des objets commentaire
+	        foreach ($dataComments as $data ) {
+	            $comment = new \Alaska_Model\Comment($data);
+	            $comments[] = $comment; // Tableau d'objet
+	        }
+	        $_SESSION['nbComments'] = count($comments);
+
+		    $nxView = new \Alaska_Model\View ('book/chapter');
+	        $nxView->getView(array (
+	        	'chapter' => $chapter, 
+	        	'comments'=> $comments));
+	    }
+		
 	}
 
 	public function addChapter($params)
@@ -100,30 +96,13 @@ class BookController
 			// Ajout du commentaire 
 			$commentManager = new \Alaska_Model\CommentManager();
 			$nxComment = $commentManager->addComment($chapterId, $content);
-			if ($nxComment) 
-		    {
-				$_SESSION['message'] = "Merci pour votre commentaire !";
-			}
-			else 
-			{
-				$_SESSION['erreur'] = "ERREUR : Votre commentaire n'a pas été enregistré. Veuillez recommencer !";
-			}
 
-			// Affichage de la page avec résultat de lenregistrement du commentaire
-			$chapterManager = new \Alaska_Model\ChapterManager; 
-		    $chapter = $chapterManager->getChapter($chapterId);
-
-		    $commentManager = new \Alaska_Model\CommentManager;
-		    $comments = $commentManager->getComments($chapterId);
-
-		    $nxView = new \Alaska_Model\View ('book/chapter');
-	        $nxView->getView(array (
-	        	'chapter' => $chapter, 
-	        	'comments'=> $comments));
+			$nxView = new \Alaska_Model\View();
+        	$nxView->redirect('chapter/id/'.$chapterId);
 		}
 		else 
 		{
-			$_SESSION['erreur'] = "Seul les lecteurs enregistrés peuvent ajouter un commentaire !<br>Identifiez-vous";
+			// Redirection vers la page identification
 			$nxView = new \Alaska_Model\View();
 			$nxView->redirect('login');
 		}
@@ -131,41 +110,51 @@ class BookController
 
 	public function updateComment($params)
 	{
-		
+		if (isset($_SESSION['userId']))
+		{
+			// recup $id du commentaire dans url
+			extract($params); 
+			// Modification du commentaire 
+			$commentManager = new \Alaska_Model\CommentManager();
+			$upComment = $commentManager->updateComment($id);
+			if ($upComment)
+			{
+				// Retour page admin
+		        $nxView = new \Alaska_Model\View();
+	        	$nxView->redirect('admin');
+			}
+			else 
+			{
+				// Erreur : retour sur modif commentaire
+				$nxView = new \Alaska_Model\View();
+				$nxView->redirect('upComment/id/'.$id);
+			}
+		}
+		else 
+		{
+			// Redirection vers la page identification
+			$nxView = new \Alaska_Model\View();
+			$nxView->redirect('login');
+		}
+
 	}
 
 	public function delComment($params)
 	{
-		$nxView = new \Alaska_Model\View();
+		extract($params); // recup $id dans url
 
-		if (isset($_GET['id']))
-		{
-			$commentId 	= $_GET['id'];
-			$commentManager = new \Alaska_Model\CommentManager;
-		    $delComment = $commentManager->deleteComment($commentId);
-    
-		    if ($delComment) 
-		    {
-				$_SESSION['message'] = "Le commentaire a bien été supprimé !";
-				$nxView->redirect('admin');
-			}
-			// Form verification
-			else 
-			{
-				$_SESSION['erreur'] = "ECHEC : le commentaire n'a pas été supprimé !";
-			}
-		}
-		else
-	    {
-	    	$_SESSION['erreur'] = "ECHEC : le commentaire n'est pas identifié !";
-        }
+		$commentManager = new \Alaska_Model\CommentManager;
+	    $delComment = $commentManager->deleteComment($id);
+
+		$nxView = new \Alaska_Model\View();
+        $nxView->redirect('admin/admin');
 	}
 
 	/* ---- SIGNALS Manager ------------------------------------------------- */
 
 	public function creatSignal($params)
 	{
-		extract($params); // recup $id dans url
+		extract($params); // recup $id des commentaires dans url
 		
 		$signalManager = new \Alaska_Model\SignalManager;
 	    $signalComment = $signalManager->addSignal($id);
