@@ -1,19 +1,22 @@
 <?php
 namespace Alaska_Model;
+use \PDO;
 
 class ChapterManager extends Manager
 {
     //========= CRUD Chapitre ======== */
 
     /*---  AJOUT Chapitre  ------------------- */
-    public function addChapter($chapterNum, $chapterTitle, $chapterContent, $chapterImg, $chapterImgAlt, $chapterStatut)
+    public function addChapter($title, $texte)
     {
-        $sql ='INSERT INTO alaska_chapters($num_chapter, $title_chapter, $content_chapter, $img_chapter, $imgAlt_chapter, $statut_chapter) 
-            VALUES(?,?,?,?,?,?)';
-
-        $datas = $this->reqSQL($sql, array ($chapterNum, $chapterTitle, $chapterContent, $chapterImg, $chapterImgAlt, $chapterStatut), $one = true);
-        $chapter = new \Alaska_Model\Chapter($datas);
-        return $chapter;
+        $sql ='INSERT INTO alaska_chapters(title_chapter, content_chapter) 
+            VALUES(:title, :texte)';
+        $datas = $this->getPDO()->prepare($sql);
+        // On lie les variables aux paramètres de la requête préparée
+        $datas->bindValue(':title', $title, PDO::PARAM_STR);
+        $datas->bindValue(':texte', $texte, PDO::PARAM_STR);  
+        $datas->execute();
+        return $datas;
     }
 
     /*---  MODIFICATION Chapitre  ------------------- */
@@ -86,9 +89,17 @@ class ChapterManager extends Manager
             ORDER BY num_chapter ASC';
         $datas = $this->reqSQL($sql);
 
+        // Chapters List
         foreach ($datas as $data ) {
             $chapter = new \Alaska_Model\Chapter($data);
             $chapters[] = $chapter; // Tableau d'objet
+        }
+        // Count Comments
+        foreach ($chapters as $chapter ) {
+            $countManager = new \Alaska_Model\CommentManager;
+            $count[$chapter->getId()] = $countManager->countComments($chapter->getId());
+            
+            //if ($count > 0) echo $count;
         }
         return $chapters;
     }

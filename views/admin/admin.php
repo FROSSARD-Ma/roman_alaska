@@ -8,11 +8,7 @@
 
 		<p>Ac ne quis a nobis hoc ita dici forte miretur, quod alia quaedam in hoc facultas sit ingeni, neque haec dicendi ratio aut disciplina, ne nos quidem huic uni studio penitus umquam dediti fuimus. Etenim omnes artes, quae ad humanitatem pertinent, habent quoddam commune vinculum, et quasi cognatione quadam inter se continentur.</p>
 
-		<?php if(isset($_SESSION['erreur'])) { ?>
-         	<div class="message success">
-				<?php echo $_SESSION['erreur']; ?>
-			</div>
-		<?php } ?>
+		<?php //Message::displayMsg(); ?>
 
 	</section>
 
@@ -35,16 +31,16 @@
 		                    <th style="width: 30%">
 		                        Titre
 		                    </th>
-		                    <th style="width: 28%">
+		                    <th style="width: 25%">
 		                        Parution
 		                    </th>
-		                    <th style="width: 15%" class="center">
+		                    <th style="width: 15%">
 		                        Status
 		                    </th>
 		                    <th style="width: 15%" class="center">
 		                        Commentaires
 		                    </th>
-		                    <th style="width: 10%" class="center">
+		                    <th style="width: 14%">
 		                    	Gestion
 		                    </th>
 	                  	</tr>
@@ -64,7 +60,7 @@
 		                      		<br/>
 	                          		<small>modifié le <?=$chapter->getModified();?></small>
 	                      		</td>
-	                      		<td class="center">
+	                      		<td>
 
 	                      			<?php if ($chapter->getStatut()=='remove') { ?>
 	                          			<span class="badge badge-danger">Corbeille</span>
@@ -77,13 +73,18 @@
 	                      		<td class="center">
 	                      			<?php if ($count > 0) echo $count; ?>
 	                      		</td>
-	                      		<td class="center">
+	                      		<td>
 		                          	<a class="icon icon-edit" href="index.php?page=chapter&amp;id=<?=$id?>" title="Voir le chapitre">
 		                              	<i class="fas fa-eye"></i>
 		                          	</a>
 		                          	<a class="icon icon-edit" href="#" title="Editer le chapitre">
 		                              	<i class="fas fa-pencil-alt"></i>
 		                          	</a>
+		                          	<?php if ($chapter->getStatut()=='remove') { ?>
+										<a class="icon icon-del" href="index.php?page=.../id/<?=$idChapter?>" title="supprimer DÉFINITIVEMENT le chapitre" onclick="javascript: return confirm('Confirmez-vous la suppression du COMMENTAIRE ?');">
+	                              		<i class="fas fa-trash"></i>
+	                          			</a>
+		                          	<? } ?>
 		                      	</td>
 		                  	</tr>
 	                  <?php endforeach ?>

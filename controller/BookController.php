@@ -6,34 +6,48 @@ class BookController
 	// ---- CONTACT Manager ------------------------------------ */
 	public function creatContact($params)
 	{	
-		$name 		= $_POST['name'];
-		$email		= $_POST['email'];
-		$contact     = $_POST['message'];
+		$nxMsg = new \Alaska_Model\Message();
+
+		if ((!empty($_POST['name']))||(!empty($_POST['email']))||(!empty($_POST['message'])))
+		{
+			$name = $_POST['name'];
+			$email = $_POST['email'];
+			$contact = $_POST['message'];
+
+			// Envoyer un MAIL de contact -------------
+	        $to = "marie@spotsweb.fr";
+	        $subject 	= "Contact - Roman, Un billet pour l'Alaska";
+	        $message	= "
+	        <html>
+	            <h1>Message sur un Billet pour l'Alaska !</h1>
+	            <p>Vous avez reçu un message du lecteur, $name</p>
+	           	<p>Message :<br>
+	           	$contact</p>
+	           	<hr>
+	           	<p><a href='mailto:$email'>Répondre au lecteur</a></p>
+	           	<br>
+	           	<p>Roman - Un Billet pour l'Alaska<br>Jean Forteroche</p>
+	        </html>";
+	        
+	    	$headers[] = "MIME-Version: 1.0";
+	    	$headers[] = "Content-type: text/html; charset=utf-8";
+			$headers[] = "From: Jean Forteroche - Lecteur";
+
+	        if (mail($to, $subject, $message, implode("\r\n", $headers)))
+	        {
+				$nxMsg->newMsg('Votre message a bien été envoyé à l\'auteur', 'success');
+	        }
+	        else 
+	        {
+	        	$nxMsg->newMsg('Problème d\'envoi d\'email : votre message n\'a pas été envoyé', 'error');
+	        }
+		}
+		else
+		{	
+	        $nxMsg->newMsg('Tous les champs doivent être renseignés', 'error');
+		}
 
 		$nxView = new \Alaska_Model\View();
-
-		// Envoyer un MAIL de contact -------------
-        $verif_mail = "marie@spotsweb.fr";
-        $subject 	= "Message - Roman, Un billet pour l'Alaska";
-        $message	= "
-        <html>
-            <h1>Message sur un Billet pour l'Alaska !</h1>
-            <p>Vous avez reçu un message du lecteur, $name</p>
-           	<p>Message :<br>
-           	$contact</p>
-           	<hr>
-           	<p><a href='mailto:$email'>Répondre au lecteur</a></p>
-           	<br>
-           	<p>Roman - Un Billet pour l'Alaska<br>Jean Forteroche</p>
-        </html>";
-        $headers = "From: Jean Forteroche - Lecteur\n";
-    	$headers.= "MIME-Version: 1.0\n";
-    	$headers.= "Content-type: text/html; charset=utf-8\n";
-
-        mail($verif_mail, $subject, $message, $headers) or $_SESSION['erreur']= "Problème d'envoi d'email";    
-
-		$_SESSION['message'] = "Votre message a bien été envoyé à l'auteur";
-		
 		$nxView->redirect('contact');
 	}
 
@@ -75,7 +89,46 @@ class BookController
 	}
 	public function creatChapter($params)
 	{
-        var_dump($_POST);
+        // Initialisation message & view 
+        $nxMsg = new \Alaska_Model\Message();
+        $nxView = new \Alaska_Model\View();
+
+        if (isset($_SESSION['userId']))
+		{
+			if ((!empty($_POST['title']))||(!empty($_POST['texte'])))
+			{
+				// Convertit tous les caractères éligibles en entités HTML + guillemets
+				$title 	= htmlentities($_POST['title'], ENT_QUOTES);
+				$texte 	= htmlentities($_POST['texte'], ENT_QUOTES);
+
+				// Ajout du chapitre 
+				$chapterManager = new \Alaska_Model\ChapterManager();
+				$nxChapter = $chapterManager->addChapter($title, $texte);
+
+				// Message d'info
+				if($nxChapter)
+				{
+					$nxMsg->newMsg('Votre chapitre a bien été créé,<br>Vous pouvez dès à présent le modifier et paramétrer son status.', 'success');
+				}
+				else
+				{
+					$nxMsg->newMsg('ERREUR : votre chapitre n\'a pas été créé', 'error');
+				}
+				// Retour page Admin
+	        	$nxView->redirect('admin');
+			}
+			else
+			{	
+		        $nxMsg->newMsg('Tous les champs doivent être renseignés', 'error');
+			}
+		}
+		else 
+		{
+			// Redirection vers la page identification
+			$nxView->redirect('login');
+		}
+
+
 	}
 	public function updateChapter($params)
 	{
@@ -132,7 +185,6 @@ class BookController
 			$nxView->redirect('login');
 		}
 	}
-
 	public function delComment($params)
 	{
 		// recup $id du commentaire dans url
@@ -146,7 +198,6 @@ class BookController
 	}
 
 	/* ---- SIGNALS Manager ------------------------------------- */
-
 	public function creatSignal($params)
 	{
 		// recup $id des commentaires dans url
@@ -160,7 +211,6 @@ class BookController
 		$nxView = new \Alaska_Model\View();
 		$nxView->redirect('chapter/id/'.$idChapter);
 	}
-
 	public function delSignal($params)
 	{
 		extract($params); // recup $id dans url
@@ -171,6 +221,4 @@ class BookController
 		$nxView = new \Alaska_Model\View();
 		$nxView->redirect('admin');
 	}		
-	
-
 }
