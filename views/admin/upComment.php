@@ -20,7 +20,7 @@
 				<p><strong>Chapitre n°</strong> <?=$comment->getNumChapter();?> : 
 					<?=$comment->getTitleChapter();?></p>
 				<div class="form-group">
-				    <label for="upComment_user">Commentaire créé par <?=$comment->getUserPseudo();?> le <?=$comment->getCreated();?></label>
+				    <p>Commentaire créé par <?=$comment->getUserPseudo();?> le <?=$comment->getCreated();?></p>
 				    <textarea rows="6" class="form-input" id="upComment_comment" name="content" placeholder="Laisser un commentaire" value="<?=$contentComment?>"required><?=$contentComment?></textarea>
 				</div>
 
