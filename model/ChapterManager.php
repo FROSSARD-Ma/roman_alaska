@@ -28,12 +28,20 @@ class ChapterManager extends Manager
             FROM alaska_chapters
             WHERE statut_chapter="Publié" 
             ORDER BY num_chapter ASC';
-
         $datas = $this->reqSQL($sql);
+
         foreach ($datas as $data ) {
             $chapter = new \Alaska_Model\Chapter($data);
+            $idChapter = $chapter->getId();
+
+            // Count Comment du chapitre
+            $commentManager = new \Alaska_Model\CommentManager;
+            $countComment = $commentManager->countComments($idChapter);
+            $chapter->setCountComment($countComment);
+
             $chapters[] = $chapter; // Tableau d'objet
         }
+        
         return $chapters;
     }
    
@@ -46,7 +54,19 @@ class ChapterManager extends Manager
             FROM alaska_chapters 
             WHERE id_chapter = ?';
         $datas = $this->reqSQL($sql, array ($idChapter), $one = true);
+
+        // ID chapitre SUIVANT - PRECEDENT
+        $prevID = $this->prevChapter($idChapter);
+        $nextID = $this->nextChapter($idChapter);
+        // Count Comment du chapitre
+        $commentManager = new \Alaska_Model\CommentManager;
+        $countComment = $commentManager->countComments($idChapter);
+
         $chapter = new \Alaska_Model\Chapter($datas);
+        // hydratation avec datas + 
+        $chapter->setPrevChapter($prevID);
+        $chapter->setNextChapter($nextID);
+        $chapter->setCountComment($countComment);
         return $chapter;
     }
 
@@ -58,10 +78,17 @@ class ChapterManager extends Manager
         WHERE statut_chapter ="Publié" 
         ORDER BY num_chapter DESC
         LIMIT 0,'.$limit;
-        
         $datas = $this->reqSQL($sql);
+        // Two Chapters List
         foreach ($datas as $data ) {
             $chapter = new \Alaska_Model\Chapter($data);
+            $idChapter = $chapter->getId();
+
+            // Count Comment du chapitre
+            $commentManager = new \Alaska_Model\CommentManager;
+            $countComment = $commentManager->countComments($idChapter);
+            $chapter->setCountComment($countComment);
+
             $chapters[] = $chapter; // Tableau d'objet
         }
         return $chapters;
@@ -77,6 +104,13 @@ class ChapterManager extends Manager
         // Chapters List
         foreach ($datas as $data ) {
             $chapter = new \Alaska_Model\Chapter($data);
+            $idChapter = $chapter->getId();
+
+            // Count Comment du chapitre
+            $commentManager = new \Alaska_Model\CommentManager;
+            $countComment = $commentManager->countComments($idChapter);
+            $chapter->setCountComment($countComment);
+
             $chapters[] = $chapter; // Tableau d'objet
         }
         return $chapters;
@@ -84,30 +118,31 @@ class ChapterManager extends Manager
 
     public function prevChapter($id)
     {
-        $prevChapter = $id-1;
         $sql ='SELECT id_chapter
             FROM alaska_chapters 
-            WHERE id_chapter = ? AND statut_chapter="Publié"';
-        $data = $this->reqSQL($sql, array ($prevChapter), $one = true);
-        if ($data) {
+            WHERE id_chapter < ? AND statut_chapter="Publié"
+            ORDER BY id_chapter DESC 
+            LIMIT 1';
+        $data = $this->reqSQL($sql, array ($id), $one = true);
+        if ($data)
+        {
             $idChapter = implode($data);
-            echo '<a href="index.php?page=chapter/id/'.$idChapter.'" class="button left"><i class="fas fa-arrow-alt-circle-left"></i> Chapitre précedent</a>';
+            return $idChapter;
         }
     }
 
-    public function nextChapter($num)
+    public function nextChapter($id)
     {
-        $nextChapter = $num+1;
         $sql ='SELECT id_chapter
             FROM alaska_chapters 
-            WHERE num_chapter = ? AND statut_chapter="Publié"';
-        $data = $this->reqSQL($sql, array ($nextChapter), $one = true);
-        if ($data) {
+            WHERE id_chapter > ? AND statut_chapter="Publié"
+            ORDER BY id_chapter ASC 
+            LIMIT 1';
+        $data = $this->reqSQL($sql, array ($id), $one = true);
+        if ($data)
+        {
             $idChapter = implode($data);
-            if ($idChapter>=0)
-            {
-                echo '<a href="index.php?page=chapter/id/'.$idChapter.'" class="button right">Chapitre suivant <i class="fas fa-arrow-alt-circle-right"></i></a>';
-            }
+            return $idChapter;
         }
     }
 

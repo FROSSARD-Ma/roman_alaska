@@ -14,6 +14,12 @@ class Chapter extends Manager
     private $_imgAlt_chapter;
     private $_statut_chapter;
 
+    private $_prev_chapter;
+    private $_next_chapter;
+
+    private $_count_comment;
+
+
     public function __construct(array $dataSQL)
     {
         $this->hydrate($dataSQL);
@@ -71,13 +77,41 @@ class Chapter extends Manager
     {
         return $this->_statut_chapter;
     }
-
-    public function getExtract()   { 
+    public function getExtract()
+    { 
         $content2 = substr($this->getContent(),0,200); 
         return nl2br($content2).'...';
     }
+    public function getPrevChapter()
+    {
+        if ($this->_prev_chapter!=null) {
+            echo '
+            <a href="index.php?page=chapter/id/'.$this->_prev_chapter.'" class="button left"><i class="fas fa-arrow-alt-circle-left"></i> Chapitre précédent </a>';
+        }
+    }
+    public function getNextChapter()
+    {
+        if ($this->_next_chapter!=null) {
+            echo '
+            <a href="index.php?page=chapter/id/'.$this->_next_chapter.'" class="button right">Chapitre suivant <i class="fas fa-arrow-alt-circle-right"></i></a>
+            ';
+        }
+    }
+    public function getCountComment()
+    {
+        if ($this->_count_comment!=null)
+        {
+            if ($this->_count_comment==1) {
+                echo $this->_count_comment. ' commentaire';
+            } 
+            else
+            {
+                echo $this->_count_comment. ' commentaires';
+            }
+        }
+    }
 
-
+    
     // Liste des SETTERS ---------------------------------------
 
     public function setId($id)
@@ -157,6 +191,35 @@ class Chapter extends Manager
         if (is_string($statut)) // && ($statut = 'draft' OR $statut = 'published'))
         {
           $this->_statut_chapter = $statut;
+        }
+    }
+
+    public function setPrevChapter($id)
+    {
+        // convertit l'argument en nombre entier.
+        $id = (int) $id;
+        if ($id > 0)
+        {
+            $this->_prev_chapter = $id;
+        }
+    }
+
+    public function setNextChapter($id)
+    {
+        // convertit l'argument en nombre entier.
+        $id = (int) $id;
+        if ($id > 0)
+        {
+            $this->_next_chapter = $id;
+        }
+    }
+    public function setCountComment($num)
+    {
+        // convertit l'argument en nombre entier.
+        $num = (int) $num;
+        if ($num > 0)
+        {
+            $this->_count_comment = $num;
         }
     }
 }

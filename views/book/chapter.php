@@ -4,8 +4,6 @@
 $idChapter = $chapter->getId();
 $img = $chapter->getImg();
 $imgAlt = $chapter->getImgAlt();
-
-$after =  $idChapter+1;
 ?>
 
 <!-- Affichage du chapitre -->
@@ -19,64 +17,56 @@ $after =  $idChapter+1;
 			<p>Edité le <?=$chapter->getCreated();?>
 				<br>Dernière mise à jour le <?= $chapter->getModified();?>
 			</p>
-	      	<p>
-	      		<?php echo $_SESSION['nbComments']; 
-				if (isset($_SESSION['nbComments'])) { echo $_SESSION['nbComments'] > 1 ? ' commentaires' : ' commentaire'; } ?>
-			</p>
+	      	<p><?php $chapter->getCountComment();?></p>
 	    </div>
 	</header>
 
 	<article>
 		<p><?= nl2br($chapter->getContent());?></p>
 	</article>
+       
+<?php $chapter->getPrevChapter();?> 
+<?php $chapter->getNextChapter();?>
 	
-	<a href="index.php?page=chapter/id/<?=$after?>" class="button">Chapitre suivant</a>
-
 </section>
 
 <!-- Affichage des commentaires -->
-<section class="container-fluid">
-	<hr>
-	<h2>
-		<?=$_SESSION['nbComments']; 
-		if (isset($_SESSION['nbComments'])) { echo $_SESSION['nbComments'] > 1 ? ' commentaires' : ' commentaire'; } ?>	
-	</h2>
-
-	<?php foreach ($datas['comments'] as $comment) :?>
-		<?php $idComment = $comment->getId();?>	
-		<section>
-			
-	      	<p><strong><?=$comment->getUserPseudo();?></strong> le <?=$comment->getCreated();?>
-
-	      	</p>
-	      	
-	      	<p>	      	<?php if (isset($_SESSION['user']))
-			{ ?>
-	      		<a href="index.php?page=creatSignal/id/<?=$idComment?>&amp;idChapter=<?=$idChapter?>" class="button" onclick="javascript: return confirm('Confirmer le signalement  d\'un commentaire inapproprié ?');" title="Signaler un contenu inapproprié">Signaler</a>
-	      	<?php } ?><?=$comment->getContent();?></p>
-		</section>
+	<section class="container-fluid">
 		<hr>
-	<?php endforeach ?>
-</section>
+		<h2><?php $chapter->getCountComment();?></h2>
+
+		<?php if (isset($datas['comments'])) { ?>
+			<?php foreach ($datas['comments'] as $comment) :?>
+				<?php $idComment = $comment->getId();?>	
+				<section>
+					
+			      	<p><strong><?=$comment->getUserPseudo();?></strong> le <?=$comment->getCreated();?>
+			      	</p>
+			      	
+			      	<?php if (isset($_SESSION['user']))
+					{ ?>
+			      		<a href="index.php?page=creatSignal/id/<?=$idComment?>&amp;idChapter=<?=$idChapter?>" class="button right" onclick="javascript: return confirm('Confirmer le signalement  d\'un commentaire inapproprié ?');" title="Signaler un contenu inapproprié">Signaler</a>
+			      	<?php } ?>
+			      	<p><?=$comment->getContent();?></p>
+					
+				</section>
+				<hr>
+			<?php endforeach?>
+		<?php } ?>
+	</section>
 
 <!-- AJOUT commentaire -->
 <section class="container-fluid">
-
-	<?php /*if(isset($_SESSION['erreur'])) { ?>
-     	<div class="message erreur">
-			<?php echo $_SESSION['erreur']; ?>
-		</div>
-	<?php } ?>
-
-	<?php if(isset($_SESSION['message'])) { ?>
-     	<div class="message success">
-			<?php echo $_SESSION['message']; ?>
-		</div>
-	<?php }  */?>
-
 	<?php if(isset($_SESSION['user'])) { ?>
 
-		<?php require('form-add-comment.php');?>
+		<form method="post" action="index.php?page=creatComment/id/<?=$idChapter?>" >
+		 	<h2>Laissez un commentaire</h2>
+			<p>Partagez le resssenti du chapitre...</p>
+			<textarea rows="6" class="form-input" id="comment_content" name="content" placeholder="Laisser un commentaire" required></textarea>
+			<button type="submit" id="contact_btnForm">Ajouter mon commentaire</button>
+			<input type="hidden" name="chapterId" value="<?=$idChapter?>">
+			<p><span class="required">*</span> Champs obligatoires</p>
+		</form>
 
 	<?php } else { ?>
 

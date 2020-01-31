@@ -59,28 +59,19 @@ class BookController
 		$chapterManager = new \Alaska_Model\ChapterManager; 
 	    $chapter = $chapterManager->getChapter($id);
 
+	    // Création des objets commentaire
 	    $commentManager = new \Alaska_Model\CommentManager;
 	    $dataComments = $commentManager->getComments($id);
-    	if (!$dataComments)
-		{
-		    $nxView = new \Alaska_Model\View ('book/chapter');
-	        $nxView->getView(array (
-	        	'chapter' => $chapter));
-	    }
-	    else
-	    {
-	    	// Création des objets commentaire
-	        foreach ($dataComments as $data ) {
-	            $comment = new \Alaska_Model\Comment($data);
-	            $comments[] = $comment; // Tableau d'objet
-	        }
-	        $_SESSION['nbComments'] = count($comments);
+        foreach ($dataComments as $data )
+        {
+            $comment = new \Alaska_Model\Comment($data);
+            $comments[] = $comment; // Tableau d'objet
+        }
 
-		    $nxView = new \Alaska_Model\View ('book/chapter');
-	        $nxView->getView(array (
-	        	'chapter' => $chapter, 
-	        	'comments'=> $comments));
-	    }
+	    $nxView = new \Alaska_Model\View ('book/chapter');
+        $nxView->getView(array (
+        	'chapter' => $chapter, 
+        	'comments'=> $comments));
 	}
 	public function addChapter($params)
 	{
@@ -127,11 +118,48 @@ class BookController
 			// Redirection vers la page identification
 			$nxView->redirect('login');
 		}
-
-
 	}
 	public function updateChapter($params)
 	{
+		var_dump($_POST);exit;
+
+		if (isset($_SESSION['userId']))
+		{
+			// recup $id du chapitre dans url
+			extract($params); 
+			// Modification du chapitre 
+			$chapterManager = new \Alaska_Model\ChapterManager();
+			$upChapter = $chapterManager->updateChapter($id);
+			if ($upChapter)
+			{
+				// Retour page admin
+		        $nxView = new \Alaska_Model\View();
+	        	$nxView->redirect('admin');
+			}
+			else 
+			{
+				// Erreur : retour sur modif chapitre
+				$nxView = new \Alaska_Model\View();
+				$nxView->redirect('upChapter/id/'.$id);
+			}
+		}
+		else 
+		{
+			// Redirection vers la page identification
+			$nxView = new \Alaska_Model\View();
+			$nxView->redirect('login');
+		}
+	}
+	public function delChapter($params)
+	{
+		// recup $id du commentaire dans url
+		extract($params);
+		// Suppression du commentaire
+		$chapterManager = new \Alaska_Model\ChapterManager;
+	    $delComment = $chapterManager->deleteChapter($id);
+
+		$nxView = new \Alaska_Model\View();
+        $nxView->redirect('admin');
 	}
 	
 	/* ---- COMMENTS Manager ------------------------------------- */
