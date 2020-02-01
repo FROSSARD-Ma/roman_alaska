@@ -27,6 +27,16 @@ class MenuController
         $nxView = new \Alaska_Model\View ('book/chapters');
         $nxView->getView(array ('chapters' => $chapters));
     }
+    public function upChapter($params)
+    {
+        extract($params); // recup $id dans url
+
+        $chapterManager = new \Alaska_Model\ChapterManager();
+        $chapter = $chapterManager->getChapter($id);
+
+        $nxView = new \Alaska_Model\View('admin/upChapter');
+        $nxView->getView(array ('chapter' => $chapter));
+    } 
 
     public function upComment($params)
     {
@@ -77,6 +87,8 @@ class MenuController
         // Déconnexion Espace membre
         unset($_SESSION['user']); 
         unset($_SESSION['role']);
+
+        $_SESSION['successMessage'] = 'Vous êtes déconnecté !';
 
         $nxView = new \Alaska_Model\View();
         $nxView->redirect('home');

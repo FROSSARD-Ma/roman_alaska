@@ -4,6 +4,8 @@
 
 	<h2>Bienvenue <?php if(isset($_SESSION['user'])) echo $_SESSION['user'] ?> !</h2>
 
+	<?php include('message.php');?>
+
 	<section class="container-fluid">
 		<p>Vous aimez lire ? Vous avez envie de découvrir l'Alaska ? Alors ce site est fait pour vous !</p>
 		<p>Je m'appelle <strong>Jean Forteroche</strong>, <a href="index.php?page=about">auteur de roman d'aventure</a>, je vous propose de partir à la découverte de l'alaska à travers mon roman, "Un Billet pour l'Alaska".</p>

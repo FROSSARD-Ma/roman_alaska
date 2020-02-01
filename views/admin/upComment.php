@@ -17,6 +17,8 @@
 
 			<form action="index.php?page=updateComment/id/<?=$idComment?>" method="post" id="upComment_form">
 
+				<?php include('views/message.php');?>
+
 				<p><strong>Chapitre n°</strong> <?=$comment->getNumChapter();?> : 
 					<?=$comment->getTitleChapter();?></p>
 				<div class="form-group">

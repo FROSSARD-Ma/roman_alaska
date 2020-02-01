@@ -18,7 +18,7 @@ class UserController
 	    $mailExist = $mailManager->existUser($email);
 	    if ($mailExist) 
 	    {
-			$_SESSION['message'] = "EMAIL déjà enregistré sur le Roman - Un Billet pour l'Alaska, connectez-vous ou demandez un nouveau mot de passe!";
+			$_SESSION['errorMessage'] = "EMAIL déjà enregistré sur le Roman - Un Billet pour l'Alaska, connectez-vous ou demandez un nouveau mot de passe!";
 			$nxView->redirect('login');
 		}
 		// Form verification
@@ -63,7 +63,7 @@ class UserController
 			// INVALID form fields -------------------------------------
 			if ($erreur) 
 			{
-				$_SESSION['erreur'] = $erreur;
+				$_SESSION['errorMessage'] = $erreur;
         		$nxView->redirect('inscription');
         	}
 
@@ -102,38 +102,29 @@ class UserController
 			        	$headers.= "MIME-Version: 1.0\n";
 			        	$headers.= "Content-type: text/html; charset=utf-8\n";
 			    
-			            mail($verif_mail, $subject, $message, $headers) or $_SESSION['erreur']= "Problème d'envoi d'email";    
+			            mail($verif_mail, $subject, $message, $headers) or $_SESSION['errorMessage']= "Problème d'envoi d'email";    
 
-						$_SESSION['message'] = "Félicitations !<br>Vous êtes inscrit, vous allez recevoir vos identifiants sur l'email : ".$verif_mail."<br>Mot de passe : ".$nwPass ;
+						$_SESSION['successMessage'] = "Félicitations !<br>Vous êtes inscrit, vous allez recevoir vos identifiants sur l'email : ".$verif_mail."<br>Mot de passe : ".$nwPass ;
 			            unset($_SESSION["nxPass"]);
 						$nxView->redirect('login');
 				    }
 				    else
 				    {
-				    	$_SESSION['message'] = "Félicitation vous êtes bien inscrit !<br>Veuillez demander un mot de passe pour vous connecter !";
+				    	$_SESSION['successMessage'] = "Félicitation vous êtes bien inscrit !<br>Veuillez demander un mot de passe pour vous connecter !";
 				        $nxView->redirect('nxPass');
 				    }
 
 			    	// Message d'info
-		        	$_SESSION['message'] = 'Vous êtes inscrit, vous allez recevoir votre mot de passe par email !';
+		        	$_SESSION['successMessage'] = 'Vous êtes inscrit, vous allez recevoir votre mot de passe par email !';
 		        	$nxView->redirect('home');
 		        }
 		        else // Echec ADD User
 		        {
-					$_SESSION['erreur'] = 'Votre inscription a échouée, veuillez recommencer !';
+					$_SESSION['errorMessage'] = 'Votre inscription a échouée, veuillez recommencer !';
 		        	$nxView->redirect('inscription');
 		        }
 		    }
 	    }
-	}
-
-	public function users($params)
-	{
-		$userManager = new \Alaska_Model\UserManager; 
-		$chapters = $userManager->getUsers();
-
-        $nxView = new \Alaska_Model\View ('admin/users');
-        $nxView->getView(array ('users' => $users));
 	}
 
 	// ---- LOGIN Manager ----------------------------------------------------
@@ -158,13 +149,13 @@ class UserController
 		    }
 		    else
 		    {
-		        $_SESSION['erreur'] = 'ERREUR : Le mot de passe ne correspond pas.';
+		        $_SESSION['errorMessage'] = 'ERREUR : Le mot de passe ne correspond pas.';
 		        $nxView->redirect('login');
 		    }
 	    }
 	    else
 	    {
-	    	$_SESSION['erreur'] = "ERREUR : Cet Email n'est pas enregistré sur Roman - Un billet pour l'Alaska.";
+	    	$_SESSION['errorMessage'] = "ERREUR : Cet Email n'est pas enregistré sur Roman - Un billet pour l'Alaska.";
 	    	$nxView->redirect('login');
 	    }
 	}
@@ -210,21 +201,21 @@ class UserController
 	        	$headers.= "MIME-Version: 1.0\n";
 	        	$headers.= "Content-type: text/html; charset=utf-8\n";
 	    
-	            mail($verif_mail, $subject, $message, $headers) or $_SESSION['erreur']= "Problème d'envoi d'email";    
+	            mail($verif_mail, $subject, $message, $headers) or $_SESSION['errorMessage']= "Problème d'envoi d'email";    
 
-				$_SESSION['message'] = "Vous allez recevoir votre nouveau mot de passe sur votre email : ".$verif_mail."<br>Mot de passe : ".$nwPass ;
+				$_SESSION['successMessage'] = "Vous allez recevoir votre nouveau mot de passe sur votre email : ".$verif_mail."<br>Mot de passe : ".$nwPass ;
 	            unset($_SESSION["nxPass"]);
 				$nxView->redirect('login');
 		    }
 		    else
 		    {
-		    	$_SESSION['erreur'] = "ECHEC sur l'enregistrement du nouveau mot de passe n'a pas, veuillez en demander un nouveau ";
+		    	$_SESSION['errorMessage'] = "ECHEC sur l'enregistrement du nouveau mot de passe n'a pas, veuillez en demander un nouveau ";
 		        $nxView->redirect('nxPass');
 		    }
 	   	}
 	   	else
 	   	{
-	   		$_SESSION['erreur'] = "ERREUR : Cet Email n'est pas enregistré sur Roman - Un billet pour l'Alaska.";
+	   		$_SESSION['errorMessage'] = "ERREUR : Cet Email n'est pas enregistré sur Roman - Un billet pour l'Alaska.";
 	    	$nxView->redirect('nxPass');
 	   	}  
 	}

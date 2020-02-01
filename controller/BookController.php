@@ -1,13 +1,11 @@
 <?php
 namespace Alaska_Controller;
-
+use \Exception;
 class BookController
 {
 	// ---- CONTACT Manager ------------------------------------ */
 	public function creatContact($params)
 	{	
-		$nxMsg = new \Alaska_Model\Message();
-
 		if ((!empty($_POST['name']))||(!empty($_POST['email']))||(!empty($_POST['message'])))
 		{
 			$name = $_POST['name'];
@@ -35,16 +33,16 @@ class BookController
 
 	        if (mail($to, $subject, $message, implode("\r\n", $headers)))
 	        {
-				$nxMsg->newMsg('Votre message a bien été envoyé à l\'auteur', 'success');
+				$_SESSION['successMessage'] = 'Votre message a bien été envoyé à l\'auteur';
 	        }
 	        else 
 	        {
-	        	$nxMsg->newMsg('Problème d\'envoi d\'email : votre message n\'a pas été envoyé', 'error');
+	        	$_SESSION['errorMessage'] = 'Problème d\'envoi d\'email : votre message n\'a pas été envoyé';
 	        }
 		}
 		else
 		{	
-	        $nxMsg->newMsg('Tous les champs doivent être renseignés', 'error');
+			$_SESSION['errorMessage'] = 'Tous les champs doivent être renseignés'; 
 		}
 
 		$nxView = new \Alaska_Model\View();
@@ -80,10 +78,6 @@ class BookController
 	}
 	public function creatChapter($params)
 	{
-        // Initialisation message & view 
-        $nxMsg = new \Alaska_Model\Message();
-        $nxView = new \Alaska_Model\View();
-
         if (isset($_SESSION['userId']))
 		{
 			if ((!empty($_POST['title']))||(!empty($_POST['texte'])))
@@ -99,23 +93,26 @@ class BookController
 				// Message d'info
 				if($nxChapter)
 				{
-					$nxMsg->newMsg('Votre chapitre a bien été créé,<br>Vous pouvez dès à présent le modifier et paramétrer son status.', 'success');
+					$_SESSION['successMessage'] = 'Le chapitre a bien été créé,<br>Vous pouvez dès à présent le modifier et paramétrer son status.';
 				}
 				else
 				{
-					$nxMsg->newMsg('ERREUR : votre chapitre n\'a pas été créé', 'error');
+					$_SESSION['errorMessage'] = 'ERREUR : le chapitre n\'a pas été créé';
 				}
 				// Retour page Admin
+				$nxView = new \Alaska_Model\View();
 	        	$nxView->redirect('admin');
 			}
 			else
 			{	
-		        $nxMsg->newMsg('Tous les champs doivent être renseignés', 'error');
+		        $_SESSION['errorMessage'] = 'ERREUR : Tous les champs doivent être renseignés';
 			}
 		}
 		else 
 		{
+			$_SESSION['errorMessage'] = 'ERREUR : vous devez vous identifier pour créer un chapitre !';
 			// Redirection vers la page identification
+			$nxView = new \Alaska_Model\View();
 			$nxView->redirect('login');
 		}
 	}
@@ -132,12 +129,14 @@ class BookController
 			$upChapter = $chapterManager->updateChapter($id);
 			if ($upChapter)
 			{
+				$_SESSION['successMessage'] = 'Le chapitre a bien été mis à jour.';
 				// Retour page admin
 		        $nxView = new \Alaska_Model\View();
 	        	$nxView->redirect('admin');
 			}
 			else 
 			{
+				$_SESSION['errorMessage'] = 'ERREUR : le chapitre n\'a pas été mis à jour.';
 				// Erreur : retour sur modif chapitre
 				$nxView = new \Alaska_Model\View();
 				$nxView->redirect('upChapter/id/'.$id);
@@ -145,6 +144,7 @@ class BookController
 		}
 		else 
 		{
+			$_SESSION['errorMessage'] = 'ERREUR : vous devez vous identifier pour modifier un chapitre !';
 			// Redirection vers la page identification
 			$nxView = new \Alaska_Model\View();
 			$nxView->redirect('login');
@@ -156,7 +156,15 @@ class BookController
 		extract($params);
 		// Suppression du commentaire
 		$chapterManager = new \Alaska_Model\ChapterManager;
-	    $delComment = $chapterManager->deleteChapter($id);
+	    $delChapter = $chapterManager->deleteChapter($id);
+	    if ($delChapter)
+	    {
+	    	 $_SESSION['successMessage'] = 'Le chapitre a bien été supprimé !';
+	    }
+	    else
+	    {
+	    	$_SESSION['errorMessage'] = 'ERREUR : le chapitre n\'a pas été supprimé';
+	    }
 
 		$nxView = new \Alaska_Model\View();
         $nxView->redirect('admin');
@@ -173,12 +181,17 @@ class BookController
 			// Ajout du commentaire 
 			$commentManager = new \Alaska_Model\CommentManager();
 			$nxComment = $commentManager->addComment($chapterId, $content);
+			if ($nxComment)
+		    {
+		    	 $_SESSION['successMessage'] = 'Le commentaire a bien été ajouté !';
+		    }
 
 			$nxView = new \Alaska_Model\View();
         	$nxView->redirect('chapter/id/'.$chapterId);
 		}
 		else 
 		{
+			$_SESSION['errorMessage'] = 'Vous devez vous identifer pour ajouter un commentaire a bien été ajouté !';
 			// Redirection vers la page identification
 			$nxView = new \Alaska_Model\View();
 			$nxView->redirect('login');
@@ -195,12 +208,14 @@ class BookController
 			$upComment = $commentManager->updateComment($id);
 			if ($upComment)
 			{
+				$_SESSION['successMessage'] = 'Le commentaire a bien été mis à jour !';
 				// Retour page admin
 		        $nxView = new \Alaska_Model\View();
 	        	$nxView->redirect('admin');
 			}
 			else 
 			{
+				$_SESSION['errorMessage'] = 'ERREUR : lors de la mise à jour du commentaire';
 				// Erreur : retour sur modif commentaire
 				$nxView = new \Alaska_Model\View();
 				$nxView->redirect('upComment/id/'.$id);
@@ -208,6 +223,7 @@ class BookController
 		}
 		else 
 		{
+			$_SESSION['errorMessage'] = 'Vous devez vous identifer pour modifier un commentaire !';
 			// Redirection vers la page identification
 			$nxView = new \Alaska_Model\View();
 			$nxView->redirect('login');
@@ -220,6 +236,14 @@ class BookController
 		// Suppression du commentaire
 		$commentManager = new \Alaska_Model\CommentManager;
 	    $delComment = $commentManager->deleteComment($id);
+	    if ($delComment)
+	    {
+	    	 $_SESSION['successMessage'] = 'Le commentaire a bien été supprimé !';
+	    }
+	    else
+	    {
+	    	$_SESSION['errorMessage'] = 'ERREUR : le commentaire n\'a pas été supprimé';
+	    }
 
 		$nxView = new \Alaska_Model\View();
         $nxView->redirect('admin');
@@ -233,6 +257,14 @@ class BookController
 		// Ajout signalement
 		$signalManager = new \Alaska_Model\SignalManager;
 	    $signalComment = $signalManager->addSignal($id);
+	    if ($signalComment)
+	    {
+	    	 $_SESSION['successMessage'] = 'Le signalement a bien été enregistré !';
+	    }
+	    else
+	    {
+	    	$_SESSION['errorMessage'] = 'ERREUR : le signalement n\'a pas été pris en compte.';
+	    }
 
 		// recup GET idchapter pour retour page
 		$idChapter = $_GET['idChapter'];
@@ -245,6 +277,14 @@ class BookController
 
 		$signalManager = new \Alaska_Model\SignalManager;
 	    $delSignal = $signalManager->deleteSignal($id);
+	    if ($delSignal)
+	    {
+	    	 $_SESSION['successMessage'] = 'Le signalement a bien été supprimé !';
+	    }
+	    else
+	    {
+	    	$_SESSION['errorMessage'] = 'ERREUR : le signalement n\'a pas été supprimé.';
+	    }
 	   
 		$nxView = new \Alaska_Model\View();
 		$nxView->redirect('admin');

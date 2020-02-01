@@ -9,38 +9,32 @@
     <p>Remplissez le formulaire ci-dessous et je vous recontacterai dans les meilleurs délais !</p>
   </section>
 
+  <?php include('message.php');?>
+
   <section class="row justify-content-center">
-
-    <form class="needs-validation" novalidate id="contact_form">
-      <div class="control-group">
-        <div class="form-group">
-          <label for="contact_name">Nom</label>
-          <input type="text" class="form-control" placeholder="Nom" id="contact_name" required>
-        </div>
-      </div>
-      <div class="control-group">
-        <div class="form-group">
-          <label for="contact_email">Adresse Email</label>
-          <input type="email" class="form-control" placeholder="Adresse Email" id="contact_email" required>
-        </div>
-      </div>
-      <div class="control-group">
-        <div class="form-group ">
-          <label for="contact_message" >Message</label>
-          <textarea rows="5" class="form-control" placeholder="Message" id="contact_message" required></textarea>
-        </div>
-      </div>
-
-      <div>
-        <p id="contact_error">
-        </p>
-      </div>
-
-      <br>
+    <form action="index.php?page=creatContact" method="post" id="contact_form">
 
       <div class="form-group">
-        <button type="submit" id="contact_btnForm" class="btn btn-primary" id="sendMessageButton">Envoyer</button>
+        <label for="contact_name">Nom<span class="required">*</span></label>
+        <input type="text" id="contact_name" name="name" placeholder="Entrez votre nom" required>
       </div>
+   
+      <div class="form-group">
+        <label for="contact_email">Email<span class="required">*</span></label>
+        <input type="email" id="contact_email" name="email" placeholder="Entrez votre adresse Email"required>
+      </div>
+   
+      <div class="form-group ">
+        <label for="contact_message" >Message<span class="required">*</span></label>
+        <textarea rows="5" id="contact_msg" name="message" placeholder="Laissez-moi un message" required></textarea>
+      </div>
+     
+      <p class="erreur" id="contact_error"></p>
+      
+      <button type="submit" id="contact_btnForm">Envoyer</button>
+
+      <p><span class="required">*</span> Champs obligatoires</p>
+     
     </form>
   </section>
   

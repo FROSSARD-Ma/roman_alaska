@@ -5,12 +5,10 @@
 	<h2>Administration du site</h2>
 
 	<section class="container-fluid">
-
 		<p>Ac ne quis a nobis hoc ita dici forte miretur, quod alia quaedam in hoc facultas sit ingeni, neque haec dicendi ratio aut disciplina, ne nos quidem huic uni studio penitus umquam dediti fuimus. Etenim omnes artes, quae ad humanitatem pertinent, habent quoddam commune vinculum, et quasi cognatione quadam inter se continentur.</p>
-
-		<?php //Message::displayMsg(); ?>
-
 	</section>
+
+	<?php include('views/message.php');?>
 
 	<!-- Chapter Management -->
 	<section class="admin">
@@ -31,16 +29,16 @@
 		                    <th style="width: 30%">
 		                        Titre
 		                    </th>
-		                    <th style="width: 25%">
+		                    <th style="width: 22%">
 		                        Parution
 		                    </th>
-		                    <th style="width: 15%">
+		                    <th style="width: 10%">
 		                        Status
 		                    </th>
-		                    <th style="width: 10%" class="center">
+		                    <th style="width: 21%" class="center">
 		                        Commentaires
 		                    </th>
-		                    <th style="width: 16%">
+		                    <th style="width: 18%">
 		                    	Gestion
 		                    </th>
 	                  	</tr>
@@ -71,7 +69,7 @@
 	                          		<?php } ?>
 	                      		</td>
 	                      		<td class="center">
-	                      			<?//=$count($id);?>
+	                      			<?php $chapter->getCountComment();?>
 	                      		</td>
 	                      		<td>
 		                          	<a class="icon icon-edit" href="index.php?page=chapter/id/<?=$id?>" title="Voir le chapitre">
