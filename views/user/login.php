@@ -11,33 +11,28 @@
 	</section>
 
 	<section class="row justify-content-center">
+
+		<?php include('views/message.php');?>
 		
-		<form action="index.php?page=loginUser" method="post" class="needs-validation" id="login_form" novalidate>
+		<form method="post" action="index.php?page=loginUser" id="login_form">
 			<div class="form-group">
-			    <label for="email">Adresse Email</label>
-			    <input type="email" class="form-control" id="login_email" name="email" aria-describedby="emailHelp">
+			    <label for="login_email">Adresse Email<span class="required">*</span></label>
+			    <input type="email" class="form-input" id="login_email" name="email" size="50" maxlength="50" required>
 			</div>
 
 			<div class="form-group">
-			    <label for="pass">Mot de passe</label>
-			    <input type="password" class="form-control" id="login_pass" name="pass">
+			    <label for="login_pass">Mot de passe<span class="required">*</span></label>
+			    <input type="password" class="form-input" id="login_pass" name="pass" minlength="8" maxlength="8" required>
 			</div>
 
-			<div>
-				<p class="alert alert-danger" role="alert" id="login_error"></p>
-		    </div>
-
-	        <?php if(isset($_SESSION['erreur'])) { ?>
-	         	<div class="alert alert-success" role="alert">
-					<?php echo $_SESSION['erreur']; ?>
-				</div>
-			<?php } ?>
+			<p class="errorMessage erreur"></p>
 		    
-			<div>
-				<a href="index.php?page=nxPass">Mot de passe oublié ?</a>
-			</div>
+			<p>
+				<a href="index.php?page=nxPass" class="float-right">Mot de passe oublié ?</a>
+				<span class="required">*</span> Champs obligatoires
+			</p>
 			
-			<button type="submit" id="login_connexion" class="btn btn-primary float-right">Se connecter</button>
+			<button type="submit" id="login_connexion">Se connecter</button>
 		</form>
 
 	</section>

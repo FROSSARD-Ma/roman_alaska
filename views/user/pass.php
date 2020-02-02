@@ -12,23 +12,20 @@
 
 	<section class="row justify-content-center">
 		
-		<form action="index.php?page=creatPass" method="post" class="needs-validation" novalidate id="nxPass_form">
+		<form method="post" action="index.php?page=creatPass" id="nxPass_form">
+
+			<?php include('views/message.php');?>
+
 			<div class="form-group">
-			    <label for="nxPass_email">Adresse Email</label>
-			    <input type="email" class="form-control" id="nxPass_email" name="email" placeholder="Entrer votre adresse Email" aria-describedby="emailHelp">
+			    <label for="nxPass_email">Adresse Email<span class="required">*</span></label>
+			    <input type="email" id="nxPass_email" name="email" placeholder="Entrez votre adresse Email" size="50" maxlength="50" required>
 			</div>
 
-			<div>
-				<p class="alert alert-danger" role="alert" id="nxPass_error"></p>
-		    </div>
+			<p class="errorMessage erreur"></p>
 
-	        <?php if(isset($_SESSION['erreur'])) { ?>
-	         	<div class="alert alert-success" role="alert">
-					<?php echo $_SESSION['erreur']; ?>
-				</div>
-			<?php } ?>
+			<button type="submit" id="nxPass_btnForm">Recevoir mot de passe</button>
+			<p><span class="required">*</span> Champs obligatoires</p>
 
-			<button type="submit" id="nxPass_btnForm" class="btn btn-primary float-right">Recevoir mot de passe</button>
 		</form>
 
 	</section>

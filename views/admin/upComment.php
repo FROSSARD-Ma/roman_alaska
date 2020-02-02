@@ -23,10 +23,10 @@
 					<?=$comment->getTitleChapter();?></p>
 				<div class="form-group">
 				    <p>Commentaire créé par <?=$comment->getUserPseudo();?> le <?=$comment->getCreated();?></p>
-				    <textarea rows="6" class="form-input" id="upComment_comment" name="content" placeholder="Laisser un commentaire" value="<?=$contentComment?>"required><?=$contentComment?></textarea>
+				    <textarea rows="6" class="form-input" id="upComment_comment" name="content" placeholder="Laisser un commentaire" value="<?=$contentComment?>" minlength="2" required><?=$contentComment?></textarea>
 				</div>
 
-			    <p class="message erreur" id="upComment_error"></p>
+			    <p class="errorMessage erreur"></p>
 
 				<button type="submit" id="upComment_btnForm">Modifier le commentaire</button>
 				<p><span class="required">*</span> Champs obligatoires</p>

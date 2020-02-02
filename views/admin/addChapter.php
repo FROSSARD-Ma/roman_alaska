@@ -20,15 +20,15 @@
 
 				<div class="form-group">
 				    <label for="chapter_title">Titre du chapitre<span class="required">*</span></label>
-				    <input type="text" id="chapter_title" name="title" placeholder="Titre du chapitre" maxlength="255" size="50" required>
+				    <input type="text" id="chapter_title" name="title" placeholder="Titre du chapitre" maxlength="50" size="50%" required>
 				</div>
 				
 			    <div>
 			        <label for="chapter_content">Texte du chapitre<span class="required">*</span></label>
-			        <textarea id="chapter_content" name="texte"></textarea>
+			        <textarea id="chapter_content" name="texte" minlength="2" required></textarea>
 			    </div>
 
-			    <p class="message erreur" id="chapter_error"></p>
+			    <p class="errorMessage erreur"></p>
 
 				<button type="submit" id="chapter_btnForm">Ajouter le chapitre</button>
 				<p><span class="required">*</span> Champs obligatoires</p>

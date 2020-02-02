@@ -39,7 +39,7 @@
 
 				<div class="form-group">
 				    <label for="chapter_title">Titre<span class="required">*</span></label>
-				    <input type="text" id="chapter_title" name="title" placeholder="Titre du chapitre" size="50%" value="<?=$titleChapter?>" required>
+				    <input type="text" id="chapter_title" name="title" placeholder="Titre du chapitre" size="50%" maxlength="50" value="<?=$titleChapter?>" required>
 				</div>
 
 				<div class="form-group">
@@ -58,16 +58,14 @@
 				    <input type="text" id="chapter_imageAlt" name="imageAlt" placeholder="Balise ALT" size="50%" value="<?=$imgAltChapter?>">
 				</div>
 
-				
-
 				<br>
 			    <hr> 
 			    <div>
 			        <label for="chapter_content">Texte du chapitre<span class="required">*</span></label>
-			        <textarea id="chapter_content" name="texte" value="<?=$contentChapter?>"></textarea>
+			        <textarea id="chapter_content" name="texte" minlength="2" value="<?=$contentChapter?>" required></textarea>
 			    </div>
 
-			    <p class="message erreur" id="chapter_error"></p>
+			    <p class="errorMessage erreur"></p>
 
 				<button type="submit" id="chapter_btnForm">Ajouter le chapitre</button>
 				<p><span class="required">*</span> Champs obligatoires</p>
