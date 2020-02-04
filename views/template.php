@@ -27,7 +27,7 @@
     <link href="public/css/style.css" rel="stylesheet"/>
 
     <!-- Editeur TinyMCE -->
-    <script src="https://cdn.tiny.cloud/1/u4xff8r9ciwt2ajzu2k01zqtcwzgfjbfwiq9klhgl7cohse4 /tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="https://cdn.tiny.cloud/1/u4xff8r9ciwt2ajzu2k01zqtcwzgfjbfwiq9klhgl7cohse4/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
     <script src="public/js/tinyMCE/tinymce.js"></script>
   </head>
 
@@ -60,15 +60,15 @@
 
             <?php if(isset($_SESSION['user'])) {  ?>
               <li class="nav-item">
-                <a class="btn btn-primary" href="index.php?page=logout">déconnexion</a>
+                <a class="button right" href="index.php?page=logout">déconnexion</a>
               </li>
 
             <?php } else { ?>
               <li class="nav-item">
-                <a class="btn btn-primary" href="index.php?page=inscription">Inscription</a>
+                <a class="button right" href="index.php?page=inscription">Inscription</a>
               </li>
               <li class="nav-item">
-                <a class="btn btn-primary" href="index.php?page=login">connexion</a>
+                <a class="button right" href="index.php?page=login">connexion</a>
               </li>
             <?php } ?>
           </ul>
@@ -91,24 +91,20 @@
       </div>
     </header>
 
-    <!-- Main Content -->
+    <!-- Main Content-->
     <main class="container">
       <div class="row">
-        <?php if(isset($_SESSION['message'])) { ?>
-          <div class="message success">
-            <?=$_SESSION['message']; ?>
-          </div>
-        <?php } ?>
-        <?= $content ?>
+        <?=$content;?>
       </div>
     </main>
+
     <!-- Footer -->
     <footer>
       <hr>
       <div class="container">
         <div class="row">
           <div class="col-lg-8 col-md-10 mx-auto">
-            <ul class="list-inline text-center">
+            <ul class="center">
               <li class="list-inline-item">
                 <a href="#">
                   <span class="fa-stack fa-lg">
@@ -126,7 +122,7 @@
                 </a>
               </li>
             </ul>
-            <p class="copyright text-muted">Copyright © 2019 Jean Forteroche | Roman - Billet pour l'Alaska</p>
+            <p class="center">Copyright © 2019 Jean Forteroche | Roman - Billet pour l'Alaska</p>
           </div>
         </div>
       </div>
@@ -145,9 +141,3 @@
   </body>
 
 </html>
-
-<?php 
-unset($_SESSION["nbComments"]);
-unset($_SESSION["erreur"]);
-unset($_SESSION["message"]);
-?>
