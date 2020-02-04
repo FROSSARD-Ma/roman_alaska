@@ -1,50 +1,132 @@
-const content = document.querySelector('body');
 
-// FORM Inscription -------------------------------------------
-const insFormElt = document.getElementById('inscription_form');
-const insBtnElt = document.getElementById('inscription_btnForm');
+// FORM Validation -------------------------------------------
+const formulaire = document.querySelector('form');
 
-let insNameElt = document.getElementById('inscription_name');
-let insFirstnameElt = document.getElementById('inscription_firstname');
-let insPseudoElt = document.getElementById('inscription_pseudo');
-let insEmailElt = document.getElementById('inscription_email');
-let insErrorElt = document.getElementById('inscription_error');
-insErrorElt.style.display = 'none';
+let textElt = document.querySelectorAll('input[type=text][required]'); // node list 
+let textareaElt = document.querySelector('textarea');
+let emailElt = document.querySelector('input[type=email]');
+let passElt = document.querySelector('input[type=password]');
 
-// FORM Login -----------------------------------------------
-const loginFormElt = document.getElementById('login_form');
-const loginBtnElt = document.getElementById('login_connexion');
+// Image
+let imgElt = document.querySelector('input[type=file]');
 
-let loginEmailElt = document.getElementById('login_email');
-let loginPassElt = document.getElementById('login_pass');
-let loginErrorElt = document.getElementById('login_error');
-loginErrorElt.style.display = 'none';
 
-// FORM Contact -----------------------------------------------
-const contactFormElt = document.getElementById('contact_form');
-const contactBtnElt = document.getElementById('contact_btnForm');
+// Message d'erreur
+let errorElt = document.querySelector('.errorMessage');
 
-let contactNameElt = document.getElementById('contact_name');
-let contactEmailElt = document.getElementById('contact_email');
-let contactMsgElt = document.getElementById('contact_msg');
-let contactErrorElt = document.getElementById('contact_error');
-contactErrorElt.style.display = 'none';
+const btnForm = document.querySelector('button[type=submit]');
 
-// FORM Pass -----------------------------------------------
-const nxPassFormElt = document.getElementById('nxPass_form');
-const nxPassBtnElt = document.getElementById('nxPass_btnForm');
+// FORM : Validation
+let formValid = false;
 
-let nxPassEmailElt = document.getElementById('nxPass_email');
-let nxPassErrorElt = document.getElementById('nxPass_error');
-contactErrorElt.style.display = 'none';
 
-// FORM Add Chapter -----------------------------------------
-const nxPassFormElt = document.getElementById('chapter_form');
-const nxPassBtnElt = document.getElementById('chapter_btnForm');
+/* == GESTIONS EVENEMENTS ================================ */
 
-let nxPassEmailElt = document.getElementById('chapter_title');
-let nxPassErrorElt = document.getElementById('chapter_img');
-let nxPassErrorElt = document.getElementById('chapter_imageAlt');
-let nxPassErrorElt = document.getElementById('chapter_content');
-let nxPassErrorElt = document.getElementById('chapter_error');
-contactErrorElt.style.display = 'none';
+/* Controle tous les Champs TEXT ---- */
+if(textElt)
+{
+    textElt.forEach(function(textElt) {
+        textElt.addEventListener('blur', (event) => {
+
+            // on vérifie la validité du champ TEXT.
+            if (textElt.value.length >= 2 && textElt.value.length <= 50)
+            {
+                textElt.classList.remove('erreur');
+                errorElt.style.display = 'none';
+                formValid = true;
+            } 
+            else
+            {
+                textElt.classList = "erreur";
+                errorElt.innerHTML = "Le champ doit comporter entre 2 et 50 lettres";
+                errorElt.style.display = 'block';
+                formValid = false;
+            }
+        });
+    });
+}
+
+/* Controle Champ EMAIL ---- */
+if(emailElt)
+{
+    emailElt.addEventListener('blur', (event) => {
+
+    	// Adresse Email avec ...... @ ... . ...
+    	let emailRegex = /^[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,6}$/;
+
+      	if (emailElt.value.length === 0 || emailRegex.test(emailElt.value)) {
+            emailElt.classList.remove('erreur');
+            errorElt.style.display = 'none';
+            formValid = true;
+        } 
+        else
+        {
+            emailElt.classList = "erreur";
+            errorElt.innerHTML = "Votre Email n'est pas valide, elle doit être du format xxx @ xx . xx";
+        	errorElt.style.display = 'block';
+            formValid = false;
+        }
+    });
+}
+
+
+/* Controle Champ TEXTAREA ---- */
+if(textareaElt)
+{
+    textareaElt.addEventListener('blur', (event) => {
+
+    	// on vérifie la validité du champ TEXTAREA.
+    	if (textareaElt.value.length >= 2)
+    	{
+            textareaElt.classList.remove('erreur');
+            errorElt.style.display = 'none';
+            formValid = true;
+        } 
+        else
+        {
+            textareaElt.classList = "erreur";
+            errorElt.innerHTML = "Le texte du message n'est pas assez long !";
+        	errorElt.style.display = 'block';
+            formValid = false;
+        }
+    });
+}
+
+/* Controle Champ PASS ---- */
+if(passElt)
+{
+    passElt.addEventListener('blur', (event) => {
+    	// on vérifie la validité du champ TEXT.
+    	if (passElt.value.length >= 8)
+    	{
+            passElt.classList.remove('erreur');
+            errorElt.style.display = 'none';
+            formValid = true;
+        } 
+        else
+        {
+            passElt.classList = "erreur";
+            errorElt.innerHTML = "Le mot de passe doit comporter 8 caractères";
+        	errorElt.style.display = 'block';
+            formValid = false;
+        }
+    });
+}
+
+
+/* Controle AVANT envoie FORM ---- */
+if(formulaire)
+{
+    formulaire.addEventListener("submit", function (e) {
+      	// on vérifie que le champ email est valide.
+      	if(formValid = true)
+      	{
+      		return true;
+      	}	
+       	else
+       	{
+          return false;
+          e.preventDefault();
+       	}
+    });
+}

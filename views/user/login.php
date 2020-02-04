@@ -17,12 +17,12 @@
 		<form method="post" action="index.php?page=loginUser" id="login_form">
 			<div class="form-group">
 			    <label for="login_email">Adresse Email<span class="required">*</span></label>
-			    <input type="email" class="form-input" id="login_email" name="email" size="50" maxlength="50" required>
+			    <input type="email" class="form-input" id="login_email" name="email"maxlength="50" required>
 			</div>
 
 			<div class="form-group">
 			    <label for="login_pass">Mot de passe<span class="required">*</span></label>
-			    <input type="password" class="form-input" id="login_pass" name="pass" minlength="8" maxlength="8" required>
+			    <input type="password" class="form-input" id="login_pass" name="pass" minlength="8" maxlength="50" required>
 			</div>
 
 			<p class="errorMessage erreur"></p>
