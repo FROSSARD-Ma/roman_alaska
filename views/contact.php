@@ -1,17 +1,17 @@
 <?php $title = 'Contact | Billet pour l\'Alalska'; ?>
 
-<article class="container-fluid ">
+<article class="container">
 
   <h2>Contactez-moi !</h2>
 
-  <section class="container-fluid">
+  <section>
     <p>Vous voulez m'envoyer un message ?</p>
     <p>Remplissez le formulaire ci-dessous et je vous recontacterai dans les meilleurs délais !</p>
   </section>
 
   <?php include('message.php');?>
 
-  <section class="row justify-content-center">
+  <section>
     
     <form action="index.php?page=creatContact" method="post" id="contact_form">
 

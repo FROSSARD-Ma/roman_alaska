@@ -3,16 +3,16 @@
 
 	$title = 'Ajout d\'un Chapitres | Billet pour l\'Alalska'; ?>
 
-	<article class="container-fluid ">
+	<article class="container">
 
 		<h2>Ajout d'un chapitre</h2>
-		<section class="container-fluid">
+		<section>
 
 			<p>Ac ne quis a nobis hoc ita dici forte miretur, quod alia quaedam in hoc facultas sit ingeni, neque haec dicendi ratio aut disciplina, ne nos quidem huic uni studio penitus umquam dediti fuimus. Etenim omnes artes, quae ad humanitatem pertinent, habent quoddam commune vinculum, et quasi cognatione quadam inter se continentur.</p>
 
 		</section>
 
-		<section class="container-fluid ">
+		<section>
 
 			<form method="post" action="index.php?page=creatChapter"  id="chapter_form" enctype="multipart/form-data">
 

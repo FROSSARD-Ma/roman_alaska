@@ -1,16 +1,16 @@
 <?php $title = 'S\'identifier | Billet pour l\'Alalska';?>
 
-<article class="container-fluid ">
+<article class="container">
 
 	<h2>Se connecter</h2>
 
-	<section class="container-fluid">
+	<section>
 
 		<p>Ac ne quis a nobis hoc ita dici forte miretur, quod alia quaedam in hoc facultas sit ingeni, neque haec dicendi ratio aut disciplina, ne nos quidem huic uni studio penitus umquam dediti fuimus. Etenim omnes artes, quae ad humanitatem pertinent, habent quoddam commune vinculum, et quasi cognatione quadam inter se continentur.</p>
 
 	</section>
 
-	<section class="row justify-content-center">
+	<section>
 
 		<?php include('views/message.php');?>
 		
@@ -28,7 +28,7 @@
 			<p class="errorMessage erreur"></p>
 		    
 			<p>
-				<a href="index.php?page=nxPass" class="float-right">Mot de passe oublié ?</a>
+				<a href="index.php?page=nxPass" class="right">Mot de passe oublié ?</a>
 				<span class="required">*</span> Champs obligatoires
 			</p>
 			

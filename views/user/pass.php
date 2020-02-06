@@ -1,16 +1,16 @@
 <?php $title = 'Demander un nouveau mot de passe | Billet pour l\'Alalska';?>
 
-<article class="container-fluid ">
+<article class="container">
 
 	<h2>Demander un nouveau mot de passe</h2>
 
-	<section class="container-fluid">
+	<section>
 
 		<p>Ac ne quis a nobis hoc ita dici forte miretur, quod alia quaedam in hoc facultas sit ingeni, neque haec dicendi ratio aut disciplina, ne nos quidem huic uni studio penitus umquam dediti fuimus. Etenim omnes artes, quae ad humanitatem pertinent, habent quoddam commune vinculum, et quasi cognatione quadam inter se continentur.</p>
 
 	</section>
 
-	<section class="row justify-content-center">
+	<section>
 		
 		<form method="post" action="index.php?page=creatPass" id="nxPass_form">
 
@@ -22,9 +22,9 @@
 			</div>
 
 			<p class="errorMessage erreur"></p>
-
-			<button type="submit" id="nxPass_btnForm">Recevoir mot de passe</button>
 			<p><span class="required">*</span> Champs obligatoires</p>
+			<button type="submit" id="nxPass_btnForm">Recevoir mot de passe</button>
+			
 
 		</form>
 

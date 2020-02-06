@@ -6,9 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta Name="description" content="Billet simple pour l'Alaska - Roman de Jean Forteroche">
 
-    <!-- BOOTSTRAP -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
     <!-- FONTAWESOME -->
     <link href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" rel="stylesheet" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
 
@@ -23,7 +20,6 @@
     <!--[if IE]><link rel="shortcut icon" type="image/x-icon" href="favicon.ico" /><![endif]-->
 
     <!-- Feuille de style CSS -->
-    <link href="public/css/clean-blog.css" rel="stylesheet"/>
     <link href="public/css/style.css" rel="stylesheet"/>
 
     <!-- Editeur TinyMCE -->
@@ -33,111 +29,42 @@
 
   <body>
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
-      <div class="container">
-        <a class="navbar-brand" href="index.php?page=about">Jean Forteroche</a>
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-          Menu
-          <i class="fas fa-bars"></i>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="index.php?page=home">Accueil</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="index.php?page=chapters">Chapitres</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="index.php?page=contact">Contact</a>
-            </li>
+    <?php include 'nav.php';?>
 
-            <?php if (isset($_SESSION['role']) == 'admin') {  ?>
-              <li class="nav-item">
-                <a class="nav-link" href="index.php?page=admin">Admin</a>
-              </li>
-            <?php } ?>
-
-            <?php if(isset($_SESSION['user'])) {  ?>
-              <li class="nav-item">
-                <a class="button right" href="index.php?page=logout">déconnexion</a>
-              </li>
-
-            <?php } else { ?>
-              <li class="nav-item">
-                <a class="button right" href="index.php?page=inscription">Inscription</a>
-              </li>
-              <li class="nav-item">
-                <a class="button right" href="index.php?page=login">connexion</a>
-              </li>
-            <?php } ?>
-          </ul>
-        </div>
-      </div>
-    </nav>
-
-    <!-- Page Header -->
-    <header class="masthead">
+    <!-- Header -->
+    <header id="header">
       <div class="overlay"></div>
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-8 col-md-10 mx-auto">
-            <div class="site-heading">
-              <h1>Billet simple pour l'Alaska</h1>
-              <span class="subheading">Jean Forteroche</span>
-            </div>
-          </div>
-        </div>
-      </div>
+      <article class="heading">
+        <h1>Billet simple pour l'Alaska</h1>
+        <span class="subheading">Jean Forteroche</span>
+      </article>
     </header>
 
-    <!-- Main Content-->
-    <main class="container">
-      <div class="row">
+    <!-- Main Content -->
+    <main>
         <?=$content;?>
-      </div>
     </main>
 
     <!-- Footer -->
     <footer>
       <hr>
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-8 col-md-10 mx-auto">
-            <ul class="center">
-              <li class="list-inline-item">
-                <a href="#">
-                  <span class="fa-stack fa-lg">
-                    <i class="fas fa-circle fa-stack-2x"></i>
-                    <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
-                  </span>
-                </a>
-              </li>
-              <li class="list-inline-item">
-                <a href="#">
-                  <span class="fa-stack fa-lg">
-                    <i class="fas fa-circle fa-stack-2x"></i>
-                    <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
-                  </span>
-                </a>
-              </li>
-            </ul>
-            <p class="center">Copyright © 2019 Jean Forteroche | Roman - Billet pour l'Alaska</p>
-          </div>
-        </div>
-      </div>
+      <section class="container">
+        <p class="center">
+          <span class="fa-stack fa-lg">
+            <i class="fas fa-circle fa-stack-2x"></i>
+            <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+          </span>
+         <span class="fa-stack fa-lg">
+          <i class="fas fa-circle fa-stack-2x"></i>
+          <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
+        </span>
+        </p>
+        <p class="center">Copyright © 2019 Jean Forteroche | Roman - Billet pour l'Alaska</p>
+      </section>
     </footer>
 
     <script src="public/js/main.js"></script>
 
-    <!-- Javascript de Bootstrap -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->      
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-
-    <!-- Popper -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
   </body>
 
 </html>
