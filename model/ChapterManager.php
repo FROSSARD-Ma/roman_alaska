@@ -7,15 +7,28 @@ class ChapterManager extends Manager
     //========= CRUD Chapitre ======== */
 
     /*---  CREAT -------------------------------------------------------- */
-    public function addChapter($title, $texte)
+    public function addChapter()
     {
-        $sql ='INSERT INTO alaska_chapters(title_chapter, content_chapter) 
-            VALUES(:title, :texte)';
+        if (!empty($_FILES['image']['name']))
+        {
+            // Controle du chargement de l'imag
+            include 'views/admin/uploadImage.php';
+        } 
+        else 
+        {
+            $nomImage = 'introduction-billet-pour-alaska.jpg';
+        }
+
+        $sql ='INSERT INTO alaska_chapters(title_chapter, num_chapter, img_chapter, imgAlt_chapter, content_chapter)
+            VALUES(:title, :num, :image, :imgAlt, :content)';
         $datas = $this->getPDO()->prepare($sql);
-        // On lie les variables aux paramètres de la requête préparée
-        $datas->bindValue(':title', $title, PDO::PARAM_STR);
-        $datas->bindValue(':texte', $texte, PDO::PARAM_STR);  
-        $datas->execute();
+        $datas->bindValue(':title',     htmlspecialchars($_POST['title']), PDO::PARAM_STR);
+        $datas->bindValue(':num',       htmlspecialchars($_POST['num']), PDO::PARAM_INT); 
+        $datas->bindValue(':image',     htmlspecialchars($nomImage), PDO::PARAM_STR);
+        $datas->bindValue(':imgAlt',    htmlspecialchars($_POST['imgAlt']), PDO::PARAM_STR);
+        $datas->bindValue(':content',   htmlspecialchars($_POST['content']), PDO::PARAM_STR);
+        $datas->execute();  
+
         return $datas;
     }
 
@@ -149,17 +162,32 @@ class ChapterManager extends Manager
     /*---  UPDATE -------------------------------------------------------- */
     public function updateChapter($id)
     {
+        if (!empty($_FILES['image']['name']))
+        {
+            // Controle du chargement de l'imag
+            include 'views/admin/uploadImage.php';
+        } 
+        elseif (!empty($_POST['image2']))
+        {
+            $nomImage = $_POST['image2'];
+        }
+        else 
+        {
+             $nomImage = 'introduction-billet-pour-alaska.jpg';
+        }
+
+        // Mise à jour Chapitre
         $idChapter = (int)$id;
         $sql ='UPDATE alaska_chapters 
-            SET modified_chapter = now(), num_chapter = :num, title_chapter=:title, content_chapter=:texte, img_chapter=:image, imgAlt_chapter=:imgAlt, statut_chapter=:statut 
+            SET modified_chapter = now(), num_chapter = :num, title_chapter=:title, content_chapter=:content, img_chapter=:image, imgAlt_chapter=:imgAlt, statut_chapter=:statut 
             WHERE  id_chapter = :idChapter';
         $datas = $this->getPDO()->prepare($sql);
-        $datas->bindValue(':num', $_POST['num'], PDO::PARAM_INT); 
-        $datas->bindValue(':title', $_POST['title'], PDO::PARAM_STR);
-        $datas->bindValue(':texte', $_POST['texte'], PDO::PARAM_STR);
-        $datas->bindValue(':image', $_POST['image'], PDO::PARAM_STR);
-        $datas->bindValue(':imgAlt', $_POST['imgAlt'], PDO::PARAM_STR);
-        $datas->bindValue(':statut', $_POST['statut'], PDO::PARAM_STR);
+        $datas->bindValue(':num',       $_POST['num'], PDO::PARAM_INT); 
+        $datas->bindValue(':title',     $_POST['title'], PDO::PARAM_STR);
+        $datas->bindValue(':content',   $_POST['content'], PDO::PARAM_STR);
+        $datas->bindValue(':image',     $nomImage, PDO::PARAM_STR);
+        $datas->bindValue(':imgAlt',    $_POST['imgAlt'], PDO::PARAM_STR);
+        $datas->bindValue(':statut',    $_POST['statut'], PDO::PARAM_STR);
         $datas->bindValue(':idChapter', $idChapter, PDO::PARAM_STR); 
         $datas->execute();  
         return $datas;

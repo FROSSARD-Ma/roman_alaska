@@ -82,13 +82,9 @@ class BookController
 		{
 			if ((!empty($_POST['title']))||(!empty($_POST['texte'])))
 			{
-				// Convertit tous les caractères éligibles en entités HTML + guillemets
-				$title 	= htmlentities($_POST['title'], ENT_QUOTES);
-				$texte 	= htmlentities($_POST['texte'], ENT_QUOTES);
-
 				// Ajout du chapitre 
 				$chapterManager = new \Alaska_Model\ChapterManager();
-				$nxChapter = $chapterManager->addChapter($title, $texte);
+				$nxChapter = $chapterManager->addChapter();
 
 				// Message d'info
 				if($nxChapter)
@@ -118,12 +114,11 @@ class BookController
 	}
 	public function updateChapter($params)
 	{
-		var_dump($_POST);exit;
-
 		if (isset($_SESSION['userId']))
 		{
 			// recup $id du chapitre dans url
 			extract($params); 
+
 			// Modification du chapitre 
 			$chapterManager = new \Alaska_Model\ChapterManager();
 			$upChapter = $chapterManager->updateChapter($id);

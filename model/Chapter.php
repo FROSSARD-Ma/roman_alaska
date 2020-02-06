@@ -93,7 +93,7 @@ class Chapter extends Manager
     {
         if ($this->_next_chapter!=null) {
             echo '
-            <a href="index.php?page=chapter/id/'.$this->_next_chapter.'" class="button right">Chapitre suivant <i class="fas fa-arrow-alt-circle-right"></i></a>
+            <a href="index.php?page=chapter/id/'.$this->_next_chapter.'" class="button">Chapitre suivant <i class="fas fa-arrow-alt-circle-right"></i></a>
             ';
         }
     }
