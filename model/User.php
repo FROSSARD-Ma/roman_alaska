@@ -81,7 +81,7 @@ class User extends Manager
 	    // Chaîne de caractères ?
 	    if (is_string($name))
 	    {
-	      	$this->_name_user = $name;
+	      	$this->_name_user = htmlspecialchars($name, ENT_QUOTES);
 	    }
 	}
 
@@ -90,39 +90,34 @@ class User extends Manager
 	    // chaîne de caractères ?
 	    if (is_string($firstname))
 	    {
-	      $this->_firstname_user = $firstname;
+	      $this->_firstname_user = htmlspecialchars($firstname, ENT_QUOTES);
 	    }
 	}
 
 	public function setPseudo($pseudo)
 	{
-	    // chaîne de caractères ?
 	    if (is_string($pseudo))
 	    {
-	      $this->_pseudo_user = $pseudo;
-	    }
+	      $this->_pseudo_user = htmlspecialchars($pseudo, ENT_QUOTES);   
+	  	}
 	}
 
 	public function setEmail($email)
 	{
-	    // chaîne de caractères ?
-	    if (is_string($email))
-	    {
-	      $this->_email_user = $email;
-	    }
+	    // Adresse Email avec ...... @ ... . ...
+        if (preg_match("#^[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,6}$#", $email))
+        {
+	      $this->_email_user = htmlspecialchars($email, ENT_QUOTES);
+	  	}
 	}
 
 	public function setPass($pass)
 	{
-	    
-
 	    if (is_string($pass)) 
 	    {
 	    // Encoder
-
-	      $this->_pass_user = $pass;
-
-	    }
+	      $this->_pass_user = htmlspecialchars($pass, ENT_QUOTES);
+	  	}
 	}
 
 	public function setRole($role)
@@ -130,8 +125,8 @@ class User extends Manager
 	    // chaîne de caractères ?
 	    if (is_string($role))
 	    {
-	      $this->_role_user = $role;
-	    }
+	      $this->_role_user = htmlspecialchars($role, ENT_QUOTES);
+	  	}
 	}
 
 }
