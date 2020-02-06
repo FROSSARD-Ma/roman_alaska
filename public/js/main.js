@@ -1,26 +1,33 @@
 
+// MENU -------------------------------------------
+let hamburgerElt = document.querySelector('.hamburger');
+let navElt = document.getElementById('nav');
+
 // FORM Validation -------------------------------------------
 const formulaire = document.querySelector('form');
-
 let textElt = document.querySelectorAll('input[type=text][required]'); // node list 
 let textareaElt = document.querySelector('textarea');
 let emailElt = document.querySelector('input[type=email]');
 let passElt = document.querySelector('input[type=password]');
-
 // Image
 let imgElt = document.querySelector('input[type=file]');
-
-
 // Message d'erreur
 let errorElt = document.querySelector('.errorMessage');
-
 const btnForm = document.querySelector('button[type=submit]');
-
 // FORM : Validation
 let formValid = false;
 
 
 /* == GESTIONS EVENEMENTS ================================ */
+
+function myFunction() {
+
+  if (navElt.className === "topnav") {
+    navElt.className += " responsive";
+  } else {
+    navElt.className = "topnav";
+  }
+}
 
 /* Controle tous les Champs TEXT ---- */
 if(textElt)
@@ -118,6 +125,9 @@ if(passElt)
 if(formulaire)
 {
     formulaire.addEventListener("submit", function (e) {
+
+        console.log("Hello World");
+
       	// on vérifie que le champ email est valide.
       	if(formValid = true)
       	{
