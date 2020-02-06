@@ -8,9 +8,20 @@ class UserController
 	{
 		$name 		= $_POST['name'];
 		$firstname  = $_POST['firstname'];
-		$pseudo     = $_POST['pseudo'];
+		
 		$email		= $_POST['email'];
 
+		// Pseudo 
+		if(empty($_POST['pseudo'])) 
+		{
+			$pseudo = $name.' '. ucfirst(substr($firstname,0,1));
+		}
+		else 
+		{
+			$pseudo = $_POST['pseudo'];
+		}
+
+		// Appel nouvelle vue
 		$nxView = new \Alaska_Model\View();
 
 		// Vérifier si USER existe déjà 
@@ -49,7 +60,7 @@ class UserController
 	    	{
 	    		$erreur.= "Vous avez mal renseigné votre prenom !<br>";
 	    	}
-	    	$verifpseudo = $verifUser->getFirstname();
+	    	$verifpseudo = $verifUser->getPseudo();
 			if (!$verifpseudo) 
 	    	{
 	    		$erreur.= "Vous avez mal renseigné votre pseudo !<br>";
