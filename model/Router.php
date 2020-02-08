@@ -6,17 +6,18 @@ class Router {
 	private $_page;
 	private $routes = [ 
 
-		// ---- MENU Controller -----------------------------------------------------
-		"about" 		=> ['controller'=> '\Alaska_Controller\MenuController', 'method'=>'about'],
-		"home" 			=> ['controller'=> '\Alaska_Controller\MenuController', 'method'=>'home'],
-		"chapters" 		=> ['controller'=> '\Alaska_Controller\MenuController', 'method'=>'chapters' ],
-		"contact" 		=> ['controller'=> '\Alaska_Controller\MenuController', 'method'=>'contact'],
-		"inscription" 	=> ['controller'=> '\Alaska_Controller\MenuController', 'method'=>'inscription'],
-		"admin" 		=> ['controller'=> '\Alaska_Controller\MenuController', 'method'=>'admin'],
-		"login" 		=> ['controller'=> '\Alaska_Controller\MenuController', 'method'=>'login'],
-		"logout" 		=> ['controller'=> '\Alaska_Controller\MenuController', 'method'=>'logout'],
-		"page404" 		=> ['controller'=> '\Alaska_Controller\MenuController', 'method'=>'page404'],
-		"upComment" 	=> ['controller'=> '\Alaska_Controller\MenuController', 'method'=>'upComment'],
+		// ---- FRONT Controller -----------------------------------------------------
+		"about" 		=> ['controller'=> '\Alaska_Controller\FrontController', 'method'=>'about'],
+		"home" 			=> ['controller'=> '\Alaska_Controller\FrontController', 'method'=>'home'],
+		"chapters" 		=> ['controller'=> '\Alaska_Controller\FrontController', 'method'=>'chapters' ],
+		"contact" 		=> ['controller'=> '\Alaska_Controller\FrontController', 'method'=>'contact'],
+		"inscription" 	=> ['controller'=> '\Alaska_Controller\FrontController', 'method'=>'inscription'],
+		"admin" 		=> ['controller'=> '\Alaska_Controller\FrontController', 'method'=>'admin'],
+		"login" 		=> ['controller'=> '\Alaska_Controller\FrontController', 'method'=>'login'],
+		"logout" 		=> ['controller'=> '\Alaska_Controller\FrontController', 'method'=>'logout'],
+		"page404" 		=> ['controller'=> '\Alaska_Controller\FrontController', 'method'=>'page404'],
+		"upComment" 	=> ['controller'=> '\Alaska_Controller\FrontController', 'method'=>'upComment'],
+		"upChapter" 	=> ['controller'=> '\Alaska_Controller\FrontController', 'method'=>'upChapter'],
 
 		// ---- USER Controller -----------------------------------------------------
 		"creatUser" 	=> ['controller'=> '\Alaska_Controller\UserController', 'method'=>'creatUser'],
@@ -28,15 +29,19 @@ class Router {
 		// ---- BOOK Controller -----------------------------------------------------
 		/* Contact */
 		"creatContact" 	=> ['controller'=> '\Alaska_Controller\BookController', 'method'=>'creatContact'],
+
 		/* Chapters */
 		"chapter" 		=> ['controller'=> '\Alaska_Controller\BookController', 'method'=>'chapter'],
 		"addChapter" 	=> ['controller'=> '\Alaska_Controller\BookController', 'method'=>'addChapter'],
 		"creatChapter" 	=> ['controller'=> '\Alaska_Controller\BookController', 'method'=>'creatChapter'],
 		"updateChapter" => ['controller'=> '\Alaska_Controller\BookController', 'method'=>'updateChapter'],
+		"delChapter" 	=> ['controller'=> '\Alaska_Controller\BookController', 'method'=>'delChapter'],
+
 		/* Comments */
 		"creatComment" 	=> ['controller'=> '\Alaska_Controller\BookController', 'method'=>'creatComment'],
 		"updateComment" => ['controller'=> '\Alaska_Controller\BookController', 'method'=>'updateComment'],
 		"delComment" 	=> ['controller'=> '\Alaska_Controller\BookController', 'method'=>'delComment'],
+
 		/* Signalements */
 		"creatSignal" => ['controller'=> '\Alaska_Controller\BookController', 'method'=>'creatSignal'],
 		"delSignal" => ['controller'=> '\Alaska_Controller\BookController', 'method'=>'delSignal']

@@ -1,9 +1,9 @@
 <?php
 namespace Alaska_Controller;
-use \Exception;
+
 class BookController
 {
-	// ---- CONTACT Manager ------------------------------------ */
+	// ---- CONTACT ------------------------------------ */
 	public function creatContact($params)
 	{	
 		if ((!empty($_POST['name']))||(!empty($_POST['email']))||(!empty($_POST['message'])))
@@ -49,7 +49,7 @@ class BookController
 		$nxView->redirect('contact');
 	}
 
-   	// ---- CHAPTERS Manager ------------------------------------ */
+   	// ---- CHAPTERS ------------------------------------ */
 	public function chapter($params)
 	{	
 		extract($params); // recup $id dans url
@@ -165,7 +165,7 @@ class BookController
         $nxView->redirect('admin');
 	}
 	
-	/* ---- COMMENTS Manager ------------------------------------- */
+	/* ---- COMMENTS  ----------------------------------- */
 	public function creatComment($params)
 	{
 		if (isset($_SESSION['userId']))
@@ -244,7 +244,7 @@ class BookController
         $nxView->redirect('admin');
 	}
 
-	/* ---- SIGNALS Manager ------------------------------------- */
+	/* ---- SIGNALS ------------------------------------- */
 	public function creatSignal($params)
 	{
 		// recup $id des commentaires dans url

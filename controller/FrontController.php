@@ -1,9 +1,8 @@
 <?php
 namespace Alaska_Controller;
 
-class MenuController
+class FrontController
 {
-    // ---- MENU Manager -----------------------------------------------------
     public function about($params)
     {
         $nxView = new \Alaska_Model\View ('about');
@@ -53,7 +52,6 @@ class MenuController
         $nxView = new \Alaska_Model\View('admin/upComment');
         $nxView->getView(array ('comment' => $comment));
     } 
-
 
     public function contact($params)
     {
@@ -106,6 +104,5 @@ class MenuController
         $nxView = new \Alaska_Model\View ('page404');
         $nxView->getView();
     }
-
-
+    
 }

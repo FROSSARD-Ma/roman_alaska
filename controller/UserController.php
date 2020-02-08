@@ -3,7 +3,7 @@ namespace Alaska_Controller;
 
 class UserController
 {
-	// ---- USER Manager -----------------------------------------------------
+	// ---- USER  -----------------------------------------------------
 	public function creatUser($params)
 	{
 		$name 		= $_POST['name'];
@@ -138,7 +138,7 @@ class UserController
 	    }
 	}
 
-	// ---- LOGIN Manager ----------------------------------------------------
+	// ---- LOGIN ----------------------------------------------------
 	public function loginUser($params)
 	{
 		$nxView = new \Alaska_Model\View();
@@ -171,7 +171,7 @@ class UserController
 	    }
 	}
 
-	// ---- PASS Manager -----------------------------------------------------
+	// ---- PASS -----------------------------------------------------
 	public function nxPass($params)
 	{
 		$nxView = new \Alaska_Model\View ('user/pass');
