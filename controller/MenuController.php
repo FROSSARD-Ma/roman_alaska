@@ -22,11 +22,16 @@ class MenuController
     public function chapters($params)
     {
         $chapterManager = new \Alaska_Model\ChapterManager; 
-        $chapters = $chapterManager->getChapters(); 
+        $chapters = $chapterManager->getChapters();
+        $countChaptersPublished = $chapterManager->countChapters('Publié');
+        $_SESSION['countChapters'] = $countChaptersPublished;
 
         $nxView = new \Alaska_Model\View ('book/chapters');
         $nxView->getView(array ('chapters' => $chapters));
+
+        unset($_SESSION["countChapters"]);
     }
+    
     public function upChapter($params)
     {
         extract($params); // recup $id dans url
@@ -66,6 +71,8 @@ class MenuController
     {
         $chapterManager = new \Alaska_Model\ChapterManager; 
         $chapters = $chapterManager->adminChapters();
+        $countChapters = $chapterManager->countChapters('all');
+        $_SESSION['countChapters'] = $countChapters;
 
         $signalManager = new \Alaska_Model\SignalManager; 
         $signals = $signalManager->getSignals(); 

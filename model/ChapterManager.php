@@ -37,11 +37,28 @@ class ChapterManager extends Manager
     /*--- LISTE Chapitres -- */
     public function getChapters()
     {
+        // Pagination
+        if (isset($_GET['paging']) AND !empty($_GET['paging']) AND $_GET['paging']>0 AND $_GET['paging'] = intval($_GET['paging']))
+        {
+            $currentPage = intval($_GET['paging']);
+        }
+        else 
+        {
+            $currentPage = 1;
+        }
+
+        $nbChapterPage = 5;
+        $debut = ($currentPage-1)*$nbChapterPage;
+
         $sql = 'SELECT *
             FROM alaska_chapters
             WHERE statut_chapter="Publié" 
-            ORDER BY num_chapter ASC';
-        $datas = $this->reqSQL($sql);
+            ORDER BY num_chapter ASC LIMIT :debut, :nbChapterPage';
+
+        $datas = $this->getPDO()->prepare($sql);
+        $datas->bindValue(':debut', intval($debut), PDO::PARAM_INT);
+        $datas->bindValue(':nbChapterPage', intval($nbChapterPage), PDO::PARAM_INT);
+        $datas->execute(); 
 
         foreach ($datas as $data ) {
             $chapter = new \Alaska_Model\Chapter($data);
@@ -57,7 +74,23 @@ class ChapterManager extends Manager
         
         return $chapters;
     }
-   
+
+    public function countChapters($statut)
+    {
+        if ($statut = 'all')
+        {
+            $sql = 'SELECT COUNT(*) FROM alaska_chapters';
+        }
+        else 
+        {
+            $sql = 'SELECT COUNT(*) FROM alaska_chapters WHERE statut_chapter= ?';
+            
+        }
+        $count = $this->reqSQL($sql, array ($statut), $one = true);
+        $countChapters = implode($count);
+        return $countChapters;
+    }
+
     /*--- DETAILS un Chapitre ---- */
     public function getChapter($id)
     {
@@ -109,10 +142,28 @@ class ChapterManager extends Manager
 
     public function adminChapters()
     {
-        $sql ='SELECT *
+        // Pagination
+        if (isset($_GET['paging']) AND !empty($_GET['paging']) AND $_GET['paging']>0 AND $_GET['paging'] = intval($_GET['paging']))
+        {
+            $currentPage = intval($_GET['paging']);
+        }
+        else 
+        {
+            $currentPage = 1;
+        }
+
+        $nbChapterPage = 5;
+        $debut = ($currentPage-1)*$nbChapterPage;
+
+        $sql = 'SELECT *
             FROM alaska_chapters
-            ORDER BY id_chapter ASC';
-        $datas = $this->reqSQL($sql);
+            /*WHERE statut_chapter="Publié" */
+            ORDER BY id_chapter DESC LIMIT :debut, :nbChapterPage';
+
+        $datas = $this->getPDO()->prepare($sql);
+        $datas->bindValue(':debut', intval($debut), PDO::PARAM_INT);
+        $datas->bindValue(':nbChapterPage', intval($nbChapterPage), PDO::PARAM_INT);
+        $datas->execute(); 
 
         // Chapters List
         foreach ($datas as $data ) {
@@ -158,6 +209,8 @@ class ChapterManager extends Manager
             return $idChapter;
         }
     }
+
+
 
     /*---  UPDATE -------------------------------------------------------- */
     public function updateChapter($id)

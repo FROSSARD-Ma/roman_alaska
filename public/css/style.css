@@ -162,6 +162,15 @@ hr {
   padding-right: 15px;
 }
 
+.paging {
+  display: flex;
+  justify-content: flex-end;
+}
+.paging-center {
+  display: flex;
+  justify-content: center;
+}
+
   /* ----------  IMAGES ------------ */
 
 .media {
@@ -238,6 +247,7 @@ hr {
     background-color: #17a2b8;
     color: white;
   }
+
 
 /* ---------------------- BADGE ---------- */
 

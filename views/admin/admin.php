@@ -10,82 +10,89 @@
 
 	<?php include('views/message.php');?>
 
+  <!-- Button Add chapter -->
+  <section class="paging">
+    <a class="button" href="index.php?page=addChapter">
+      <i class="fas fa-plus"></i> Ajouter un chapitre
+    </a>
+  </section>
+
 	<!-- Chapter Management -->
 	<section class="card">
-        <header class="card-header">
-          	<h3>Chapitres</h3>
-          	<a class="button" href="index.php?page=addChapter">
-          		<i class="fas fa-plus"></i> Ajouter un chapitre
-	        </a>
-        </header>
+
+    <header class="card-header">
+      	<h3>Chapitres</h3>
+    </header>
+    
+    <?php include('views/admin/pagingChaptersAdmin.php');?>
 
 		<table class="table-striped">
-          	<thead>
-              	<tr>
-                    <th style="width: 8%">
-                        Ch.
-                    </th>
-                    <th style="width: 25%">
-                        Titre
-                    </th>
-                    <th style="width: 22%">
-                        Parution
-                    </th>
-                    <th style="width: 10%">
-                        Status
-                    </th>
-                    <th style="width: 21%" class="center">
-                        Commentaires
-                    </th>
-                    <th style="width: 18%">
-                    	Gestion
-                    </th>
-              	</tr>
-          	</thead>
-        	<tbody>
-        		<?php foreach ($datas['chapters'] as $chapter) : ?>
-					<?php $id = $chapter->getId(); ?>
-                  	<tr>
-                      	<td class="center">
-                          	<?php if ($chapter->getNum()!=0) echo $chapter->getNum();?>
-                      	</td>
-                      	<td>
-                          	<a href="index.php?page=chapter/id/<?=$id?>"><?=$chapter->getTitle();?></a>
-                      	</td>
-                      	<td>
-							<?=$chapter->getCreated();?>	
-                      		<br/>
-                      		<small>modifié le <?=$chapter->getModified();?></small>
-                  		</td>
-                  		<td>
-                  			<?php if ($chapter->getStatut()=='Corbeille') { ?>
-                      			<span class="badge badge-danger">Corbeille</span>
-                      		<?php } elseif ($chapter->getStatut()=='Brouillon') { ?>
-								<span class="badge badge-info">Brouillon</span>
-                      		<?php } else { ?>
-                      			<span class="badge badge-success">Publié</span>
-                      		<?php } ?>
-                  		</td>
-                  		<td class="center">
-                  			<?php $chapter->getCountComment(); ?>
-                  		</td>
-                  		<td>
-                          	<a class="icon icon-edit" href="index.php?page=chapter/id/<?=$id?>" title="Voir le chapitre">
-                              	<i class="fas fa-eye"></i>
-                          	</a>
-                          	<a class="icon icon-edit" href="index.php?page=upChapter/id/<?=$id?>" title="Editer le chapitre">
-                              	<i class="fas fa-pencil-alt"></i>
-                          	</a>
-                          	<?php if ($chapter->getStatut()=='Corbeille') { ?>
-								<a class="icon icon-del" href="index.php?page=delChapter/id/<?=$id?>" title="supprimer DÉFINITIVEMENT le chapitre" onclick="javascript: return confirm('Supprimer DÉFINITIVEMENT le CHAPITRE ?');">
-                          		<i class="fas fa-trash"></i>
-                      			</a>
-                          	<? } ?>
-                      	</td>
-                  	</tr>
-              	<?php endforeach ?>
-          	</tbody>
-      	</table>
+    	<thead>
+        	<tr>
+              <th style="width: 8%">
+                  Ch.
+              </th>
+              <th style="width: 25%">
+                  Titre
+              </th>
+              <th style="width: 22%">
+                  Parution
+              </th>
+              <th style="width: 10%">
+                  Status
+              </th>
+              <th style="width: 21%" class="center">
+                  Commentaires
+              </th>
+              <th style="width: 18%">
+              	Gestion
+              </th>
+        	</tr>
+    	</thead>
+    	<tbody>
+    		<?php foreach ($datas['chapters'] as $chapter) : ?>
+			    <?php $id = $chapter->getId(); ?>
+        	<tr>
+          	<td class="center">
+              <?php if ($chapter->getNum()!=0) echo $chapter->getNum();?>
+          	</td>
+          	<td>
+              <a href="index.php?page=chapter/id/<?=$id?>"><?=$chapter->getTitle();?></a>
+          	</td>
+          	<td>
+		          <?=$chapter->getCreated();?>	
+            	<br/>
+            	<small>modifié le <?=$chapter->getModified();?></small>
+        		</td>
+        		<td>
+        			<?php if ($chapter->getStatut()=='Corbeille') { ?>
+            			<span class="badge badge-danger">Corbeille</span>
+            		<?php } elseif ($chapter->getStatut()=='Brouillon') { ?>
+			            <span class="badge badge-info">Brouillon</span>
+            		<?php } else { ?>
+            			<span class="badge badge-success">Publié</span>
+            		<?php } ?>
+        		</td>
+        		<td class="center">
+        			<?php $chapter->getCountComment(); ?>
+        		</td>
+        		<td>
+              <a class="icon icon-edit" href="index.php?page=chapter/id/<?=$id?>" title="Voir le chapitre">
+                <i class="fas fa-eye"></i>
+              </a>
+              <a class="icon icon-edit" href="index.php?page=upChapter/id/<?=$id?>" title="Editer le chapitre">
+                <i class="fas fa-pencil-alt"></i>
+              </a>
+                <?php if ($chapter->getStatut()=='Corbeille') { ?>
+			        <a class="icon icon-del" href="index.php?page=delChapter/id/<?=$id?>" title="supprimer DÉFINITIVEMENT le chapitre" onclick="javascript: return confirm('Supprimer DÉFINITIVEMENT le CHAPITRE ?');">
+                <i class="fas fa-trash"></i>
+            	</a>
+                <? } ?>
+            </td>
+        	</tr>
+        <?php endforeach ?>
+      </tbody>
+    </table>
 
 	</section>
 
