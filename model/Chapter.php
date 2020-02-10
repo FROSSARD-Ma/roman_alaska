@@ -35,7 +35,14 @@ class Chapter extends Manager
             $method = 'set' . ucfirst(substr($key,0,-8));
             if (method_exists($this, $method))
             {
-                $this->$method(htmlspecialchars($value));
+                if ($method == 'setContent')
+                {
+                    $this->$method($value);
+                }
+                else
+                {
+                    $this->$method(htmlspecialchars($value));
+                }
             }
         }
     }
