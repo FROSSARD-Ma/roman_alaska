@@ -33,7 +33,7 @@
 
     <!-- Header -->
     <header id="header">
-      <div class="overlay"></div>
+      <img src="public/img/alaska.jpg" alt="Montagnes d'alaska">
       <article class="heading">
         <h1>Billet simple pour l'Alaska</h1>
         <span class="subheading">Jean Forteroche</span>
@@ -46,21 +46,18 @@
     </main>
 
     <!-- Footer -->
-    <footer>
-      <hr>
-      <section class="container">
-        <p class="center">
-          <span class="fa-stack fa-lg">
-            <i class="fas fa-circle fa-stack-2x"></i>
-            <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
-          </span>
-         <span class="fa-stack fa-lg">
+    <footer class="container">
+      <p class="center">
+        <span class="fa-stack fa-lg">
+          <i class="fas fa-circle fa-stack-2x"></i>
+          <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+        </span>
+        <span class="fa-stack fa-lg">
           <i class="fas fa-circle fa-stack-2x"></i>
           <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
         </span>
-        </p>
-        <p class="center">Copyright © 2019 Jean Forteroche | Roman - Billet pour l'Alaska</p>
-      </section>
+      </p>
+      <p class="center">Copyright © 2019 Jean Forteroche | Roman - Billet pour l'Alaska</p>
     </footer>
 
     <script src="public/js/main.js"></script>
