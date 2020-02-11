@@ -4,7 +4,7 @@ namespace Alaska_Model;
 class Router {
 
 	private $_page;
-	private $routes = [ 
+	private $_routes = [ 
 
 		// ---- FRONT Controller -----------------------------------------------------
 		"about" 		=> ['controller'=> '\Alaska_Controller\FrontController', 'method'=>'about'],
@@ -81,18 +81,27 @@ class Router {
 		$route = $this->getRoute();
 		$params = $this->getParams();
 
-		if (key_exists($route, $this->routes))
+		if(!empty($route))
 		{
-			$controller = $this->routes[$route]['controller'];
-			$method		= $this->routes[$route]['method'];
+			if (key_exists($route, $this->_routes))
+			{
+				$controller = $this->_routes[$route]['controller'];
+				$method		= $this->_routes[$route]['method'];
 
-			$currentController = new $controller();
-			$currentController->$method($params);
+				$currentController = new $controller();
+				$currentController->$method($params);
+			}
+			else
+			{
+				$nxView = new \Alaska_Model\View ('page404');
+	        	$nxView->getView();
+			}
 		}
 		else
 		{
-			$nxView = new \Alaska_Model\View ('page404');
-        	$nxView->getView();
+			// Redirection page accueil
+			$nxView = new \Alaska_Model\View();
+        	$nxView->redirect('home');
 		}
 	}
 

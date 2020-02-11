@@ -9,12 +9,9 @@ require_once 'vendor/autoload.php';
 $root = $_SERVER['DOCUMENT_ROOT'];
 $host = $_SERVER['HTTP_HOST'];
 
-define('HOST', 'https://'.$host.'/roman_alaska/');
+define('HOST', 'https://'.$host.'/roman_alaska/'); // model/View.php
 define('ROOT', $root . '/roman_alaska/');
-
-define('CONTOLLER', ROOT.'controller/');
-define('VIEW', ROOT.'views/');
-define('MODEL', ROOT.'model/');
+define('VIEW', ROOT.'views/'); // model/View.php
 
 
 //== Appel CONTROLLER =========================
