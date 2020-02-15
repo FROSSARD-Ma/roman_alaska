@@ -9,14 +9,15 @@ class CommentManager extends Manager
     /*---  CREAT -------------------------------------------------------- */
     public function addComment($chapterId, $content)
     {
+        $idChapter = (int)$chapterId;
         $sql ='INSERT INTO alaska_comments(chapterId_comment, userID_comment, content_comment) 
                 VALUES(:chapter,:user,:content)';
 
         $datas = $this->getPDO()->prepare($sql); // Requete PREPARE
         // On lie les variables aux paramètres de la requête préparée
-        $datas->bindValue(':chapter', $chapterId, PDO::PARAM_STR);
+        $datas->bindValue(':chapter', htmlspecialchars($idChapter), PDO::PARAM_STR);
         $datas->bindValue(':user', $_SESSION['userId'], PDO::PARAM_STR);
-        $datas->bindValue(':content', $content, PDO::PARAM_STR);  
+        $datas->bindValue(':content', htmlspecialchars($content), PDO::PARAM_STR);  
         $datas->execute();
         return $datas;
     }
@@ -75,8 +76,6 @@ class CommentManager extends Manager
         {
             $content = $_POST['content'];
         }
-
-        echo $content;
 
         $idComment = (int)$id;
         $sql ='UPDATE alaska_comments SET content_comment = :contentComment WHERE  id_comment = :idComment';

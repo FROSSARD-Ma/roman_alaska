@@ -13,10 +13,10 @@ class UserManager extends Manager
         $datas = $this->getPDO()->prepare($sql); // Requete PREPARE
 
         // On lie les variables aux paramètres de la requête préparée
-	    $datas->bindValue(':name',   	$name, PDO::PARAM_STR);
-	    $datas->bindValue(':firstname', $firstname, PDO::PARAM_STR);
-	    $datas->bindValue(':pseudo',	$pseudo, PDO::PARAM_STR);  
-	    $datas->bindValue(':email',		$email, PDO::PARAM_STR); 
+	    $datas->bindValue(':name',   	htmlspecialchars($name), PDO::PARAM_STR);
+	    $datas->bindValue(':firstname', htmlspecialchars($firstname), PDO::PARAM_STR);
+	    $datas->bindValue(':pseudo',	htmlspecialchars($pseudo), PDO::PARAM_STR);  
+	    $datas->bindValue(':email',		htmlspecialchars($email), PDO::PARAM_STR); 
         $datas->execute();
 
 		return $datas;
@@ -28,7 +28,7 @@ class UserManager extends Manager
 		$sql ='SELECT *
             FROM alaska_users 
             WHERE email_user = ?';
-        $data = $this->reqSQL($sql, array ($email), $one = true);
+        $data = $this->reqSQL($sql, array (htmlspecialchars($email)), $one = true);
        	return $data;
 	}
 
@@ -56,7 +56,7 @@ class UserManager extends Manager
 	    $sql ='UPDATE alaska_users SET pass_user = :pass_crypte WHERE email_user = :email';
 		$data = $this->getPDO()->prepare($sql);
 	    $data->bindValue(':pass_crypte',$nxPassCrypt, PDO::PARAM_STR);
-	    $data->bindValue(':email',$email, PDO::PARAM_STR);
+	    $data->bindValue(':email',htmlspecialchars($email), PDO::PARAM_STR);
 	    $data->execute();
 	    return $data;
 	}

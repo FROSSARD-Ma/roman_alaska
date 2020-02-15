@@ -235,12 +235,12 @@ class ChapterManager extends Manager
             SET modified_chapter = now(), num_chapter = :num, title_chapter=:title, content_chapter=:content, img_chapter=:image, imgAlt_chapter=:imgAlt, statut_chapter=:statut 
             WHERE  id_chapter = :idChapter';
         $datas = $this->getPDO()->prepare($sql);
-        $datas->bindValue(':num',       $_POST['num'], PDO::PARAM_INT); 
-        $datas->bindValue(':title',     $_POST['title'], PDO::PARAM_STR);
-        $datas->bindValue(':content',   $_POST['content'], PDO::PARAM_STR);
-        $datas->bindValue(':image',     $nomImage, PDO::PARAM_STR);
-        $datas->bindValue(':imgAlt',    $_POST['imgAlt'], PDO::PARAM_STR);
-        $datas->bindValue(':statut',    $_POST['statut'], PDO::PARAM_STR);
+        $datas->bindValue(':num',       htmlspecialchars($_POST['num']), PDO::PARAM_INT); 
+        $datas->bindValue(':title',     htmlspecialchars($_POST['title']), PDO::PARAM_STR);
+        $datas->bindValue(':content',   htmlspecialchars($_POST['content']), PDO::PARAM_STR);
+        $datas->bindValue(':image',     htmlspecialchars($nomImage), PDO::PARAM_STR);
+        $datas->bindValue(':imgAlt',    htmlspecialchars($_POST['imgAlt']), PDO::PARAM_STR);
+        $datas->bindValue(':statut',    htmlspecialchars($_POST['statut']), PDO::PARAM_STR);
         $datas->bindValue(':idChapter', $idChapter, PDO::PARAM_STR); 
         $datas->execute();  
         return $datas;
