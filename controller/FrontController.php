@@ -3,6 +3,7 @@ namespace Alaska_Controller;
 
 class FrontController
 {
+    /* Menu ----------------------------------- */
     public function about($params)
     {
         $nxView = new \Alaska_Model\View ('about');
@@ -30,28 +31,6 @@ class FrontController
 
         unset($_SESSION["countChapters"]);
     }
-    
-    public function upChapter($params)
-    {
-        extract($params); // recup $id dans url
-
-        $chapterManager = new \Alaska_Model\ChapterManager();
-        $chapter = $chapterManager->getChapter($id);
-
-        $nxView = new \Alaska_Model\View('admin/upChapter');
-        $nxView->getView(array ('chapter' => $chapter));
-    } 
-
-    public function upComment($params)
-    {
-        extract($params); // recup $id dans url
-
-        $commentManager = new \Alaska_Model\CommentManager();
-        $comment = $commentManager->getComment($id);
-
-        $nxView = new \Alaska_Model\View('admin/upComment');
-        $nxView->getView(array ('comment' => $comment));
-    } 
 
     public function contact($params)
     {
@@ -99,10 +78,61 @@ class FrontController
         $nxView->redirect('home');
     }
 
+    /* Link Button ----------------------------*/
+    public function chapter($params)
+    {   
+        extract($params); // recup $id dans url
+
+        $chapterManager = new \Alaska_Model\ChapterManager; 
+        $chapter = $chapterManager->getChapter($id);
+
+        // Création des objets commentaire
+        $commentManager = new \Alaska_Model\CommentManager;
+        $dataComments = $commentManager->getComments($id);
+        foreach ($dataComments as $data )
+        {
+            $comment = new \Alaska_Model\Comment($data);
+            $comments[] = $comment; // Tableau d'objet
+        }
+
+        $nxView = new \Alaska_Model\View ('book/chapter');
+        $nxView->getView(array (
+            'chapter' => $chapter, 
+            'comments'=> $comments));
+    }
+
+    public function addChapter($params)
+    {
+        $nxView = new \Alaska_Model\View ('admin/addChapter');
+        $nxView->getView();
+    }
+    
+    public function upChapter($params)
+    {
+        extract($params); // recup $id dans url
+
+        $chapterManager = new \Alaska_Model\ChapterManager();
+        $chapter = $chapterManager->getChapter($id);
+
+        $nxView = new \Alaska_Model\View('admin/upChapter');
+        $nxView->getView(array ('chapter' => $chapter));
+    } 
+
+    public function upComment($params)
+    {
+        extract($params); // recup $id dans url
+
+        $commentManager = new \Alaska_Model\CommentManager();
+        $comment = $commentManager->getComment($id);
+
+        $nxView = new \Alaska_Model\View('admin/upComment');
+        $nxView->getView(array ('comment' => $comment));
+    } 
+
+    /* Erreur 404  ----------------------------*/
     public function page404($params)
     {
         $nxView = new \Alaska_Model\View ('page404');
         $nxView->getView();
     }
-    
 }

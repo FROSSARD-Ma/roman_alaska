@@ -50,32 +50,6 @@ class BookController
 	}
 
    	// ---- CHAPTERS ------------------------------------ */
-	public function chapter($params)
-	{	
-		extract($params); // recup $id dans url
-
-		$chapterManager = new \Alaska_Model\ChapterManager; 
-	    $chapter = $chapterManager->getChapter($id);
-
-	    // Création des objets commentaire
-	    $commentManager = new \Alaska_Model\CommentManager;
-	    $dataComments = $commentManager->getComments($id);
-        foreach ($dataComments as $data )
-        {
-            $comment = new \Alaska_Model\Comment($data);
-            $comments[] = $comment; // Tableau d'objet
-        }
-
-	    $nxView = new \Alaska_Model\View ('book/chapter');
-        $nxView->getView(array (
-        	'chapter' => $chapter, 
-        	'comments'=> $comments));
-	}
-	public function addChapter($params)
-	{
-        $nxView = new \Alaska_Model\View ('admin/addChapter');
-        $nxView->getView();
-	}
 	public function creatChapter($params)
 	{
         if (isset($_SESSION['userId']))
