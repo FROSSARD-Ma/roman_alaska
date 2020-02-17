@@ -1,9 +1,9 @@
 <?php $title = 'Chapitres | Billet pour l\'Alalska'; ?>
 
 <?php 
-$idChapter = htmlspecialchars($chapter->getId());
-$img = htmlspecialchars($chapter->getImg());
-$imgAlt = htmlspecialchars($chapter->getImgAlt());
+$idChapter = $chapter->getId();
+$img = $chapter->getImg();
+$imgAlt = $chapter->getImgAlt();
 ?>
 
 <!-- Affichage du chapitre -->
@@ -13,15 +13,15 @@ $imgAlt = htmlspecialchars($chapter->getImgAlt());
 	<header class="media">
 	    <a href="index.php?page=chapter/id/<?=$idChapter?>"><img src="public/img/chapter/<?=$img?>" alt="<?=$imgAlt?>"></a>
 	    <div class="media-body">
-			<p><?php if ($chapter->getNum()!=0) echo 'Chapitre ' . htmlspecialchars($chapter->getNum()); ?>
-			<p>Edité le <?=htmlspecialchars($chapter->getCreated());?>
-				<br>Dernière mise à jour le <?=htmlspecialchars($chapter->getModified());?>
+			<p><?php if ($chapter->getNum()!=0) echo 'Chapitre ' . $chapter->getNum(); ?>
+			<p>Edité le <?=$chapter->getCreated();?>
+				<br>Dernière mise à jour le <?=$chapter->getModified();?>
 			</p>
-	      	<p><?=htmlspecialchars($chapter->getCountComment());?></p>
+	      	<p><?=$chapter->getCountComment();?></p>
 	    </div>
 	</header>
 	<article>
-		<p><?=htmlspecialchars($chapter->getContent());?></p>
+		<p><?=$chapter->getContent();?></p>
 	</article>
 </section>
 
@@ -43,14 +43,14 @@ $imgAlt = htmlspecialchars($chapter->getImgAlt());
 			<?php $idComment = $comment->getId();?>	
 			<section>
 				
-		      	<p><strong><?=htmlspecialchars($comment->getUserPseudo());?></strong> le <?=htmlspecialchars($comment->getCreated());?>
+		      	<p><strong><?=$comment->getUserPseudo();?></strong> le <?=$comment->getCreated();?>
 		      	</p>
 		      	
 		      	<?php if (isset($_SESSION['user']))
 				{ ?>
 		      		<a href="index.php?page=creatSignal/id/<?=$idComment?>&amp;idChapter=<?=$idChapter?>" class="button" onclick="javascript: return confirm('Confirmer le signalement  d\'un commentaire inapproprié ?');" title="Signaler un contenu inapproprié" role="button">Signaler</a>
 		      	<?php } ?>
-		      	<p><?=htmlspecialchars($comment->getContent());?></p>
+		      	<p><?=$comment->getContent();?></p>
 				
 			</section>
 			<hr>

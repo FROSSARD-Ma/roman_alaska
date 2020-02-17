@@ -2,6 +2,7 @@
 tinymce.init({
   selector: '#chapter_content',  // chapter writing by admin
   menubar: false,
+  entity_encoding : "raw",
   style_formats:
   [
     { title: 'Titre 1', format: 'h1' },

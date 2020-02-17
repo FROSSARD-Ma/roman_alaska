@@ -26,7 +26,7 @@ class ChapterManager extends Manager
         $datas->bindValue(':num',       htmlspecialchars($_POST['num']), PDO::PARAM_INT); 
         $datas->bindValue(':image',     htmlspecialchars($nomImage), PDO::PARAM_STR);
         $datas->bindValue(':imgAlt',    htmlspecialchars($_POST['imgAlt']), PDO::PARAM_STR);
-        $datas->bindValue(':content',   htmlspecialchars($_POST['content']), PDO::PARAM_STR);
+        $datas->bindValue(':content',   $_POST['content'], PDO::PARAM_STR); // Sécurié par défaut TinyMCE
         $datas->execute();  
 
         return $datas;
@@ -237,7 +237,7 @@ class ChapterManager extends Manager
         $datas = $this->getPDO()->prepare($sql);
         $datas->bindValue(':num',       htmlspecialchars($_POST['num']), PDO::PARAM_INT); 
         $datas->bindValue(':title',     htmlspecialchars($_POST['title']), PDO::PARAM_STR);
-        $datas->bindValue(':content',   htmlspecialchars($_POST['content']), PDO::PARAM_STR);
+        $datas->bindValue(':content',   $_POST['content'], PDO::PARAM_STR);
         $datas->bindValue(':image',     htmlspecialchars($nomImage), PDO::PARAM_STR);
         $datas->bindValue(':imgAlt',    htmlspecialchars($_POST['imgAlt']), PDO::PARAM_STR);
         $datas->bindValue(':statut',    htmlspecialchars($_POST['statut']), PDO::PARAM_STR);

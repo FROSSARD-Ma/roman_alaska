@@ -41,7 +41,7 @@
 			    <hr> 
 			    <div>
 			        <label for="chapter_content">Texte du chapitre</label>
-			        <textarea id="chapter_content" name="texte" minlength="2"></textarea>
+			        <textarea id="chapter_content" name="content" minlength="2"></textarea>
 			    </div>
 
 			    <p class="errorMessage erreur"></p>
