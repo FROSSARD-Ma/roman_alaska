@@ -139,14 +139,11 @@
                 		</td>
                 		<td class="center">
                 			<a class="icon icon-edit" href="index.php?page=chapter/id/<?=$idChapter?>" title="Voir le chapitre">
-                                	<i class="fas fa-eye"></i>
-                            	</a>
-                        	<a class="icon icon-edit" href="index.php?page=upComment/id/<?=$idComment?>" title="modifier le commentaire">
-                            	<i class="fas fa-pencil-alt"></i>
-                        	</a>
-                        	<a class="icon icon-del" href="index.php?page=delComment/id/<?=$idComment?>" title="supprimer le commentaire" onclick="javascript: return confirm('Confirmez-vous la suppression du COMMENTAIRE ?');">
-                            	<i class="fas fa-trash"></i>
-                        	</a>
+                        	<i class="fas fa-eye"></i>
+                    	</a>
+                    	<a class="icon icon-del" href="index.php?page=delComment/id/<?=$idComment?>" title="supprimer le commentaire" onclick="javascript: return confirm('Confirmez-vous la suppression du COMMENTAIRE ?');">
+                        	<i class="fas fa-trash"></i>
+                    	</a>
                     	</td>
                 	</tr>
                 <?php endforeach ?>

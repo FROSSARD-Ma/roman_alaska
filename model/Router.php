@@ -20,7 +20,6 @@ class Router {
 		/* Link Button */
 		"chapter" 		=> ['controller'=> '\Alaska_Controller\FrontController', 'method'=>'chapter'],
 		"addChapter" 	=> ['controller'=> '\Alaska_Controller\FrontController', 'method'=>'addChapter'],
-		"upComment" 	=> ['controller'=> '\Alaska_Controller\FrontController', 'method'=>'upComment'],
 		"upChapter" 	=> ['controller'=> '\Alaska_Controller\FrontController', 'method'=>'upChapter'],
 		
 		/* Erreur Page 404 */
@@ -44,7 +43,6 @@ class Router {
 
 		/* Comments */
 		"creatComment" 	=> ['controller'=> '\Alaska_Controller\BookController', 'method'=>'creatComment'],
-		"updateComment" => ['controller'=> '\Alaska_Controller\BookController', 'method'=>'updateComment'],
 		"delComment" 	=> ['controller'=> '\Alaska_Controller\BookController', 'method'=>'delComment'],
 
 		/* Signalements */

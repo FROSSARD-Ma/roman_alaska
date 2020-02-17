@@ -166,38 +166,6 @@ class BookController
 			$nxView->redirect('login');
 		}
 	}
-	public function updateComment($params)
-	{
-		if (isset($_SESSION['userId']))
-		{
-			// recup $id du commentaire dans url
-			extract($params); 
-			// Modification du commentaire 
-			$commentManager = new \Alaska_Model\CommentManager();
-			$upComment = $commentManager->updateComment($id);
-			if ($upComment)
-			{
-				$_SESSION['successMessage'] = 'Le commentaire a bien été mis à jour !';
-				// Retour page admin
-		        $nxView = new \Alaska_Model\View();
-	        	$nxView->redirect('admin');
-			}
-			else 
-			{
-				$_SESSION['errorMessage'] = 'ERREUR : lors de la mise à jour du commentaire';
-				// Erreur : retour sur modif commentaire
-				$nxView = new \Alaska_Model\View();
-				$nxView->redirect('upComment/id/'.$id);
-			}
-		}
-		else 
-		{
-			$_SESSION['errorMessage'] = 'Vous devez vous identifer pour modifier un commentaire !';
-			// Redirection vers la page identification
-			$nxView = new \Alaska_Model\View();
-			$nxView->redirect('login');
-		}
-	}
 	public function delComment($params)
 	{
 		// recup $id du commentaire dans url

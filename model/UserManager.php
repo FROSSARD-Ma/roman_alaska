@@ -60,8 +60,4 @@ class UserManager extends Manager
 	    $data->execute();
 	    return $data;
 	}
-
-	public function delete($id)
-	{
-	}
 }

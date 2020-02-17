@@ -116,18 +116,7 @@ class FrontController
 
         $nxView = new \Alaska_Model\View('admin/upChapter');
         $nxView->getView(array ('chapter' => $chapter));
-    } 
-
-    public function upComment($params)
-    {
-        extract($params); // recup $id dans url
-
-        $commentManager = new \Alaska_Model\CommentManager();
-        $comment = $commentManager->getComment($id);
-
-        $nxView = new \Alaska_Model\View('admin/upComment');
-        $nxView->getView(array ('comment' => $comment));
-    } 
+    }
 
     /* Erreur 404  ----------------------------*/
     public function page404($params)

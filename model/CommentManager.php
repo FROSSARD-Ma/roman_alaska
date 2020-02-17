@@ -61,32 +61,6 @@ class CommentManager extends Manager
         return $countComments;
     }
 
-    /*---  UPDATE -------------------------------------------------------- */
-    public function updateComment($id)
-    {
-        // Ajout de l'information de modération du commentaire
-        $comparaison = substr_compare($_POST['content'], "Commentaire modéré", 0, 19);
-
-
-        if ($comparaison > 0) // comparaison chaine
-        {
-            $content = "Commentaire modéré par l'administrateur : ". $_POST['content'];
-        }
-        else 
-        {
-            $content = $_POST['content'];
-        }
-
-        $idComment = (int)$id;
-        $sql ='UPDATE alaska_comments SET content_comment = :contentComment WHERE  id_comment = :idComment';
-        $data = $this->getPDO()->prepare($sql);
-        $data->bindValue(':idComment', $idComment, PDO::PARAM_STR); 
-        $data->bindValue(':contentComment', $content, PDO::PARAM_STR);
-        $data->execute();  
-
-        return $data;
-    }
-
     /*---  DELETE -------------------------------------------------------- */
     public function deleteComment($id)
     {
