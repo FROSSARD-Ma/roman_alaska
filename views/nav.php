@@ -2,7 +2,7 @@
 
   <a class="auteur" href="index.php?page=about"><i class="fas fa-feather-alt"></i> Jean Forteroche</a>
 
-  <?php if (isset($_SESSION['role']) == 'admin') { ?>
+  <?php if ($_SESSION['role'] == 'admin') { ?>
     <a class="active" href="index.php?page=admin">Admin</a>
   <?php } ?>
 
