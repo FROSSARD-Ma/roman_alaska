@@ -132,11 +132,16 @@ class FrontController
     {
         extract($params); // recup $id dans url
 
+        $csrf = new \Alaska_Model\CsrfSecurite('upChapter');
+        $token = $csrf->getToken();
+
         $chapterManager = new \Alaska_Model\ChapterManager();
         $chapter = $chapterManager->getChapter($id);
 
         $nxView = new \Alaska_Model\View('admin/upChapter');
-        $nxView->getView(array ('chapter' => $chapter));
+        $nxView->getView(array (
+            'chapter' => $chapter,
+            'token' => $token));
     }
 
     /* Erreur 404  ----------------------------*/

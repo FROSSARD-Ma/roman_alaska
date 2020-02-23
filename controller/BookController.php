@@ -107,39 +107,51 @@ class BookController
 			$_SESSION['errorMessage'] = "Un controle sécurité a bloqué l'envoi de votre nouveau chapitre !";
 			$nxView->redirect('addChapter');
 		}
-		
+
 	}
 	public function updateChapter($params)
 	{
-		if (isset($_SESSION['userId']))
-		{
-			// recup $id du chapitre dans url
-			extract($params); 
+		$nxView = new \Alaska_Model\View();
+		// recup $id du chapitre dans url
+		extract($params); 
 
-			// Modification du chapitre 
-			$chapterManager = new \Alaska_Model\ChapterManager();
-			$upChapter = $chapterManager->updateChapter($id);
-			if ($upChapter)
+		// ====== Ajout d'un TOKEN au FORM inscription => faille CSRF ============
+        $csrf = new \Alaska_Model\CsrfSecurite('upChapter');
+        $upChapterToken = $csrf->verifToken('https://rbb0530.phpnet.org/roman_alaska/index.php?page=upChapter/id/'.$id);
+		if ($upChapterToken)
+		{
+			if (isset($_SESSION['userId']))
 			{
-				$_SESSION['successMessage'] = 'Le chapitre a bien été mis à jour.';
-				// Retour page admin
-		        $nxView = new \Alaska_Model\View();
-	        	$nxView->redirect('admin');
+				// Modification du chapitre 
+				$chapterManager = new \Alaska_Model\ChapterManager();
+				$upChapter = $chapterManager->updateChapter($id);
+				if ($upChapter)
+				{
+					$_SESSION['successMessage'] = 'Le chapitre a bien été mis à jour.';
+					// Retour page admin
+			        $nxView = new \Alaska_Model\View();
+		        	$nxView->redirect('admin');
+				}
+				else 
+				{
+					$_SESSION['errorMessage'] = 'ERREUR : le chapitre n\'a pas été mis à jour.';
+					// Erreur : retour sur modif chapitre
+					$nxView = new \Alaska_Model\View();
+					$nxView->redirect('upChapter/id/'.$id);
+				}
 			}
 			else 
 			{
-				$_SESSION['errorMessage'] = 'ERREUR : le chapitre n\'a pas été mis à jour.';
-				// Erreur : retour sur modif chapitre
+				$_SESSION['errorMessage'] = 'ERREUR : vous devez vous identifier pour modifier un chapitre !';
+				// Redirection vers la page identification
 				$nxView = new \Alaska_Model\View();
-				$nxView->redirect('upChapter/id/'.$id);
+				$nxView->redirect('login');
 			}
 		}
-		else 
+		else
 		{
-			$_SESSION['errorMessage'] = 'ERREUR : vous devez vous identifier pour modifier un chapitre !';
-			// Redirection vers la page identification
-			$nxView = new \Alaska_Model\View();
-			$nxView->redirect('login');
+			$_SESSION['errorMessage'] = "Un controle sécurité a bloqué la mise à jour du chapitre !";
+			$nxView->redirect('upChapter/id/'.$id);
 		}
 	}
 	public function delChapter($params)
