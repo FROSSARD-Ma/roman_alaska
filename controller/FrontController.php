@@ -52,6 +52,9 @@ class FrontController
 
     public function admin($params)
     {
+        $csrf = new \Alaska_Model\CsrfSecurite('admin');
+        $token = $csrf->getToken();
+
         $chapterManager = new \Alaska_Model\ChapterManager; 
         $chapters = $chapterManager->adminChapters();
         $countChapters = $chapterManager->countChapters('all');
@@ -63,7 +66,8 @@ class FrontController
         $nxView = new \Alaska_Model\View ('admin/admin');
         $nxView->getView(array (
             'chapters' => $chapters,
-            'signals'=> $signals));
+            'signals'=> $signals,
+            'token' => $token));
     }
 
     public function login($params)

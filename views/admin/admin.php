@@ -85,11 +85,11 @@
                 <a class="icon icon-edit" href="index.php?page=upChapter/id/<?=$id?>" title="Editer le chapitre">
                   <i class="fas fa-pencil-alt"></i>
                 </a>
-                  <?php if ($chapter->getStatut()=='Corbeille') { ?>
-  			        <a class="icon icon-del" href="index.php?page=delChapter/id/<?=$id?>" title="supprimer DÉFINITIVEMENT le chapitre" onclick="javascript: return confirm('Supprimer DÉFINITIVEMENT le CHAPITRE ?');">
-                  <i class="fas fa-trash"></i>
-              	</a>
-                  <? } ?>
+                <?php if ($chapter->getStatut()=='Corbeille') { ?>
+    			        <a class="icon icon-del" href="index.php?page=delChapter/id/<?=$id?>&token=<?=$_SESSION['admin_token'];?>" title="supprimer DÉFINITIVEMENT le chapitre" onclick="javascript: return confirm('Supprimer DÉFINITIVEMENT le CHAPITRE ?');">
+                    <i class="fas fa-trash"></i>
+                	</a>
+                <? } ?>
               </td>
           	</tr>
           <?php endforeach ?>
@@ -127,7 +127,7 @@
   				?>
                 	<tr>
   					<td class="center">
-                			<a class="icon icon-del" href="index.php?page=delSignal/id/<?=$idComment?>" title="supprimer le(s) signalement(s)" onclick="javascript: return confirm('Confirmez-vous la suppression du ou des signalement(s) ?');">
+                			<a class="icon icon-del" href="index.php?page=delSignal/id/<?=$idComment?>&token=<?=$_SESSION['admin_token'];?>" title="supprimer le(s) signalement(s)" onclick="javascript: return confirm('Confirmez-vous la suppression du ou des signalement(s) ?');">
                             	<i class="fas fa-eraser"></i>
                         	</a>
                 		</td>
@@ -141,7 +141,7 @@
                 			<a class="icon icon-edit" href="index.php?page=chapter/id/<?=$idChapter?>" title="Voir le chapitre">
                         	<i class="fas fa-eye"></i>
                     	</a>
-                    	<a class="icon icon-del" href="index.php?page=delComment/id/<?=$idComment?>" title="supprimer le commentaire" onclick="javascript: return confirm('Confirmez-vous la suppression du COMMENTAIRE ?');">
+                    	<a class="icon icon-del" href="index.php?page=delComment/id/<?=$idComment?>&token=<?=$_SESSION['admin_token'];?>" title="supprimer le commentaire" onclick="javascript: return confirm('Confirmez-vous la suppression du COMMENTAIRE ?');">
                         	<i class="fas fa-trash"></i>
                     	</a>
                     	</td>

@@ -156,19 +156,28 @@ class BookController
 	}
 	public function delChapter($params)
 	{
-		// recup $id du commentaire dans url
-		extract($params);
-		// Suppression du commentaire
-		$chapterManager = new \Alaska_Model\ChapterManager;
-	    $delChapter = $chapterManager->deleteChapter($id);
-	    if ($delChapter)
-	    {
-	    	 $_SESSION['successMessage'] = 'Le chapitre a bien été supprimé !';
-	    }
-	    else
-	    {
-	    	$_SESSION['errorMessage'] = 'ERREUR : le chapitre n\'a pas été supprimé';
-	    }
+		$csrf = new \Alaska_Model\CsrfSecurite('admin');
+        $delChapterToken = $csrf->verifGetToken('https://rbb0530.phpnet.org/roman_alaska/index.php?page=admin');
+		if ($delChapterToken)
+		{
+			// recup $id du commentaire dans url
+			extract($params);
+			// Suppression du commentaire
+			$chapterManager = new \Alaska_Model\ChapterManager;
+		    $delChapter = $chapterManager->deleteChapter($id);
+		    if ($delChapter)
+		    {
+		    	 $_SESSION['successMessage'] = 'Le chapitre a bien été supprimé !';
+		    }
+		    else
+		    {
+		    	$_SESSION['errorMessage'] = 'ERREUR : le chapitre n\'a pas été supprimé';
+		    }
+		}
+		else
+		{
+			$_SESSION['errorMessage'] = "Un controle sécurité a bloqué la suppression du chapitre !";
+		}
 
 		$nxView = new \Alaska_Model\View();
         $nxView->redirect('admin');
@@ -203,19 +212,28 @@ class BookController
 	}
 	public function delComment($params)
 	{
-		// recup $id du commentaire dans url
-		extract($params);
-		// Suppression du commentaire
-		$commentManager = new \Alaska_Model\CommentManager;
-	    $delComment = $commentManager->deleteComment($id);
-	    if ($delComment)
-	    {
-	    	 $_SESSION['successMessage'] = 'Le commentaire a bien été supprimé !';
-	    }
-	    else
-	    {
-	    	$_SESSION['errorMessage'] = 'ERREUR : le commentaire n\'a pas été supprimé';
-	    }
+		$csrf = new \Alaska_Model\CsrfSecurite('admin');
+        $delCommentToken = $csrf->verifGetToken('https://rbb0530.phpnet.org/roman_alaska/index.php?page=admin');
+		if ($delCommentToken)
+		{	
+			// recup $id du commentaire dans url
+			extract($params);
+			// Suppression du commentaire
+			$commentManager = new \Alaska_Model\CommentManager;
+		    $delComment = $commentManager->deleteComment($id);
+		    if ($delComment)
+		    {
+		    	 $_SESSION['successMessage'] = 'Le commentaire a bien été supprimé !';
+		    }
+		    else
+		    {
+		    	$_SESSION['errorMessage'] = 'ERREUR : le commentaire n\'a pas été supprimé';
+		    }
+		}
+		else
+		{
+			$_SESSION['errorMessage'] = "Un controle sécurité a bloqué la suppression du commentaire !";
+		}
 
 		$nxView = new \Alaska_Model\View();
         $nxView->redirect('admin');
@@ -245,19 +263,28 @@ class BookController
 	}
 	public function delSignal($params)
 	{
-		extract($params); // recup $id dans url
+		$csrf = new \Alaska_Model\CsrfSecurite('admin');
+        $delSignalToken = $csrf->verifGetToken('https://rbb0530.phpnet.org/roman_alaska/index.php?page=admin');
+		if ($delSignalToken)
+		{
+			extract($params); // recup $id dans url
 
-		$signalManager = new \Alaska_Model\SignalManager;
-	    $delSignal = $signalManager->deleteSignal($id);
-	    if ($delSignal)
-	    {
-	    	 $_SESSION['successMessage'] = 'Le signalement a bien été supprimé !';
-	    }
-	    else
-	    {
-	    	$_SESSION['errorMessage'] = 'ERREUR : le signalement n\'a pas été supprimé.';
-	    }
-	   
+			$signalManager = new \Alaska_Model\SignalManager;
+		    $delSignal = $signalManager->deleteSignal($id);
+		    if ($delSignal)
+		    {
+		    	 $_SESSION['successMessage'] = 'Le signalement a bien été supprimé !';
+		    }
+		    else
+		    {
+		    	$_SESSION['errorMessage'] = 'ERREUR : le signalement n\'a pas été supprimé.';
+		    }
+	   	}
+		else
+		{
+			$_SESSION['errorMessage'] = "Un controle sécurité a bloqué la suppression du signalement !";
+		}
+
 		$nxView = new \Alaska_Model\View();
 		$nxView->redirect('admin');
 	}		

@@ -42,5 +42,27 @@ class CsrfSecurite
 		return false;
     }
 
+    public function verifGetToken($referer)
+    {
+    	// Token présent dans la session et dans le formulaire ?
+		if(isset($_SESSION[$this->_nameForm.'_token']) && isset($_SESSION[$this->_nameForm.'_token_time']) && isset($_GET['token']))
+		{
+			// Si token session correspond au tokenformulaire
+			if($_SESSION[$this->_nameForm.'_token'] == $_GET['token'])
+			{
+				// Temps du token valide ?
+				if($_SESSION[$this->_nameForm.'_token_time'] >= (time() - $this->_tempsValidForm))
+				{
+					// Si la requete vient du formulaire
+					if($_SERVER['HTTP_REFERER'] == $referer)
+					{
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+    }
+
 
 }
