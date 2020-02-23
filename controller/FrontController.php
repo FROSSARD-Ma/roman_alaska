@@ -40,8 +40,11 @@ class FrontController
 
     public function inscription($params)
     {
+        $csrf = new \Alaska_Model\CsrfSecurite('inscription');
+        $token = $csrf->getToken();
+
         $nxView = new \Alaska_Model\View ('user/inscription');
-        $nxView->getView();
+        $nxView->getView(array ('token' => $token));
     }
 
     public function admin($params)
