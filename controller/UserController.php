@@ -194,12 +194,6 @@ class UserController
 	}
 
 	// ---- PASS -----------------------------------------------------
-	public function nxPass($params)
-	{
-		$nxView = new \Alaska_Model\View ('user/pass');
-        $nxView->getView();
-	}
-
 	public function creatPass($params)
 	{
 		$nxView = new \Alaska_Model\View();

@@ -85,6 +85,15 @@ class FrontController
     }
 
     /* Link Button ----------------------------*/
+    public function nxPass($params)
+    {
+        $csrf = new \Alaska_Model\CsrfSecurite('pass');
+        $token = $csrf->getToken();
+
+        $nxView = new \Alaska_Model\View ('user/pass');
+        $nxView->getView(array ('token' => $token));
+    }
+
     public function chapter($params)
     {   
         extract($params); // recup $id dans url

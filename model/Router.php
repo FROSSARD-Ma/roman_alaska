@@ -18,6 +18,7 @@ class Router {
 		"logout" 		=> ['controller'=> '\Alaska_Controller\FrontController', 'method'=>'logout'],
 
 		/* Link Button */
+		"nxPass" 		=> ['controller'=> '\Alaska_Controller\FrontController', 'method'=>'nxPass'],
 		"chapter" 		=> ['controller'=> '\Alaska_Controller\FrontController', 'method'=>'chapter'],
 		"addChapter" 	=> ['controller'=> '\Alaska_Controller\FrontController', 'method'=>'addChapter'],
 		"upChapter" 	=> ['controller'=> '\Alaska_Controller\FrontController', 'method'=>'upChapter'],
@@ -29,7 +30,6 @@ class Router {
 		"creatUser" 	=> ['controller'=> '\Alaska_Controller\UserController', 'method'=>'creatUser'],
 		"users" 		=> ['controller'=> '\Alaska_Controller\UserController', 'method'=>'users'],
 		"loginUser" 	=> ['controller'=> '\Alaska_Controller\UserController', 'method'=>'loginUser'],
-		"nxPass" 		=> ['controller'=> '\Alaska_Controller\UserController', 'method'=>'nxPass'],
 		"creatPass" 	=> ['controller'=> '\Alaska_Controller\UserController', 'method'=>'creatPass'],
 
 		// ---- BOOK Controller -----------------------------------------------------
