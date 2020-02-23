@@ -198,63 +198,52 @@ class UserController
 	{
 		$nxView = new \Alaska_Model\View();
 
-		// ====== Ajout d'un TOKEN au FORM login => faille CSRF ============
-        $csrf = new \Alaska_Model\CsrfSecurite('pass');
-        $passToken = $csrf->verifToken('https://rbb0530.phpnet.org/roman_alaska/index.php?page=nxPass');
-		if ($passToken)
-		{
-			$mailManager = new \Alaska_Model\UserManager; 
-		    $mailExist = $mailManager->existUser($_POST['email']);
-		    if ($mailExist) 
+		$mailManager = new \Alaska_Model\UserManager; 
+	    $mailExist = $mailManager->existUser($_POST['email']);
+	    if ($mailExist) 
+	    {
+			$passManager = new \Alaska_Model\UserManager; 
+		    $creatPass = $passManager->addPass($_POST['email']);
+		    if ($creatPass)
 		    {
-				$passManager = new \Alaska_Model\UserManager; 
-			    $creatPass = $passManager->addPass($_POST['email']);
-			    if ($creatPass)
-			    {
-			    	// Récupère le mot de pass décrypté
-			    	$nwPass = $_SESSION['nxPass'];
+		    	// Récupère le mot de pass décrypté
+		    	$nwPass = $_SESSION['nxPass'];
 
-			    	// Envoyer un MAIL avec nx pass --------------------------------------
-		            $verif_mail = $_POST['email'];
-		            $subject 	= "Mot de passe - Roman, Un billet pour l'Alaska";
-		            $message	= "
-		            <html>
-				            <h1>Bienvenue sur un Billet pour l'Alaska !</h1>
-				            <p>Vous pouvez dès à présent vous connecter à votre compte avec les identifiants suivant :</p>
-				           	<p>- Votre identifiant : $verif_mail
-				           	<br>- Votre Mot de Passe : $nwPass</p>
-				           	<br>
-				           	<p>Accédez directement à votre espace de lecture à cette adresse : <a href='https://rbb0530.phpnet.org/roman_alaska/index.php?page=login'>Mon compte</a>
-				           	<br>
-				           	<p>A bientôt !</p>
-				           	<p>Jean Forteroche</p>
-			            </html>";
-		            $headers = "From: Jean Forteroche - Auteur\n";
-		        	$headers.= "MIME-Version: 1.0\n";
-		        	$headers.= "Content-type: text/html; charset=utf-8\n";
-		    
-		            mail($verif_mail, $subject, $message, $headers) or $_SESSION['errorMessage']= "Problème d'envoi d'email";    
+		    	// Envoyer un MAIL avec nx pass --------------------------------------
+	            $verif_mail = $_POST['email'];
+	            $subject 	= "Mot de passe - Roman, Un billet pour l'Alaska";
+	            $message	= "
+	            <html>
+			            <h1>Bienvenue sur un Billet pour l'Alaska !</h1>
+			            <p>Vous pouvez dès à présent vous connecter à votre compte avec les identifiants suivant :</p>
+			           	<p>- Votre identifiant : $verif_mail
+			           	<br>- Votre Mot de Passe : $nwPass</p>
+			           	<br>
+			           	<p>Accédez directement à votre espace de lecture à cette adresse : <a href='https://rbb0530.phpnet.org/roman_alaska/index.php?page=login'>Mon compte</a>
+			           	<br>
+			           	<p>A bientôt !</p>
+			           	<p>Jean Forteroche</p>
+		            </html>";
+	            $headers = "From: Jean Forteroche - Auteur\n";
+	        	$headers.= "MIME-Version: 1.0\n";
+	        	$headers.= "Content-type: text/html; charset=utf-8\n";
+	    
+	            mail($verif_mail, $subject, $message, $headers) or $_SESSION['errorMessage']= "Problème d'envoi d'email";    
 
-					$_SESSION['successMessage'] = "Vous allez recevoir votre nouveau mot de passe sur votre email : ".$verif_mail."<br>Mot de passe : ".$nwPass ;
-		            unset($_SESSION["nxPass"]);
-					$nxView->redirect('login');
-			    }
-			    else
-			    {
-			    	$_SESSION['errorMessage'] = "ECHEC sur l'enregistrement du nouveau mot de passe n'a pas, veuillez en demander un nouveau ";
-			        $nxView->redirect('nxPass');
-			    }
-		   	}
-		   	else
-		   	{
-		   		$_SESSION['errorMessage'] = "ERREUR : Cet Email n'est pas enregistré sur Roman - Un billet pour l'Alaska.";
-		    	$nxView->redirect('nxPass');
-		   	}
-		}
-		else
-		{
-			$_SESSION['errorMessage'] = "Un controle sécurité a bloqué la création du mot de passe !";
-			$nxView->redirect('nxPass');
-		}
+				$_SESSION['successMessage'] = "Vous allez recevoir votre nouveau mot de passe sur votre email : ".$verif_mail."<br>Mot de passe : ".$nwPass ;
+	            unset($_SESSION["nxPass"]);
+				$nxView->redirect('login');
+		    }
+		    else
+		    {
+		    	$_SESSION['errorMessage'] = "ECHEC sur l'enregistrement du nouveau mot de passe n'a pas, veuillez en demander un nouveau ";
+		        $nxView->redirect('nxPass');
+		    }
+	   	}
+	   	else
+	   	{
+	   		$_SESSION['errorMessage'] = "ERREUR : Cet Email n'est pas enregistré sur Roman - Un billet pour l'Alaska.";
+	    	$nxView->redirect('nxPass');
+	   	}  
 	}
 }
