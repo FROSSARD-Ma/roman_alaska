@@ -105,6 +105,9 @@ class FrontController
     {   
         extract($params); // recup $id dans url
 
+        $csrf = new \Alaska_Model\CsrfSecurite('chapter');
+        $token = $csrf->getToken();
+
         $chapterManager = new \Alaska_Model\ChapterManager; 
         $chapter = $chapterManager->getChapter($id);
 
@@ -120,7 +123,8 @@ class FrontController
         $nxView = new \Alaska_Model\View ('book/chapter');
         $nxView->getView(array (
             'chapter' => $chapter, 
-            'comments'=> $comments));
+            'comments'=> $comments,
+            'token' => $token));
     }
 
     public function addChapter($params)

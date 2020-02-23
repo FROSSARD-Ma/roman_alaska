@@ -191,6 +191,15 @@ hr {
     margin-top: 10px;
   }
 
+  form#AddSignal_form {
+    border: 0;
+    padding: 0;
+    padding-bottom: 0;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 0;
+  }
+
   .form-group {
       margin-bottom: 1rem;
   }

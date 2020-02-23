@@ -186,28 +186,36 @@ class BookController
 	/* ---- COMMENTS  ----------------------------------- */
 	public function creatComment($params)
 	{
-		if (isset($_SESSION['userId']))
+		$nxView = new \Alaska_Model\View();
+
+		$chapterId 	= $_POST['chapterId'];
+
+		// ====== Ajout d'un TOKEN au FORM addComment => faille CSRF ============
+        $csrf = new \Alaska_Model\CsrfSecurite('chapter');
+        $commentToken = $csrf->verifToken('https://rbb0530.phpnet.org/roman_alaska/index.php?page=chapter/id/'.$chapterId);
+		if ($commentToken)
 		{
-			$chapterId 	= $_POST['chapterId'];
-			$content    = $_POST['content'];
-
-			// Ajout du commentaire 
-			$commentManager = new \Alaska_Model\CommentManager();
-			$nxComment = $commentManager->addComment($chapterId, $content);
-			if ($nxComment)
-		    {
-		    	 $_SESSION['successMessage'] = 'Le commentaire a bien été ajouté !';
-		    }
-
-			$nxView = new \Alaska_Model\View();
-        	$nxView->redirect('chapter/id/'.$chapterId);
+			if (isset($_SESSION['userId']))
+			{
+				$content    = $_POST['content'];
+				$commentManager = new \Alaska_Model\CommentManager();
+				$nxComment = $commentManager->addComment($chapterId, $content);
+				if ($nxComment)
+			    {
+			    	 $_SESSION['successMessage'] = 'Le commentaire a bien été ajouté !';
+			    }
+	        	$nxView->redirect('chapter/id/'.$chapterId);
+			}
+			else 
+			{
+				$_SESSION['errorMessage'] = 'Vous devez vous identifer pour ajouter un commentaire a bien été ajouté !';
+				$nxView->redirect('login');
+			}
 		}
-		else 
+		else
 		{
-			$_SESSION['errorMessage'] = 'Vous devez vous identifer pour ajouter un commentaire a bien été ajouté !';
-			// Redirection vers la page identification
-			$nxView = new \Alaska_Model\View();
-			$nxView->redirect('login');
+			$_SESSION['errorMessage'] = "Un controle sécurité a bloqué l'ajout de votre commentaire !";
+			$nxView->redirect('chapter/id/'.$chapterId);
 		}
 	}
 	public function delComment($params)
@@ -242,24 +250,33 @@ class BookController
 	/* ---- SIGNALS ------------------------------------- */
 	public function creatSignal($params)
 	{
-		// recup $id des commentaires dans url
+		$chapterId 	= $_POST['chapterId'];
 		extract($params); 
-		// Ajout signalement
-		$signalManager = new \Alaska_Model\SignalManager;
-	    $signalComment = $signalManager->addSignal($id);
-	    if ($signalComment)
-	    {
-	    	 $_SESSION['successMessage'] = 'Le signalement a bien été enregistré !';
-	    }
-	    else
-	    {
-	    	$_SESSION['errorMessage'] = 'ERREUR : le signalement n\'a pas été pris en compte.';
-	    }
 
-		// recup GET idchapter pour retour page
-		$idChapter = $_GET['idChapter'];
+		// ====== Ajout d'un TOKEN au FORM addComment => faille CSRF ============
+        $csrf = new \Alaska_Model\CsrfSecurite('chapter');
+        $signalToken = $csrf->verifToken('https://rbb0530.phpnet.org/roman_alaska/index.php?page=chapter/id/'.$chapterId);
+		if ($signalToken)
+		{
+			// Ajout signalement
+			$signalManager = new \Alaska_Model\SignalManager;
+		    $signalComment = $signalManager->addSignal($id); // $id comment
+		    if ($signalComment)
+		    {
+		    	 $_SESSION['successMessage'] = 'Le signalement a bien été enregistré !';
+		    }
+		    else
+		    {
+		    	$_SESSION['errorMessage'] = 'ERREUR : le signalement n\'a pas été pris en compte.';
+		    }
+		}
+		else
+		{
+			$_SESSION['errorMessage'] = "Un controle sécurité a bloqué l'ajout de votre signalement !";
+		}    
+
 		$nxView = new \Alaska_Model\View();
-		$nxView->redirect('chapter/id/'.$idChapter);
+		$nxView->redirect('chapter/id/'.$chapterId);
 	}
 	public function delSignal($params)
 	{
