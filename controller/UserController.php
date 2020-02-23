@@ -154,32 +154,43 @@ class UserController
 	{
 		$nxView = new \Alaska_Model\View();
 
-		$mailManager = new \Alaska_Model\UserManager; 
-	    $mailExist = $mailManager->existUser($_POST['email']);
-	    if ($mailExist) 
-	    {
-	    	$nxUser = new \Alaska_Model\User($mailExist);
-			// Comparaison du pass envoyé via le formulaire avec la base
-			$PassCorrect = password_verify($_POST['pass'], $nxUser->getPass());
-			
-			if ($PassCorrect)
-			{
-				$_SESSION['user'] 	= $nxUser->getPseudo();
-				$_SESSION['userId'] = $nxUser->getId();
-		        $_SESSION['role'] 	= $nxUser->getRole();
-		        $nxView->redirect('home');
+		// ====== Ajout d'un TOKEN au FORM login => faille CSRF ============
+        $csrf = new \Alaska_Model\CsrfSecurite('login');
+        $loginToken = $csrf->verifToken('https://rbb0530.phpnet.org/roman_alaska/index.php?page=login');
+		if ($loginToken)
+		{	
+			$mailManager = new \Alaska_Model\UserManager; 
+		    $mailExist = $mailManager->existUser($_POST['email']);
+		    if ($mailExist) 
+		    {
+		    	$nxUser = new \Alaska_Model\User($mailExist);
+				// Comparaison du pass envoyé via le formulaire avec la base
+				$PassCorrect = password_verify($_POST['pass'], $nxUser->getPass());
+				
+				if ($PassCorrect)
+				{
+					$_SESSION['user'] 	= $nxUser->getPseudo();
+					$_SESSION['userId'] = $nxUser->getId();
+			        $_SESSION['role'] 	= $nxUser->getRole();
+			        $nxView->redirect('home');
+			    }
+			    else
+			    {
+			        $_SESSION['errorMessage'] = 'ERREUR : Le mot de passe ne correspond pas.';
+			        $nxView->redirect('login');
+			    }
 		    }
 		    else
 		    {
-		        $_SESSION['errorMessage'] = 'ERREUR : Le mot de passe ne correspond pas.';
-		        $nxView->redirect('login');
+		    	$_SESSION['errorMessage'] = "ERREUR : Cet Email n'est pas enregistré sur Roman - Un billet pour l'Alaska.";
+		    	$nxView->redirect('login');
 		    }
-	    }
-	    else
-	    {
-	    	$_SESSION['errorMessage'] = "ERREUR : Cet Email n'est pas enregistré sur Roman - Un billet pour l'Alaska.";
-	    	$nxView->redirect('login');
-	    }
+		    }
+		else
+		{
+			$_SESSION['errorMessage'] = "Un controle sécurité a bloqué l'identification !";
+			$nxView->redirect('login');
+		}
 	}
 
 	// ---- PASS -----------------------------------------------------

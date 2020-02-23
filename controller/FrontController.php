@@ -65,8 +65,11 @@ class FrontController
 
     public function login($params)
     {   
+        $csrf = new \Alaska_Model\CsrfSecurite('login');
+        $token = $csrf->getToken();
+
         $nxView = new \Alaska_Model\View ('user/login');
-        $nxView->getView();
+        $nxView->getView(array ('token' => $token));
     }
 
     public function logout($params)
