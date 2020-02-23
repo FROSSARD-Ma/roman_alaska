@@ -121,8 +121,11 @@ class FrontController
 
     public function addChapter($params)
     {
+        $csrf = new \Alaska_Model\CsrfSecurite('addChapter');
+        $token = $csrf->getToken();
+
         $nxView = new \Alaska_Model\View ('admin/addChapter');
-        $nxView->getView();
+        $nxView->getView(array ('token' => $token));
     }
     
     public function upChapter($params)

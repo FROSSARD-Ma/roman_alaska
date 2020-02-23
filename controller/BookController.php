@@ -63,39 +63,51 @@ class BookController
    	// ---- CHAPTERS ------------------------------------ */
 	public function creatChapter($params)
 	{
-        if (isset($_SESSION['userId']))
-		{
-			if ((!empty($_POST['title']))||(!empty($_POST['texte'])))
-			{
-				// Ajout du chapitre 
-				$chapterManager = new \Alaska_Model\ChapterManager();
-				$nxChapter = $chapterManager->addChapter();
+		$nxView = new \Alaska_Model\View();
 
-				// Message d'info
-				if($nxChapter)
+		// ====== Ajout d'un TOKEN au FORM inscription => faille CSRF ============
+        $csrf = new \Alaska_Model\CsrfSecurite('addChapter');
+        $addChapterToken = $csrf->verifToken('https://rbb0530.phpnet.org/roman_alaska/index.php?page=addChapter');
+		if ($addChapterToken)
+		{
+	        if (isset($_SESSION['userId']))
+			{
+				if ((!empty($_POST['title']))||(!empty($_POST['texte'])))
 				{
-					$_SESSION['successMessage'] = 'Le chapitre a bien été créé,<br>Vous pouvez dès à présent le modifier et paramétrer son status.';
+					// Ajout du chapitre 
+					$chapterManager = new \Alaska_Model\ChapterManager();
+					$nxChapter = $chapterManager->addChapter();
+
+					// Message d'info
+					if($nxChapter)
+					{
+						$_SESSION['successMessage'] = 'Le chapitre a bien été créé,<br>Vous pouvez dès à présent le modifier et paramétrer son status.';
+					}
+					else
+					{
+						$_SESSION['errorMessage'] = 'ERREUR : le chapitre n\'a pas été créé';
+					}
+		        	$nxView->redirect('admin');
 				}
 				else
-				{
-					$_SESSION['errorMessage'] = 'ERREUR : le chapitre n\'a pas été créé';
+				{	
+			        $_SESSION['errorMessage'] = 'ERREUR : Tous les champs doivent être renseignés';
 				}
-				// Retour page Admin
-				$nxView = new \Alaska_Model\View();
-	        	$nxView->redirect('admin');
 			}
-			else
-			{	
-		        $_SESSION['errorMessage'] = 'ERREUR : Tous les champs doivent être renseignés';
+			else 
+			{
+				$_SESSION['errorMessage'] = 'ERREUR : vous devez vous identifier pour créer un chapitre !';
+				// Redirection vers la page identification
+				
+				$nxView->redirect('login');
 			}
 		}
-		else 
+		else
 		{
-			$_SESSION['errorMessage'] = 'ERREUR : vous devez vous identifier pour créer un chapitre !';
-			// Redirection vers la page identification
-			$nxView = new \Alaska_Model\View();
-			$nxView->redirect('login');
+			$_SESSION['errorMessage'] = "Un controle sécurité a bloqué l'envoi de votre nouveau chapitre !";
+			$nxView->redirect('addChapter');
 		}
+		
 	}
 	public function updateChapter($params)
 	{
