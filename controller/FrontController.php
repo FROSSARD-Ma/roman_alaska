@@ -34,8 +34,11 @@ class FrontController
 
     public function contact($params)
     {
+        $csrf = new \Alaska_Model\CsrfSecurite('pass');
+        $token = $csrf->getToken();
+
         $nxView = new \Alaska_Model\View ('contact');
-        $nxView->getView();
+        $nxView->getView(array ('token' => $token));
     }
 
     public function inscription($params)

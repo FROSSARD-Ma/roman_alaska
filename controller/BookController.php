@@ -6,43 +6,54 @@ class BookController
 	// ---- CONTACT ------------------------------------ */
 	public function creatContact($params)
 	{	
-		if ((!empty($_POST['name']))||(!empty($_POST['email']))||(!empty($_POST['message'])))
+		// ====== Ajout d'un TOKEN au FORM inscription => faille CSRF ============
+        $csrf = new \Alaska_Model\CsrfSecurite('contact');
+        $contactToken = $csrf->verifToken('https://rbb0530.phpnet.org/roman_alaska/index.php?page=contact');
+		if ($contactToken)
 		{
-			$name = $_POST['name'];
-			$email = $_POST['email'];
-			$contact = $_POST['message'];
+			if ((!empty($_POST['name']))||(!empty($_POST['email']))||(!empty($_POST['message'])))
+			{
+				$name = $_POST['name'];
+				$email = $_POST['email'];
+				$contact = $_POST['message'];
 
-			// Envoyer un MAIL de contact -------------
-	        $to = "marie@spotsweb.fr";
-	        $subject 	= "Contact - Roman, Un billet pour l'Alaska";
-	        $message	= "
-	        <html>
-	            <h1>Message sur un Billet pour l'Alaska !</h1>
-	            <p>Vous avez reçu un message du lecteur, $name</p>
-	           	<p>Message :<br>
-	           	$contact</p>
-	           	<hr>
-	           	<p><a href='mailto:$email'>Répondre au lecteur</a></p>
-	           	<br>
-	           	<p>Roman - Un Billet pour l'Alaska<br>Jean Forteroche</p>
-	        </html>";
-	        
-	    	$headers[] = "MIME-Version: 1.0";
-	    	$headers[] = "Content-type: text/html; charset=utf-8";
-			$headers[] = "From: Jean Forteroche - Lecteur";
+				// Envoyer un MAIL de contact -------------
+		        $to = "marie@spotsweb.fr";
+		        $subject 	= "Contact - Roman, Un billet pour l'Alaska";
+		        $message	= "
+		        <html>
+		            <h1>Message sur un Billet pour l'Alaska !</h1>
+		            <p>Vous avez reçu un message du lecteur, $name</p>
+		           	<p>Message :<br>
+		           	$contact</p>
+		           	<hr>
+		           	<p><a href='mailto:$email'>Répondre au lecteur</a></p>
+		           	<br>
+		           	<p>Roman - Un Billet pour l'Alaska<br>Jean Forteroche</p>
+		        </html>";
+		        
+		    	$headers[] = "MIME-Version: 1.0";
+		    	$headers[] = "Content-type: text/html; charset=utf-8";
+				$headers[] = "From: Jean Forteroche - Lecteur";
 
-	        if (mail($to, $subject, $message, implode("\r\n", $headers)))
-	        {
-				$_SESSION['successMessage'] = 'Votre message a bien été envoyé à l\'auteur';
-	        }
-	        else 
-	        {
-	        	$_SESSION['errorMessage'] = 'Problème d\'envoi d\'email : votre message n\'a pas été envoyé';
-	        }
+		        if (mail($to, $subject, $message, implode("\r\n", $headers)))
+		        {
+					$_SESSION['successMessage'] = 'Votre message a bien été envoyé à l\'auteur';
+		        }
+		        else 
+		        {
+		        	$_SESSION['errorMessage'] = 'Problème d\'envoi d\'email : votre message n\'a pas été envoyé';
+		        }
+			}
+			else
+			{	
+				$_SESSION['errorMessage'] = 'Tous les champs doivent être renseignés'; 
+			}
 		}
 		else
-		{	
-			$_SESSION['errorMessage'] = 'Tous les champs doivent être renseignés'; 
+		{
+			$_SESSION['errorMessage'] = "Un controle sécurité a bloqué l'envoi de votre message !";
+			
 		}
 
 		$nxView = new \Alaska_Model\View();
