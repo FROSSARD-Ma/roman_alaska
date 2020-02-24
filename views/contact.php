@@ -33,6 +33,7 @@
       <p class="errorMessage erreur"></p>
       
       <button type="submit" id="contact_btnForm">Envoyer</button>
+      <input type="hidden" name="token" id="token" value="<?=$datas['token'];?>"/>
 
       <p><span class="required">*</span> Champs obligatoires</p>
      

@@ -48,8 +48,13 @@ $imgAlt = $chapter->getImgAlt();
 		      	
 		      	<?php if (isset($_SESSION['user']))
 				{ ?>
-		      		<a href="index.php?page=creatSignal/id/<?=$idComment?>&amp;idChapter=<?=$idChapter?>" class="button" onclick="javascript: return confirm('Confirmer le signalement  d\'un commentaire inapproprié ?');" title="Signaler un contenu inapproprié" role="button">Signaler</a>
+					<form id="AddSignal_form" method="post" action="index.php?page=creatSignal/id/<?=$idComment?>" >
+						<button type="submit" id="contact_btnForm">Signaler</button>
+						<input type="hidden" name="token" id="token" value="<?=$datas['token'];?>"/>
+						<input type="hidden" name="chapterId" value="<?=$idChapter?>">
+					</form>
 		      	<?php } ?>
+
 		      	<p><?=$comment->getContent();?></p>
 				
 			</section>
@@ -57,6 +62,9 @@ $imgAlt = $chapter->getImgAlt();
 		<?php endforeach?>
 	<?php } ?>
 </section>
+
+<!-- MESSAGE -->
+<?php include('views/message.php');?>
 
 <!-- AJOUT commentaire -->
 <section class="container">
@@ -67,6 +75,7 @@ $imgAlt = $chapter->getImgAlt();
 			<p>Partagez le resssenti du chapitre...</p>
 			<textarea rows="6" class="form-input" id="comment_content" name="content" placeholder="Laisser un commentaire" required></textarea>
 			<button type="submit" id="contact_btnForm">Ajouter mon commentaire</button>
+			<input type="hidden" name="token" id="token" value="<?=$datas['token'];?>"/>
 			<input type="hidden" name="chapterId" value="<?=$idChapter?>">
 			<p><span class="required">*</span> Champs obligatoires</p>
 		</form>

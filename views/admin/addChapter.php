@@ -47,6 +47,7 @@
 			    <p class="errorMessage erreur"></p>
 
 				<button type="submit" id="chapter_btnForm">Ajouter le chapitre</button>
+				<input type="hidden" name="token" id="token" value="<?=$datas['token'];?>"/>
 				<p><span class="required">*</span> Champs obligatoires</p>
 
 			</form>

@@ -34,18 +34,27 @@ class FrontController
 
     public function contact($params)
     {
+        $csrf = new \Alaska_Model\CsrfSecurite('pass');
+        $token = $csrf->getToken();
+
         $nxView = new \Alaska_Model\View ('contact');
-        $nxView->getView();
+        $nxView->getView(array ('token' => $token));
     }
 
     public function inscription($params)
     {
+        $csrf = new \Alaska_Model\CsrfSecurite('inscription');
+        $token = $csrf->getToken();
+
         $nxView = new \Alaska_Model\View ('user/inscription');
-        $nxView->getView();
+        $nxView->getView(array ('token' => $token));
     }
 
     public function admin($params)
     {
+        $csrf = new \Alaska_Model\CsrfSecurite('admin');
+        $token = $csrf->getToken();
+
         $chapterManager = new \Alaska_Model\ChapterManager; 
         $chapters = $chapterManager->adminChapters();
         $countChapters = $chapterManager->countChapters('all');
@@ -57,13 +66,17 @@ class FrontController
         $nxView = new \Alaska_Model\View ('admin/admin');
         $nxView->getView(array (
             'chapters' => $chapters,
-            'signals'=> $signals));
+            'signals'=> $signals,
+            'token' => $token));
     }
 
     public function login($params)
     {   
+        $csrf = new \Alaska_Model\CsrfSecurite('login');
+        $token = $csrf->getToken();
+
         $nxView = new \Alaska_Model\View ('user/login');
-        $nxView->getView();
+        $nxView->getView(array ('token' => $token));
     }
 
     public function logout($params)
@@ -79,9 +92,21 @@ class FrontController
     }
 
     /* Link Button ----------------------------*/
+    public function nxPass($params)
+    {
+        $csrf = new \Alaska_Model\CsrfSecurite('pass');
+        $token = $csrf->getToken();
+
+        $nxView = new \Alaska_Model\View ('user/pass');
+        $nxView->getView(array ('token' => $token));
+    }
+
     public function chapter($params)
     {   
         extract($params); // recup $id dans url
+
+        $csrf = new \Alaska_Model\CsrfSecurite('chapter');
+        $token = $csrf->getToken();
 
         $chapterManager = new \Alaska_Model\ChapterManager; 
         $chapter = $chapterManager->getChapter($id);
@@ -98,24 +123,33 @@ class FrontController
         $nxView = new \Alaska_Model\View ('book/chapter');
         $nxView->getView(array (
             'chapter' => $chapter, 
-            'comments'=> $comments));
+            'comments'=> $comments,
+            'token' => $token));
     }
 
     public function addChapter($params)
     {
+        $csrf = new \Alaska_Model\CsrfSecurite('addChapter');
+        $token = $csrf->getToken();
+
         $nxView = new \Alaska_Model\View ('admin/addChapter');
-        $nxView->getView();
+        $nxView->getView(array ('token' => $token));
     }
     
     public function upChapter($params)
     {
         extract($params); // recup $id dans url
 
+        $csrf = new \Alaska_Model\CsrfSecurite('upChapter');
+        $token = $csrf->getToken();
+
         $chapterManager = new \Alaska_Model\ChapterManager();
         $chapter = $chapterManager->getChapter($id);
 
         $nxView = new \Alaska_Model\View('admin/upChapter');
-        $nxView->getView(array ('chapter' => $chapter));
+        $nxView->getView(array (
+            'chapter' => $chapter,
+            'token' => $token));
     }
 
     /* Erreur 404  ----------------------------*/

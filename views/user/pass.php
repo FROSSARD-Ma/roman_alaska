@@ -24,8 +24,7 @@
 			<p class="errorMessage erreur"></p>
 			<p><span class="required">*</span> Champs obligatoires</p>
 			<button type="submit" id="nxPass_btnForm">Recevoir mot de passe</button>
-			
-
+			<input type="hidden" name="token" id="token" value="<?=$datas['token'];?>"/>
 		</form>
 
 	</section>

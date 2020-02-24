@@ -33,6 +33,8 @@
 			</p>
 			
 			<button type="submit" id="login_connexion">Se connecter</button>
+			<input type="hidden" name="token" id="token" value="<?=$datas['token'];?>"/>
+			
 		</form>
 
 	</section>

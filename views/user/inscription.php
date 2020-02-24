@@ -40,6 +40,7 @@
 		    <p><span class="required">*</span> Champs obligatoires</p>
 
 			<button type="submit" id="inscription_btnForm">Je m'inscris</button>
+        	<input type="hidden" name="token" id="token" value="<?=$datas['token'];?>"/>
 			
 		</form>
 
